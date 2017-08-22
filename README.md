@@ -38,18 +38,6 @@ Vue.use(Ffv)
 
 ## Development
 
-### Launch visual tests
-
-```bash
-npm run dev
-```
-
-### Launch Karma with coverage
-
-```bash
-npm run dev:coverage
-```
-
 ### Build
 
 Bundle the js and css of to the `dist` folder:
