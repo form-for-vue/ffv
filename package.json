@@ -1,0 +1,95 @@
+{
+  "name": "ffv",
+  "version": "0.0.0",
+  "description": "Form For Vue",
+  "author": "Form For Vue",
+  "main": "dist/ffv.common.js",
+  "module": "dist/ffv.esm.js",
+  "browser": "dist/ffv.js",
+  "unpkg": "dist/ffv.js",
+  "style": "dist/ffv.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "rollup -c",
+    "watch": "rollup -c --watch",
+    "lint": "yon run lint:js && yon run lint:css",
+    "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
+    "lint:js:fix": "yon run lint:js -- --fix",
+    "lint:css": "stylelint src/**/*.{vue,css}",
+    "lint:staged": "lint-staged",
+    "pretest": "yon run lint",
+    "prepublish": "yon run build"
+  },
+  "lint-staged": {
+    "*.{vue,jsx,js}": [
+      "eslint --fix"
+    ],
+    "*.{vue,css}": [
+      "stylefmt",
+      "stylelint"
+    ]
+  },
+  "pre-commit": "lint:staged",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.0",
+    "babel-helper-vue-jsx-merge-props": "^2.0.0",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-istanbul": "^4.1.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-vue-jsx": "^3.4.0",
+    "babel-preset-env": "^1.4.0",
+    "buble": "^0.15.2",
+    "clean-css": "^4.0.0",
+    "css-loader": "^0.28.0",
+    "eslint": "^3.19.0",
+    "eslint-config-vue": "^2.0.0",
+    "eslint-plugin-vue": "^2.0.0",
+    "lint-staged": "^4.0.3",
+    "mkdirp": "^0.5.1",
+    "postcss": "^6.0.0",
+    "postcss-cssnext": "^3.0.2",
+    "pre-commit": "^1.2.0",
+    "rimraf": "^2.6.0",
+    "rollup": "^0.48.2",
+    "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^8.0.0",
+    "rollup-plugin-jsx": "^1.0.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-postcss": "^0.5.4",
+    "rollup-plugin-replace": "^1.1.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-plugin-vue": "^2.3.0",
+    "rollup-watch": "^4.3.1",
+    "style-loader": "^0.17.0",
+    "stylefmt": "^5.3.0",
+    "stylelint": "^7.10.0",
+    "stylelint-config-standard": "^16.0.0",
+    "stylelint-processor-html": "^1.0.0",
+    "uglify-es": "^3.0.28",
+    "uglify-js": "^3.0.0",
+    "uppercamelcase": "^3.0.0",
+    "vue": "^2.4.0",
+    "vue-loader": "^13.0.4",
+    "vue-template-compiler": "^2.3.0",
+    "yarn-or-npm": "^2.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^2.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/form-for-vue/ffv.git"
+  },
+  "bugs": {
+    "url": "https://github.com/form-for-vue/ffv/issues"
+  },
+  "homepage": "https://github.com/form-for-vue/ffv#readme",
+  "license": "MIT"
+}
