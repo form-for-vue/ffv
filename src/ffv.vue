@@ -12,7 +12,7 @@
   >
     <schema-field
       :schema="schema"
-      :formData="formData"
+      v-model="formData"
     ></schema-field>
   </form>
 </template>
@@ -21,8 +21,6 @@
   //  import validateFormData from '../validate'
 
   export default {
-    name: 'ffv',
-
     props: {
       schema: {
         type: Object,
@@ -60,15 +58,15 @@
       validate () {
 
       },
-      onSubmit (event) {
-        if (!this.noValidate) {
-//          const {errors} = this.validate(this.formData)
-        }
-
-        if (this.onSubmit) {
-          this.onSubmit()
-        }
-      }
+//      onSubmit (event) {
+//        if (!this.noValidate) {
+////          const {errors} = this.validate(this.formData)
+//        }
+//
+//        if (this.onSubmit) {
+//          this.onSubmit()
+//        }
+//      }
     }
   }
 </script>

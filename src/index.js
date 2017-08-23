@@ -1,7 +1,15 @@
-import Hello from './Hello.vue'
+import Ffv from './ffv.vue'
+import SchemaField from './fields/schema-field.vue'
+import ObjectField from './fields/object-field.vue'
+import CheckBoxWidget from './widgets/checkbox-widget.vue'
 
-function plugin (Vue) {
-  Vue.component('hello', Hello)
+const plugin = {
+  install (Vue) {
+    Vue.component('schema-field', SchemaField)
+    Vue.component('ObjectField', ObjectField)
+    Vue.component('checkbox-widget', CheckBoxWidget)
+    Vue.component('ffv', Ffv)
+  }
 }
 
 // Install by default if using the script tag

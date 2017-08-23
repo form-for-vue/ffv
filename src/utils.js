@@ -28,7 +28,7 @@ export function retrieveSchema (schema, definitions = {}) {
   // Retrieve the referenced schema definition.
   const $refSchema = findSchemaDefinition(schema.$ref, definitions)
   // Drop the $ref property of the source schema.
-  const { $ref, ...localSchema } = schema // eslint-disable-line
+  const {$ref, ...localSchema} = schema // eslint-disable-line
   // Update referenced schema definition with local schema properties.
   return { ...$refSchema, ...localSchema }
 }

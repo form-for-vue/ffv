@@ -1,15 +1,18 @@
 <template>
-  <component :is="currentField"
-             :schema="fieldSchema"
-             :formData="formData"
+  <component
+    :is="`${currentFieldType}-field`"
+    :schema="fieldSchema"
+    v-model="formData"
   ></component>
 </template>
 
 <script>
-  import BooleanField from './boolean-field'
-  import { retrieveSchema } from '../utils'
+  import BooleanField from './boolean-field.vue'
+  //  import { retrieveSchema } from '../utils'
 
   export default {
+    name: 'schema-field',
+
     props: {
       schema: {
         type: Object
@@ -25,19 +28,16 @@
     },
 
     data () {
-      const fieldSchema = retrieveSchema(this.schema)
+//      const fieldSchema = retrieveSchema(this.schema)
+      const fieldSchema = this.schema
       return {
         fieldSchema,
-        currentField: fieldSchema.type
+        currentFieldType: fieldSchema.type
       }
     },
 
     components: {
-      boolean: BooleanField
+      BooleanField,
     },
-
-    methods: {
-
-    }
   }
 </script>
