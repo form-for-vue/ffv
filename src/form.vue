@@ -2,6 +2,7 @@
   <form>
     <schema-field
       :schema="schema"
+      :uiSchema="uiSchema"
       :value="value"
       @input="value => $emit('input', value)"
     ></schema-field>
@@ -17,24 +18,7 @@
         type: Object,
         required: true
       },
-      noValidate: {
-        type: Boolean,
-        default: false
-      },
-      noHtml5Validate: {
-        type: Boolean,
-        default: false
-      },
-      liveValidate: {
-        type: Boolean,
-        default: false
-      },
-      id: String,
-      name: String,
-      method: String,
-      target: String,
-      action: String,
-      onSubmit: Function,
+      uiSchema: Object,
       value: Object
     },
 
@@ -42,15 +26,6 @@
       validate () {
 
       }
-//      onSubmit (event) {
-//        if (!this.noValidate) {
-// //          const {errors} = this.validate(this.formData)
-//        }
-//
-//        if (this.onSubmit) {
-//          this.onSubmit()
-//        }
-//      }
     }
   }
 </script>

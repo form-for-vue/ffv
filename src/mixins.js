@@ -4,6 +4,15 @@ export const mixin = {
       widgetMap: {
         boolean: {
           checkbox: 'CheckboxWidget'
+        },
+        string: {
+          text: 'InputWidget'
+        },
+        number: {
+          text: 'InputWidget'
+        },
+        integer: {
+          text: 'InputWidget'
         }
       }
     }
