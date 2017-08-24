@@ -2,7 +2,10 @@
   <div>
     <schema-field
       v-for="(name, index) in orderProperties()"
-      :schema="schema.properties['done']"
+      :name="name"
+      :schema="schema.properties[name]"
+      :formData="value[name]"
+      @change="handleChange"
     ></schema-field>
   </div>
 </template>
@@ -14,22 +17,34 @@
     props: {
       schema: {
         type: Object,
-        required: true,
+        required: true
       },
       formData: {
         type: Object,
       },
     },
 
-    model: {
-      prop: 'formData',
-      event: 'change'
+    data () {
+      let value = this.formData
+      if (value === undefined) {
+        value = {}
+        for (const key in this.schema.properties) {
+          value[key] = undefined
+        }
+      }
+      return {
+        value,
+      }
     },
 
     methods: {
+      handleChange (value) {
+        Object.assign(this.value, value)
+        this.$emit('change', this.value)
+      },
       orderProperties () {
         return Object.keys(this.schema.properties)
-      },
-    },
+      }
+    }
   }
 </script>

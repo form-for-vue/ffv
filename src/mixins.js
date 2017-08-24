@@ -11,14 +11,15 @@ export const mixin = {
 
   methods: {
     getWidget (schema, widget, registeredWidgets = {}) {
-      const {type} = schema
+      const { type } = schema
 
       if (!this.widgetMap.hasOwnProperty(type)) {
         throw new Error(`No widget for type "${type}"`)
       }
 
       if (this.widgetMap[type].hasOwnProperty(widget)) {
-        const registeredWidget = registeredWidgets[this.widgetMap[type][widget]]
+        const registeredWidget = this.widgetMap[type][widget]
+        console.log(registeredWidget)
         return registeredWidget
       }
 

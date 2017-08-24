@@ -12,7 +12,8 @@
   >
     <schema-field
       :schema="schema"
-      v-model="formData"
+      :formData="formData"
+      @change="handleChange"
     ></schema-field>
   </form>
 </template>
@@ -55,12 +56,15 @@
     },
 
     methods: {
+      handleChange (value) {
+        this.$emit('change', value)
+      },
       validate () {
 
-      },
+      }
 //      onSubmit (event) {
 //        if (!this.noValidate) {
-////          const {errors} = this.validate(this.formData)
+// //          const {errors} = this.validate(this.formData)
 //        }
 //
 //        if (this.onSubmit) {

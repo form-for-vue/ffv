@@ -1,13 +1,15 @@
+import CheckboxWidget from './widgets/checkbox-widget.vue'
 import Ffv from './ffv.vue'
 import SchemaField from './fields/schema-field.vue'
 import ObjectField from './fields/object-field.vue'
-import CheckBoxWidget from './widgets/checkbox-widget.vue'
+import BooleanField from './fields/boolean-field.vue'
 
 const plugin = {
   install (Vue) {
+    Vue.component('checkbox-widget', CheckboxWidget)
     Vue.component('schema-field', SchemaField)
-    Vue.component('ObjectField', ObjectField)
-    Vue.component('checkbox-widget', CheckBoxWidget)
+    Vue.component('object-field', ObjectField)
+    Vue.component('boolean-field', BooleanField)
     Vue.component('ffv', Ffv)
   }
 }

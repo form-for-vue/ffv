@@ -1,30 +1,27 @@
 <template>
   <component
     :is="`${currentFieldType}-field`"
+    :name="name"
     :schema="fieldSchema"
-    v-model="formData"
+    :formData="formData"
+    @change="handleChange"
   ></component>
 </template>
 
 <script>
-  import BooleanField from './boolean-field.vue'
   //  import { retrieveSchema } from '../utils'
 
   export default {
     name: 'schema-field',
 
     props: {
+      name: String,
       schema: {
         type: Object
       },
       formData: {
         type: Object
       }
-    },
-
-    model: {
-      prop: 'formData',
-      event: 'change'
     },
 
     data () {
@@ -36,8 +33,10 @@
       }
     },
 
-    components: {
-      BooleanField,
+    methods: {
+      handleChange(value) {
+        this.$emit('change', value)
+      }
     },
   }
 </script>

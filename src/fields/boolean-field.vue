@@ -2,11 +2,15 @@
   <component
     :is="getWidget(schema, 'checkbox')"
     :schema="schema"
-    v-model="formData"
+    :label="schema.title"
+    :default="schema.default"
+    :formData="formData"
+    @change="handleChange"
   ></component>
 </template>
 
 <script>
+  import CheckboxWidget from '../widgets/checkbox-widget.vue'
   import { mixin } from '../mixins'
 
   export default {
@@ -15,21 +19,22 @@
     mixins: [mixin],
 
     props: {
-      schema: {
-        type: Object
-      },
+      name: String,
+      schema: Object,
       formData: {
-        type: Object
+        type: Boolean,
+        default: false,
+      },
+    },
+
+    components: {
+      CheckboxWidget,
+    },
+
+    methods: {
+      handleChange (value) {
+        this.$emit('change', {[this.name]: value})
       }
-    },
-
-    model: {
-      prop: 'formData',
-      event: 'change'
-    },
-
-    mounted () {
-//      const widget =
     },
   }
 </script>
