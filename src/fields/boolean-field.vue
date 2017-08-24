@@ -1,11 +1,9 @@
 <template>
   <component
-    :is="getWidget(schema, 'checkbox')"
-    :schema="schema"
+    :is="getWidget('checkbox', schema)"
     :label="schema.title"
     :default="schema.default"
-    :formData="formData"
-    @change="handleChange"
+    @input="value => $emit('input', value)"
   ></component>
 </template>
 
@@ -19,22 +17,13 @@
     mixins: [mixin],
 
     props: {
-      name: String,
       schema: Object,
-      formData: {
-        type: Boolean,
-        default: false,
-      },
+      value: Boolean
+
     },
 
     components: {
-      CheckboxWidget,
-    },
-
-    methods: {
-      handleChange (value) {
-        this.$emit('change', {[this.name]: value})
-      }
-    },
+      CheckboxWidget
+    }
   }
 </script>

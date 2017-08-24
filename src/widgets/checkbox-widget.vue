@@ -1,30 +1,27 @@
 <template>
-  <b-form-checkbox
-    :checked="formData"
-    @change="handleChange"
-  >{{ label }}
-  </b-form-checkbox>
+  <b-form-checkbox v-model="localValue">{{ label }}</b-form-checkbox>
 </template>
 
 <script>
   export default {
     name: 'checkbox-widget',
-
-    props: {
-      schema: {
-        type: Object,
-      },
-      formData: {
-        type: Boolean,
-      },
-      label: String,
-      default: Boolean,
-    },
-
-    methods: {
-      handleChange (value) {
-        this.$emit('change', value)
+    data () {
+      return {
+        localValue: false
       }
     },
+    props: {
+      label: String,
+      value: Boolean
+    },
+    created () {
+      this.localValue = this.value
+    },
+    watch: {
+      localValue (val, oldVal) {
+        if (val === oldVal) return
+        this.$emit('input', val)
+      }
+    }
   }
 </script>

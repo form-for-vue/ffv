@@ -10,7 +10,7 @@ export const mixin = {
   },
 
   methods: {
-    getWidget (schema, widget, registeredWidgets = {}) {
+    getWidget (widget, schema) {
       const { type } = schema
 
       if (!this.widgetMap.hasOwnProperty(type)) {
@@ -19,7 +19,6 @@ export const mixin = {
 
       if (this.widgetMap[type].hasOwnProperty(widget)) {
         const registeredWidget = this.widgetMap[type][widget]
-        console.log(registeredWidget)
         return registeredWidget
       }
 

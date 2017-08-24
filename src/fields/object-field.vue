@@ -1,11 +1,10 @@
 <template>
   <div>
     <schema-field
-      v-for="(name, index) in orderProperties()"
-      :name="name"
-      :schema="schema.properties[name]"
-      :formData="value[name]"
-      @change="handleChange"
+      v-for="prop in props"
+      :schema="prop.schema"
+      :value="prop.value"
+      @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-field>
   </div>
 </template>
@@ -19,31 +18,31 @@
         type: Object,
         required: true
       },
-      formData: {
-        type: Object,
-      },
+      value: Object
     },
 
-    data () {
-      let value = this.formData
-      if (value === undefined) {
-        value = {}
-        for (const key in this.schema.properties) {
-          value[key] = undefined
-        }
-      }
-      return {
-        value,
-      }
+    created () {
+//      let value = Object.assign({}, this.value)
+//      Object.keys(this.schema.properties).forEach(propName => {
+//        const propSchema = this.schema.properties[propName]
+//        if (value[propName] === undefined) {
+//          value[propName] = {}
+//        }
+//      })
+//      this.$emit('input', value)
     },
 
-    methods: {
-      handleChange (value) {
-        Object.assign(this.value, value)
-        this.$emit('change', this.value)
-      },
-      orderProperties () {
-        return Object.keys(this.schema.properties)
+    computed: {
+      props () {
+        return Object.keys(this.schema.properties).map(propName => {
+          const propValue = (this.value || {})[propName]
+          const propSchema = this.schema.properties[propName]
+          return {
+            name: propName,
+            value: propValue,
+            schema: propSchema
+          }
+        })
       }
     }
   }

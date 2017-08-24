@@ -1,19 +1,9 @@
 <template>
-  <form
-    :class="className"
-    :id="id"
-    :name="name"
-    :method="method"
-    :target="target"
-    :action="action"
-    :autocomplete="autocomplete"
-    :novalidate="noHtml5Validate"
-    @submit.prevent="this.onSubmit"
-  >
+  <form>
     <schema-field
       :schema="schema"
-      :formData="formData"
-      @change="handleChange"
+      :value="value"
+      @input="value => $emit('input', value)"
     ></schema-field>
   </form>
 </template>
@@ -27,7 +17,6 @@
         type: Object,
         required: true
       },
-      formData: Object,
       noValidate: {
         type: Boolean,
         default: false
@@ -40,25 +29,16 @@
         type: Boolean,
         default: false
       },
-      className: String,
       id: String,
       name: String,
       method: String,
       target: String,
       action: String,
-      autocomplete: String,
-      onSubmit: Function
-    },
-
-    model: {
-      prop: 'formData',
-      event: 'change'
+      onSubmit: Function,
+      value: Object
     },
 
     methods: {
-      handleChange (value) {
-        this.$emit('change', value)
-      },
       validate () {
 
       }

@@ -22,7 +22,8 @@
     "lint:css": "stylelint src/**/*.{vue,css}",
     "lint:staged": "lint-staged",
     "pretest": "yon run lint",
-    "prepublish": "yon run build"
+    "prepublish": "yon run build",
+    "precommit": "lint:js:fix"
   },
   "lint-staged": {
     "*.{vue,jsx,js}": [
@@ -33,7 +34,6 @@
       "stylelint"
     ]
   },
-  "pre-commit": "lint:staged",
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.0",
