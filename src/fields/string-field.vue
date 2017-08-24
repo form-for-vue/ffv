@@ -1,25 +1,27 @@
 <template>
   <component
-    :is="getWidget('checkbox', schema)"
-    :label="schema.title"
+    :is="getWidget('text', schema)"
     :value="value"
+    :label="schema.title !== null ? schema.title : name"
     :required="required"
     :disabled="disabled"
+    type="text"
     @input="value => $emit('input', value)"
   ></component>
 </template>
 
 <script>
-  import CheckboxWidget from '../widgets/checkbox-widget.vue'
+  import InputWidget from '../widgets/input-widget.vue'
   import { mixin } from '../mixins'
 
   export default {
     mixins: [mixin],
 
     props: {
+      name: String,
       schema: Object,
       uiSchema: Object,
-      value: Boolean,
+      value: String,
     },
 
     data () {
@@ -30,7 +32,7 @@
     },
 
     components: {
-      CheckboxWidget,
+      InputWidget,
     }
   }
 </script>

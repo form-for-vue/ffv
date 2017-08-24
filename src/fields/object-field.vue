@@ -1,35 +1,26 @@
 <template>
-  <div>
+  <wrapper-widget :label="schema.title">
     <schema-field
       v-for="prop in props"
+      :name="prop.name"
       :schema="prop.schema"
+      :uiSchema="prop.uiSchema"
       :value="prop.value"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-field>
-  </div>
+  </wrapper-widget>
 </template>
 
 <script>
   export default {
-    name: 'object-field',
-
     props: {
-      schema: {
-        type: Object,
-        required: true
-      },
+      schema: Object,
+      uiSchema: Object,
       value: Object
     },
 
     created () {
-//      let value = Object.assign({}, this.value)
-//      Object.keys(this.schema.properties).forEach(propName => {
-//        const propSchema = this.schema.properties[propName]
-//        if (value[propName] === undefined) {
-//          value[propName] = {}
-//        }
-//      })
-//      this.$emit('input', value)
+      this.defaultProps()
     },
 
     computed: {
@@ -37,13 +28,28 @@
         return Object.keys(this.schema.properties).map(propName => {
           const propValue = (this.value || {})[propName]
           const propSchema = this.schema.properties[propName]
+          const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propSchema] : {}
           return {
             name: propName,
             value: propValue,
-            schema: propSchema
+            schema: propSchema,
+            uiSchema: propUiSchema,
           }
         })
-      }
-    }
+      },
+    },
+
+    methods: {
+      defaultProps () {
+        let value = Object.assign({}, this.value)
+        Object.keys(this.schema.properties).forEach(propName => {
+          const propSchema = this.schema.properties[propName]
+          if (value[propName] === undefined) {
+            value[propName] = propSchema.default
+          }
+        })
+        this.$emit('input', value)
+      },
+    },
   }
 </script>
