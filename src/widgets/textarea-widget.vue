@@ -2,15 +2,15 @@
   <b-form-group
     :label="label"
   >
-    <b-form-input
+    <b-form-textarea
       :placeholder="placeholder"
       :value="value"
       :required="required"
       :disabled="disabled"
-      :type="type"
+      :rows="2"
       @input="value => $emit('input', value)"
     >
-    </b-form-input>
+    </b-form-textarea>
   </b-form-group>
 </template>
 
@@ -22,7 +22,6 @@
       value: String,
       required: Boolean,
       disabled: Boolean,
-      type: String
     }
   }
 </script>

@@ -10,7 +10,8 @@ import {
 import {
   WrapperWidget,
   CheckboxWidget,
-  InputWidget
+  InputWidget,
+  TextareaWidget
 } from './widgets'
 
 import Form from './form.vue'
@@ -27,6 +28,7 @@ const plugin = {
     Vue.component('wrapper-widget', WrapperWidget)
     Vue.component('checkbox-widget', CheckboxWidget)
     Vue.component('input-widget', InputWidget)
+    Vue.component('textarea-widget', TextareaWidget)
 
     Vue.component('v-form', Form)
   }

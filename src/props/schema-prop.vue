@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="getPropComponent"
+    :is="getPropComponent()"
     :name="name"
     :schema="schema"
     :uiSchema="uiSchema"
@@ -39,7 +39,7 @@
     methods: {
       getPropComponent () {
         const componentName = COMPONENT_TYPES[this.schema.type]
-        return componentName in this.props ? this.props[componentName] : UnsupportedProp
+        return componentName in this.props ? this.props[componentName].name : UnsupportedProp.name
       }
     }
   }

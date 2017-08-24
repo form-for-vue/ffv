@@ -6,7 +6,9 @@ export const mixin = {
           checkbox: 'CheckboxWidget'
         },
         string: {
-          text: 'InputWidget'
+          text: 'InputWidget',
+          password: 'InputWidget',
+          textarea: 'TextareaWidget'
         },
         number: {
           text: 'InputWidget'

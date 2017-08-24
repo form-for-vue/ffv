@@ -28,7 +28,7 @@
         return Object.keys(this.schema.properties).map(propName => {
           const propValue = (this.value || {})[propName]
           const propSchema = this.schema.properties[propName]
-          const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propSchema] : {}
+          const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propName] : {}
           return {
             name: propName,
             value: propValue,

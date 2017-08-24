@@ -1,6 +1,9 @@
+import * as props from './props'
+import * as widgets from './widgets'
+
 export function getDefaultRegistry () {
   return {
-    props: require('./props'),
-    widgets: require('./widgets')
+    props: props,
+    widgets: widgets
   }
 }

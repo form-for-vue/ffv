@@ -1,17 +1,18 @@
 <template>
   <component
-    :is="getWidget('text', schema)"
+    :is="getWidget(uiSchema['ui:widget'] || 'text', schema)"
     :value="value"
     :label="schema.title !== null ? schema.title : name"
     :required="required"
     :disabled="disabled"
-    type="text"
+    :type="uiSchema['ui:widget'] || 'text'"
     @input="value => $emit('input', value)"
   ></component>
 </template>
 
 <script>
   import InputWidget from '@/widgets/input-widget'
+  import TextareaWidget from '@/widgets/textarea-widget'
   import { mixin } from '@/mixins'
 
   export default {
@@ -32,7 +33,8 @@
     },
 
     components: {
-      InputWidget
-    }
+      InputWidget,
+      TextareaWidget
+    },
   }
 </script>
