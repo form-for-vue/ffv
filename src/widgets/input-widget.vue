@@ -22,7 +22,7 @@
       value: Boolean,
       required: Boolean,
       disabled: Boolean,
-      type: String,
-    },
+      type: String
+    }
   }
 </script>

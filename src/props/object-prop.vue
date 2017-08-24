@@ -1,13 +1,13 @@
 <template>
   <wrapper-widget :label="schema.title">
-    <schema-field
+    <schema-prop
       v-for="prop in props"
       :name="prop.name"
       :schema="prop.schema"
       :uiSchema="prop.uiSchema"
       :value="prop.value"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
-    ></schema-field>
+    ></schema-prop>
   </wrapper-widget>
 </template>
 
@@ -33,15 +33,15 @@
             name: propName,
             value: propValue,
             schema: propSchema,
-            uiSchema: propUiSchema,
+            uiSchema: propUiSchema
           }
         })
-      },
+      }
     },
 
     methods: {
       defaultProps () {
-        let value = Object.assign({}, this.value)
+        const value = Object.assign({}, this.value)
         Object.keys(this.schema.properties).forEach(propName => {
           const propSchema = this.schema.properties[propName]
           if (value[propName] === undefined) {
@@ -49,7 +49,7 @@
           }
         })
         this.$emit('input', value)
-      },
-    },
+      }
+    }
   }
 </script>

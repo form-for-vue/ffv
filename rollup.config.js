@@ -5,6 +5,7 @@ const buble = require('rollup-plugin-buble')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const uglify = require('rollup-plugin-uglify')
+const alias = require('rollup-plugin-alias')
 const { minify } = require('uglify-es')
 const CleanCSS = require('clean-css')
 const { camelCase } = require('lodash')
@@ -34,7 +35,11 @@ module.exports = {
     }),
     resolve({ external: ['vue'] }),
     commonjs(),
-    buble({ objectAssign: 'Object.assign' })
+    buble({ objectAssign: 'Object.assign' }),
+    alias({
+      resolve: ['.vue'],
+      '@': path.resolve(__dirname, './src')
+    })
     // uglify({}, minify)
   ],
   globals: {

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-  import InputWidget from '../widgets/input-widget.vue'
-  import { mixin } from '../mixins'
+  import InputWidget from '@/widgets/input-widget'
+  import { mixin } from '@/mixins'
 
   export default {
     mixins: [mixin],
@@ -21,18 +21,18 @@
       name: String,
       schema: Object,
       uiSchema: Object,
-      value: String,
+      value: String
     },
 
     data () {
       return {
         required: this.schema.required || false,
-        disabled: this.schema.disabled || false,
+        disabled: this.schema.disabled || false
       }
     },
 
     components: {
-      InputWidget,
+      InputWidget
     }
   }
 </script>

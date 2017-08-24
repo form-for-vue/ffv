@@ -1,17 +1,15 @@
 <template>
   <form>
-    <schema-field
+    <schema-prop
       :schema="schema"
       :uiSchema="uiSchema"
       :value="value"
       @input="value => $emit('input', value)"
-    ></schema-field>
+    ></schema-prop>
   </form>
 </template>
 
 <script>
-  //  import validateFormData from '../validate'
-
   export default {
     props: {
       schema: {

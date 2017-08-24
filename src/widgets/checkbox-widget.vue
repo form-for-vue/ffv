@@ -15,7 +15,7 @@
       label: String,
       value: Boolean,
       required: Boolean,
-      disabled:Boolean,
-    },
+      disabled: Boolean
+    }
   }
 </script>
