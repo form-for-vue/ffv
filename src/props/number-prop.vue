@@ -1,39 +1,39 @@
 <template>
-  <component
-    :is="getWidget('text', schema)"
+  <string-prop
+    :name="name"
+    :schema="schema"
+    :uiSchema="uiSchema"
     :value="value"
-    :label="schema.title !== null ? schema.title : name"
-    :required="required"
-    :disabled="disabled"
-    type="text"
-    @input="value => $emit('input', value)"
-    @change="value => $emit('change', value)"
-  ></component>
+    :invalid="invalid"
+    @input="handleInput"
+    @blur="handleBlur"
+  ></string-prop>
 </template>
 
 <script>
-  import InputWidget from '@/widgets/input-widget'
-  import { mixin } from '@/mixins'
+  import StringProp from '@/props/string-prop'
+  import { asNumber } from '@/utils'
 
   export default {
-    mixins: [mixin],
-
     props: {
       name: String,
       schema: Object,
       uiSchema: Object,
-      value: String
-    },
-
-    data () {
-      return {
-        required: this.uiSchema['ui:required'] || false,
-        disabled: this.uiSchema['ui:disabled'] || false
-      }
+      value: String,
+      invalid: Boolean,
     },
 
     components: {
-      InputWidget
+      StringProp
+    },
+
+    methods: {
+      handleInput (value) {
+        this.$emit('input', asNumber(value))
+      },
+      handleBlur (value) {
+        this.$emit('blur', asNumber(value))
+      },
     }
   }
 </script>

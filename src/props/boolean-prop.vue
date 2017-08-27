@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="getWidget('checkbox', schema)"
+    :is="getWidget(uiSchema['ui:widget'] || 'checkbox', schema)"
     :label="schema.title"
     :value="value"
     :required="required"

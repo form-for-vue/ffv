@@ -7,7 +7,6 @@
       :uiSchema="uiSchema"
       :errorSchema="errorSchema"
       :invalid="feedbacks && feedbacks.length > 0"
-      :value="value"
       @input="value => $emit('input', value)"
       @blur="value => $emit('blur', value)"
     ></component>
@@ -48,9 +47,12 @@
 
     computed: {
       feedbacks () {
-        const a = this.getFeedback(this.errorSchema)
-        console.log(a)
-        return a
+        if (this.invalid) {
+          return this.errorSchema.errors
+        }
+      },
+      invalid () {
+        return this.errorSchema && this.errorSchema.errors !== undefined && this.errorSchema.errors.length > 0
       }
     },
 
@@ -58,11 +60,6 @@
       getPropComponent () {
         const componentName = COMPONENT_TYPES[this.schema.type]
         return componentName in this.props ? this.props[componentName].name : UnsupportedProp.name
-      },
-      getFeedback (errorSchema) {
-        if (errorSchema.errors !== undefined && errorSchema.errors.length > 0) {
-          return errorSchema.errors
-        }
       },
     }
   }

@@ -18,7 +18,7 @@
     props: {
       schema: Object,
       uiSchema: Object,
-      errorSchema: Object,
+      errorSchema: [Object, Boolean],
       value: Object
     },
 

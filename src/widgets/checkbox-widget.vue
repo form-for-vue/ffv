@@ -21,7 +21,7 @@
     },
 
     methods: {
-      handleChange () {
+      handleChange (value) {
         this.$emit('input', value)
         this.$emit('blur', value)
       }

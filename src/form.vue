@@ -24,7 +24,7 @@
       value: Object,
       liveValidate: {
         type: String,
-        default: 'lazy',
+        default: 'eager',
         validator (value) {
           return ['eager', 'lazy', 'no'].includes(value)
         }
@@ -37,14 +37,14 @@
 
     data () {
       return {
-        errorSchema: {},
+        errorSchema: null,
       }
     },
 
     methods: {
       handleInput (value) {
         if (!this.noValidate && this.liveValidate === 'eager') {
-          this.errorSchema = validateFormData(this.schema, value)
+          return validateFormData(this.schema, value)
         }
         this.$emit('input', value)
       },
