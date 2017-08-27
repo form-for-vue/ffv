@@ -6,6 +6,7 @@
       :schema="schema"
       :uiSchema="uiSchema"
       :errorSchema="errorSchema"
+      :required="required"
       :invalid="feedbacks && feedbacks.length > 0"
       @input="value => $emit('input', value)"
       @blur="value => $emit('blur', value)"
@@ -36,6 +37,7 @@
       schema: Object,
       uiSchema: Object,
       errorSchema: [Object, Boolean],
+      required: Boolean,
       value: null,
     },
 

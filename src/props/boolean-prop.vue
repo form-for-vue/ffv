@@ -21,13 +21,14 @@
     props: {
       schema: Object,
       uiSchema: Object,
+      required: Boolean,
       value: Boolean,
       invalid: Boolean,
     },
 
     data () {
       return {
-        required: this.uiSchema['ui:required'] || false,
+        required: this.uiSchema['ui:required'] || this.required || false,
         disabled: this.uiSchema['ui:disabled'] || false
       }
     },

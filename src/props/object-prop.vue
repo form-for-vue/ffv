@@ -6,6 +6,7 @@
       :schema="prop.schema"
       :uiSchema="prop.uiSchema"
       :errorSchema="prop.errorSchema"
+      :required="isRequired(prop.name)"
       :value="prop.value"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
@@ -19,6 +20,7 @@
       schema: Object,
       uiSchema: Object,
       errorSchema: [Object, Boolean],
+      required: Boolean,
       value: Object
     },
 
@@ -54,7 +56,12 @@
           }
         })
         this.$emit('input', value)
-      }
+      },
+      isRequired(name) {
+        return (
+          Array.isArray(this.schema.required) && this.schema.required.indexOf(name) !== -1
+        );
+      },
     }
   }
 </script>

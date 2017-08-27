@@ -3,6 +3,7 @@
     :name="name"
     :schema="schema"
     :uiSchema="uiSchema"
+    :required="required"
     :value="value"
     :invalid="invalid"
     @input="handleInput"
@@ -19,6 +20,7 @@
       name: String,
       schema: Object,
       uiSchema: Object,
+      required: Boolean,
       value: String,
       invalid: Boolean,
     },
