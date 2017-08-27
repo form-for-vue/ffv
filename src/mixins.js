@@ -15,6 +15,9 @@ export const mixin = {
         },
         integer: {
           text: 'InputWidget'
+        },
+        array: {
+          select: 'SelectWidget'
         }
       }
     }
