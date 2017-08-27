@@ -3,7 +3,8 @@
     :checked="value"
     :required="required"
     :disabled="disabled"
-    @change="value => $emit('input', value)"
+    :invalid="invalid ? 'invalid' : 'null'"
+    @change="handleChange"
   >
     {{ label }}
   </b-form-checkbox>
@@ -15,7 +16,15 @@
       label: String,
       value: Boolean,
       required: Boolean,
-      disabled: Boolean
+      disabled: Boolean,
+      invalid: Boolean,
+    },
+
+    methods: {
+      handleChange () {
+        this.$emit('input', value)
+        this.$emit('blur', value)
+      }
     }
   }
 </script>

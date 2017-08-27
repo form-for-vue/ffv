@@ -5,7 +5,9 @@
     :value="value"
     :required="required"
     :disabled="disabled"
+    :invalid="invalid"
     @input="value => $emit('input', value)"
+    @change="value => $emit('change', value)"
   ></component>
 </template>
 
@@ -19,13 +21,14 @@
     props: {
       schema: Object,
       uiSchema: Object,
-      value: Boolean
+      value: Boolean,
+      invalid: Boolean,
     },
 
     data () {
       return {
-        required: this.schema.required || false,
-        disabled: this.schema.disabled || false
+        required: this.uiSchema['ui:required'] || false,
+        disabled: this.uiSchema['ui:disabled'] || false
       }
     },
 

@@ -1,17 +1,15 @@
 <template>
-  <b-form-group
-    :label="label"
+  <b-form-input
+    :placeholder="placeholder"
+    :value="value"
+    :required="required"
+    :disabled="disabled"
+    :type="type"
+    :state="invalid ? 'invalid' : 'null'"
+    @input="value => $emit('input', value)"
+    @change="value => $emit('blur', value)"
   >
-    <b-form-input
-      :placeholder="placeholder"
-      :value="value"
-      :required="required"
-      :disabled="disabled"
-      :type="type"
-      @input="value => $emit('input', value)"
-    >
-    </b-form-input>
-  </b-form-group>
+  </b-form-input>
 </template>
 
 <script>
@@ -22,7 +20,8 @@
       value: String,
       required: Boolean,
       disabled: Boolean,
-      type: String
+      type: String,
+      invalid: Boolean,
     }
   }
 </script>

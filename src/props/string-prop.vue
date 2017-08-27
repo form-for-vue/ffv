@@ -2,11 +2,12 @@
   <component
     :is="getWidget(uiSchema['ui:widget'] || 'text', schema)"
     :value="value"
-    :label="schema.title !== null ? schema.title : name"
     :required="required"
     :disabled="disabled"
+    :invalid="invalid"
     :type="uiSchema['ui:widget'] || 'text'"
     @input="value => $emit('input', value)"
+    @blur="value => $emit('blur', value)"
   ></component>
 </template>
 
@@ -22,13 +23,14 @@
       name: String,
       schema: Object,
       uiSchema: Object,
-      value: String
+      value: String,
+      invalid: Boolean,
     },
 
     data () {
       return {
-        required: this.schema.required || false,
-        disabled: this.schema.disabled || false
+        required: this.uiSchema['ui:required'] || false,
+        disabled: this.uiSchema['ui:disabled'] || false
       }
     },
 

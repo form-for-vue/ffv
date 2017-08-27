@@ -1,14 +1,16 @@
 <template>
-  <wrapper-widget :label="schema.title">
+  <div>
     <schema-prop
       v-for="prop in props"
       :name="prop.name"
       :schema="prop.schema"
       :uiSchema="prop.uiSchema"
+      :errorSchema="prop.errorSchema"
       :value="prop.value"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
+      @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
-  </wrapper-widget>
+  </div>
 </template>
 
 <script>
@@ -16,6 +18,7 @@
     props: {
       schema: Object,
       uiSchema: Object,
+      errorSchema: Object,
       value: Object
     },
 
@@ -29,11 +32,13 @@
           const propValue = (this.value || {})[propName]
           const propSchema = this.schema.properties[propName]
           const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propName] : {}
+          const propErrorSchema = this.errorSchema && this.errorSchema[propName] !== undefined ? this.errorSchema[propName] : {}
           return {
             name: propName,
             value: propValue,
             schema: propSchema,
-            uiSchema: propUiSchema
+            uiSchema: propUiSchema,
+            errorSchema: propErrorSchema
           }
         })
       }

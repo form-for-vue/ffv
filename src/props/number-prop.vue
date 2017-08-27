@@ -7,6 +7,7 @@
     :disabled="disabled"
     type="text"
     @input="value => $emit('input', value)"
+    @change="value => $emit('change', value)"
   ></component>
 </template>
 
@@ -26,8 +27,8 @@
 
     data () {
       return {
-        required: this.schema.required || false,
-        disabled: this.schema.disabled || false
+        required: this.uiSchema['ui:required'] || false,
+        disabled: this.uiSchema['ui:disabled'] || false
       }
     },
 
