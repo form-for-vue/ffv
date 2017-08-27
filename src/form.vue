@@ -1,14 +1,17 @@
 <template>
-  <form>
-    <schema-prop
-      :schema="schema"
-      :uiSchema="uiSchema"
-      :errorSchema="errorSchema"
-      :value="value"
-      @input="handleInput"
-      @blur="handleBlur"
-    ></schema-prop>
-  </form>
+  <div>
+    <error-widget :errors="errors"></error-widget>
+    <form-widget :noHtml5Validate="noHtml5Validate" :onSubmit="onSubmit">
+      <schema-prop
+        :schema="schema"
+        :uiSchema="uiSchema"
+        :errorSchema="errorSchema"
+        :value="value"
+        @input="handleInput"
+        @blur="handleBlur"
+      ></schema-prop>
+    </form-widget>
+  </div>
 </template>
 
 <script>
@@ -33,24 +36,35 @@
         type: Boolean,
         default: false,
       },
+      noHtml5Validate: {
+        type: Boolean,
+        default: false,
+      },
+      onSubmit: Function,
     },
 
     data () {
       return {
         errorSchema: null,
+        errors: null,
       }
     },
 
     methods: {
+      validate (value) {
+        const {errors, errorSchema} = validateFormData(this.schema, value)
+        this.errors = errors
+        this.errorSchema = errorSchema
+      },
       handleInput (value) {
         if (!this.noValidate && this.liveValidate === 'eager') {
-          return validateFormData(this.schema, value)
+          this.validate(value)
         }
         this.$emit('input', value)
       },
       handleBlur (value) {
         if (!this.noValidate && this.liveValidate === 'lazy') {
-          this.errorSchema = validateFormData(this.schema, value)
+          this.validate(value)
         }
       }
     }

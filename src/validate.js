@@ -21,7 +21,7 @@ function parse (pointer) {
 }
 
 /**
- * Transform errors array to object in order to break it to related props
+ * Transform errors array to errorSchema object in order to break it to related props
  * @param errors
  * @returns {errorSchema}
  */
@@ -53,7 +53,13 @@ export function validateFormData (schema, value) {
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
-    return transformErrors(ajv.errors)
+    const errorSchema = transformErrors(ajv.errors)
+    const errors = ajv.errors.map((error) => {
+      if (error.dataPath !== '') {
+        return `${error.dataPath.replace('/', '.')} ${error.message}`
+      }
+    })
+    return { errors, errorSchema }
   } else {
     return true
   }
