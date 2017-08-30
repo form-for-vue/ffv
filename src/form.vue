@@ -1,7 +1,7 @@
 <template>
   <div>
     <error-widget :errors="errors"></error-widget>
-    <form-widget :noHtml5Validate="noHtml5Validate" :onSubmit="onSubmit">
+    <form-widget :noHtml5Validate="noHtml5Validate" :onCustomSubmit="onSubmit">
       <schema-prop
         :schema="schema"
         :uiSchema="uiSchema"
@@ -9,12 +9,17 @@
         :value="value"
         @input="handleInput"
         @blur="handleBlur"
+        :registry="registry"
       ></schema-prop>
     </form-widget>
   </div>
 </template>
 
 <script>
+  import ErrorWidget from './widgets/error-widget.vue'
+  import FormWidget from './widgets/form-widget.vue'
+  import SchemaProp from './props/schema-prop.vue'
+  import { getDefaultRegistry } from './utils'
   import { validateFormData } from './validate'
 
   export default {
@@ -27,7 +32,7 @@
       value: Object,
       liveValidate: {
         type: String,
-        default: 'eager',
+        default: 'lazy',
         validator (value) {
           return ['eager', 'lazy', 'no'].includes(value)
         }
@@ -41,13 +46,21 @@
         default: false,
       },
       onSubmit: Function,
+      widgets: Array,
+      onUpload: Object,
     },
 
     data () {
       return {
+        registry: this.getRegistry(),
         errorSchema: null,
         errors: null,
       }
+    },
+
+    components: {
+      ErrorWidget,
+      FormWidget,
     },
 
     methods: {
@@ -65,6 +78,13 @@
       handleBlur (value) {
         if (!this.noValidate && this.liveValidate === 'lazy') {
           this.validate(value)
+        }
+      },
+      getRegistry () {
+        const {props, widgets} = getDefaultRegistry()
+        return {
+          props: {...props},
+          widgets: {...widgets, ...this.widgets},
         }
       }
     }

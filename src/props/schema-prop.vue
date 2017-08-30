@@ -7,6 +7,8 @@
       :uiSchema="uiSchema"
       :errorSchema="errorSchema"
       :required="required"
+      :value="value"
+      :registry="registry"
       :invalid="feedbacks && feedbacks.length > 0"
       @input="value => $emit('input', value)"
       @blur="value => $emit('blur', value)"
@@ -19,8 +21,7 @@
 </template>
 
 <script>
-  import UnsupportedProp from './unsupported-prop.vue'
-  import { getDefaultRegistry } from '@/utils'
+  import WrapperWidget from '@/widgets/wrapper-widget'
 
   const COMPONENT_TYPES = {
     array: 'ArrayProp',
@@ -39,12 +40,11 @@
       errorSchema: [Object, Boolean],
       required: Boolean,
       value: null,
+      registry: Object,
     },
 
-    data () {
-      return {
-        ...getDefaultRegistry(),
-      }
+    components: {
+      WrapperWidget,
     },
 
     computed: {
@@ -61,8 +61,8 @@
     methods: {
       getPropComponent () {
         const componentName = COMPONENT_TYPES[this.schema.type]
-        return componentName in this.props ? this.props[componentName].name : UnsupportedProp.name
+        return componentName in this.registry.props ? this.registry.props[componentName].name : UnsupportedProp.name
       },
-    }
+    },
   }
 </script>

@@ -8,7 +8,8 @@ export const mixin = {
         string: {
           text: 'InputWidget',
           password: 'InputWidget',
-          textarea: 'TextareaWidget'
+          textarea: 'TextareaWidget',
+          file: 'FileWidget'
         },
         number: {
           text: 'InputWidget'
@@ -18,7 +19,7 @@ export const mixin = {
         },
         array: {
           select: 'SelectWidget'
-        }
+        },
       }
     }
   },
@@ -32,8 +33,7 @@ export const mixin = {
       }
 
       if (this.widgetMap[type].hasOwnProperty(widget)) {
-        const registeredWidget = this.widgetMap[type][widget]
-        return registeredWidget
+        return this.widgetMap[type][widget]
       }
 
       throw new Error(`No widget "${widget}" for type "${type}"`)

@@ -8,6 +8,7 @@
       :errorSchema="prop.errorSchema"
       :required="isRequired(prop.name)"
       :value="prop.value"
+      :registry="registry"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
@@ -17,11 +18,13 @@
 <script>
   export default {
     props: {
+      name: String,
       schema: Object,
       uiSchema: Object,
       errorSchema: [Object, Boolean],
       required: Boolean,
-      value: Object
+      value: Object,
+      registry: Object,
     },
 
     created () {

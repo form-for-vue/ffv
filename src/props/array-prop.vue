@@ -6,6 +6,7 @@
       :uiSchema="item.uiSchema"
       :errorSchema="item.errorSchema"
       :value="item.value"
+      :registry="registry"
       @input="itemVal => $emit('input', items.splice(item.index, 1, itemVal))"
       @blur="itemVal => $emit('blur', items.splice(item.index, 1, itemVal))"
     ></schema-prop>
@@ -15,15 +16,19 @@
 <script>
   export default {
     props: {
+      name: String,
       schema: Object,
       uiSchema: Object,
       errorSchema: [Object, Boolean],
       required: Boolean,
-      value: Object
+      value: Object,
+      registry: Object,
     },
 
     computed: {
       items () {
+        console.log(this.schema)
+        //TODO items is an object not a goddamn array
         this.schema.items.map((item, index) => {
           const itemValue = (this.value || {})[index]
           const itemSchema = this.schema.items[index]

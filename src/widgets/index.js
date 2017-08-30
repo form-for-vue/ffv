@@ -4,6 +4,7 @@ import WrapperWidget from './wrapper-widget.vue'
 import TextareaWidget from './textarea-widget.vue'
 import ErrorWidget from './error-widget.vue'
 import FormWidget from './form-widget.vue'
+import FileWidget from './file-widget.vue'
 
 export {
   CheckboxWidget,
@@ -11,5 +12,6 @@ export {
   WrapperWidget,
   TextareaWidget,
   ErrorWidget,
-  FormWidget
+  FormWidget,
+  FileWidget
 }

@@ -8,15 +8,6 @@ import {
   UnsupportedProp
 } from './props'
 
-import {
-  WrapperWidget,
-  CheckboxWidget,
-  InputWidget,
-  TextareaWidget,
-  ErrorWidget,
-  FormWidget
-} from './widgets'
-
 import Form from './form.vue'
 
 const plugin = {
@@ -28,13 +19,6 @@ const plugin = {
     Vue.component('string-prop', StringProp)
     Vue.component('array-prop', ArrayProp)
     Vue.component('unsupported-prop', UnsupportedProp)
-
-    Vue.component('wrapper-widget', WrapperWidget)
-    Vue.component('checkbox-widget', CheckboxWidget)
-    Vue.component('input-widget', InputWidget)
-    Vue.component('textarea-widget', TextareaWidget)
-    Vue.component('error-widget', ErrorWidget)
-    Vue.component('form-widget', FormWidget)
 
     Vue.component('v-form', Form)
   }

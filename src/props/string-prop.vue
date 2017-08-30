@@ -2,7 +2,7 @@
   <component
     :is="getWidget(uiSchema['ui:widget'] || 'text', schema)"
     :value="value"
-    :required="required"
+    :required="requiredProp"
     :disabled="disabled"
     :invalid="invalid"
     :type="uiSchema['ui:widget'] || 'text'"
@@ -14,6 +14,7 @@
 <script>
   import InputWidget from '@/widgets/input-widget'
   import TextareaWidget from '@/widgets/textarea-widget'
+  import FileWidget from '@/widgets/file-widget'
   import { mixin } from '@/mixins'
 
   export default {
@@ -30,14 +31,15 @@
 
     data () {
       return {
-        required: this.uiSchema['ui:required'] || this.required || false,
+        requiredProp: this.uiSchema['ui:required'] || this.required || false,
         disabled: this.uiSchema['ui:disabled'] || false
       }
     },
 
     components: {
       InputWidget,
-      TextareaWidget
+      TextareaWidget,
+      FileWidget,
     },
   }
 </script>

@@ -9,8 +9,16 @@
 <script>
   export default {
     props: {
-      onSubmit: Function,
+      onCustomSubmit: Function,
       noHtml5Validate: Boolean,
+    },
+
+    methods: {
+      onSubmit () {
+        if (this.onCustomSubmit) {
+          this.onCustomSubmit()
+        }
+      }
     }
   }
 </script>
