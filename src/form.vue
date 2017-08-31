@@ -7,9 +7,10 @@
         :uiSchema="uiSchema"
         :errorSchema="errorSchema"
         :value="value"
+        :registry="registry"
+        :onUpload="onUpload"
         @input="handleInput"
         @blur="handleBlur"
-        :registry="registry"
       ></schema-prop>
     </form-widget>
   </div>

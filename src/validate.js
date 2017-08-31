@@ -54,10 +54,12 @@ export function validateFormData (schema, value) {
 
   if (!valid) {
     const errorSchema = transformErrors(ajv.errors)
-    const errors = ajv.errors.map((error) => {
+    const errors = ajv.errors.filter((error) => {
       if (error.dataPath !== '') {
-        return `${error.dataPath.replace('/', '.')} ${error.message}`
+        return error
       }
+    }).map((error) => {
+      return `${error.dataPath.replace('/', '.')} ${error.message}`
     })
     return { errors, errorSchema }
   } else {

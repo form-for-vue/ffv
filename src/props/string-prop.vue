@@ -6,6 +6,7 @@
     :disabled="disabled"
     :invalid="invalid"
     :type="uiSchema['ui:widget'] || 'text'"
+    :onUpload="onUpload"
     @input="value => $emit('input', value)"
     @blur="value => $emit('blur', value)"
   ></component>
@@ -25,7 +26,8 @@
       schema: Object,
       uiSchema: Object,
       required: Boolean,
-      value: String,
+      value: [String, Object],
+      onUpload: Function,
       invalid: Boolean,
     },
 

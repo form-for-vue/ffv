@@ -42,6 +42,7 @@
             invalid: feedbacks && feedbacks.length > 0,
             value: context.props.value,
             registry: context.props.registry,
+            onUpload: context.props.onUpload,
           },
           on: context.data.on,
         }),
