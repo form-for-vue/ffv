@@ -5,15 +5,18 @@
     <slot></slot>
 
     <div slot="feedback">
-      <slot name="feedback"></slot>
+      <div v-for="feedback in feedbacks">{{ feedback }}</div>
     </div>
   </b-form-group>
 </template>
 
 <script>
   export default {
+    name: 'wrapper-widget',
+
     props: {
       label: String,
+      feedbacks: Array,
     },
   }
 </script>

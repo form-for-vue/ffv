@@ -1,25 +1,3 @@
-<template>
-  <wrapper-widget :label="schema.title !== null ? schema.title : name">
-    <component
-      :is="getPropComponent()"
-      :name="name"
-      :schema="schema"
-      :uiSchema="uiSchema"
-      :errorSchema="errorSchema"
-      :required="required"
-      :value="value"
-      :registry="registry"
-      :invalid="feedbacks && feedbacks.length > 0"
-      @input="value => $emit('input', value)"
-      @blur="value => $emit('blur', value)"
-    ></component>
-
-    <div slot="feedback">
-      <div v-for="feedback in feedbacks">{{ feedback }}</div>
-    </div>
-  </wrapper-widget>
-</template>
-
 <script>
   import WrapperWidget from '@/widgets/wrapper-widget'
 
@@ -33,36 +11,41 @@
   }
 
   export default {
-    props: {
-      name: String,
-      schema: Object,
-      uiSchema: Object,
-      errorSchema: [Object, Boolean],
-      required: Boolean,
-      value: null,
-      registry: Object,
-    },
+    functional: true,
 
-    components: {
-      WrapperWidget,
-    },
-
-    computed: {
-      feedbacks () {
-        if (this.invalid) {
-          return this.errorSchema.errors
-        }
-      },
-      invalid () {
-        return this.errorSchema && this.errorSchema.errors !== undefined && this.errorSchema.errors.length > 0
+    render (h, context) {
+      function getPropComponent () {
+        const componentName = COMPONENT_TYPES[context.props.schema.type]
+        return componentName in context.props.registry.props ? context.props.registry.props[componentName].name : UnsupportedProp.name
       }
-    },
 
-    methods: {
-      getPropComponent () {
-        const componentName = COMPONENT_TYPES[this.schema.type]
-        return componentName in this.registry.props ? this.registry.props[componentName].name : UnsupportedProp.name
-      },
+      function getFeedbacks () {
+        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0) {
+          return context.props.errorSchema.errors
+        }
+      }
+      const feedbacks = getFeedbacks()
+
+      return h(WrapperWidget, {
+        props: {
+          label: context.props.schema.title !== null ? context.props.schema.title : context.props.name,
+          feedbacks,
+        }
+      }, [
+        h(getPropComponent(), {
+          props: {
+            name: context.props.name,
+            schema: context.props.schema,
+            uiSchema: context.props.uiSchema,
+            errorSchema: context.props.errorSchema,
+            required: context.props.required,
+            invalid: feedbacks && feedbacks.length > 0,
+            value: context.props.value,
+            registry: context.props.registry,
+          },
+          on: context.data.on,
+        }),
+      ])
     },
   }
 </script>
