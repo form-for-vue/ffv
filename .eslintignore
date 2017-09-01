@@ -1,1 +1,3 @@
 dist/*.js
+
+rollup.config.js
