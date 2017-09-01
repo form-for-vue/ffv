@@ -16,6 +16,10 @@
   import { asNumber } from '@/utils'
 
   export default {
+    components: {
+      StringProp
+    },
+
     props: {
       name: String,
       schema: Object,
@@ -23,10 +27,6 @@
       required: Boolean,
       value: String,
       invalid: Boolean,
-    },
-
-    components: {
-      StringProp
     },
 
     methods: {

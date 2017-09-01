@@ -13,12 +13,18 @@
 </template>
 
 <script>
+  import FileWidget from '@/widgets/file-widget'
   import InputWidget from '@/widgets/input-widget'
   import TextareaWidget from '@/widgets/textarea-widget'
-  import FileWidget from '@/widgets/file-widget'
   import { mixin } from '@/mixins'
 
   export default {
+    components: {
+      InputWidget,
+      TextareaWidget,
+      FileWidget,
+    },
+
     mixins: [mixin],
 
     props: {
@@ -36,12 +42,6 @@
         requiredProp: this.uiSchema['ui:required'] || this.required || false,
         disabled: this.uiSchema['ui:disabled'] || false
       }
-    },
-
-    components: {
-      InputWidget,
-      TextareaWidget,
-      FileWidget,
     },
   }
 </script>

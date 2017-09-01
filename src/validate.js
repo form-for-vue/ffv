@@ -11,12 +11,10 @@ function parse (pointer) {
     return str.replace(/~1/g, '/').replace(/~0/g, '~')
   }
 
-  if (pointer === '') {
+  if (pointer === '')
     return []
-  }
-  if (pointer.charAt(0) !== '/') {
+  if (pointer.charAt(0) !== '/')
     throw new Error('Invalid JSON pointer: ' + pointer)
-  }
   return pointer.substring(1).split(/\//).map(unescape)
 }
 
@@ -26,24 +24,23 @@ function parse (pointer) {
  * @returns {errorSchema}
  */
 function transformErrors (errors) {
-  if (!errors.length) {
+  if (!errors.length)
     return {}
-  }
   return errors.reduce((errorSchema, error) => {
     const { dataPath, message } = error
     const path = parse(dataPath)
     let parent = errorSchema
-    path.forEach((segment) => {
-      if (!(segment in parent)) {
+    path.forEach(segment => {
+      if (!(segment in parent))
         parent[segment] = {}
-      }
+
       parent = parent[segment]
     })
-    if (Array.isArray(parent.errors)) {
+    if (Array.isArray(parent.errors))
       parent.errors = parent.errors.concat(message)
-    } else {
+    else
       parent.errors = [message]
-    }
+
     return errorSchema
   }, {})
 }
@@ -54,15 +51,13 @@ export function validateFormData (schema, value) {
 
   if (!valid) {
     const errorSchema = transformErrors(ajv.errors)
-    const errors = ajv.errors.filter((error) => {
-      if (error.dataPath !== '') {
+    const errors = ajv.errors.filter(error => {
+      if (error.dataPath !== '')
         return error
-      }
-    }).map((error) => {
+    }).map(error => {
       return `${error.dataPath.replace('/', '.')} ${error.message}`
     })
     return { errors, errorSchema }
-  } else {
+  } else
     return true
-  }
 }

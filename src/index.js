@@ -1,13 +1,12 @@
 import {
+  ArrayProp,
   BooleanProp,
   NumberProp,
   ObjectProp,
   SchemaProp,
   StringProp,
-  ArrayProp,
   UnsupportedProp
 } from './props'
-
 import Form from './form.vue'
 
 const plugin = {
@@ -25,8 +24,7 @@ const plugin = {
 }
 
 // Install by default if using the script tag
-if (typeof window !== 'undefined' && window.Vue) {
+if (typeof window !== 'undefined' && window.Vue)
   window.Vue.use(plugin)
-}
 
 export default plugin

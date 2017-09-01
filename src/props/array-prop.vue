@@ -2,6 +2,7 @@
   <div>
     <schema-prop
       v-for="item in items"
+      :key="item.index"
       :schema="item.schema"
       :uiSchema="item.uiSchema"
       :errorSchema="item.errorSchema"

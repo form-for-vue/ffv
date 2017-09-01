@@ -2,6 +2,7 @@
   <div>
     <schema-prop
       v-for="prop in props"
+      :key="prop.name"
       :name="prop.name"
       :schema="prop.schema"
       :uiSchema="prop.uiSchema"
@@ -29,10 +30,6 @@
       onUpload: Object,
     },
 
-    created () {
-      this.defaultProps()
-    },
-
     computed: {
       props () {
         return Object.keys(this.schema.properties).map(propName => {
@@ -53,21 +50,25 @@
       }
     },
 
+    created () {
+      this.defaultProps()
+    },
+
     methods: {
       defaultProps () {
         const value = Object.assign({}, this.value)
         Object.keys(this.schema.properties).forEach(propName => {
           const propSchema = this.schema.properties[propName]
-          if (value[propName] === undefined) {
+          if (value[propName] === undefined)
             value[propName] = propSchema.default
-          }
+
         })
         this.$emit('input', value)
       },
-      isRequired(name) {
+      isRequired (name) {
         return (
           Array.isArray(this.schema.required) && this.schema.required.indexOf(name) !== -1
-        );
+        )
       },
     }
   }

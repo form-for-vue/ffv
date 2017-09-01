@@ -16,6 +16,10 @@
   import { mixin } from '@/mixins'
 
   export default {
+    components: {
+      CheckboxWidget
+    },
+
     mixins: [mixin],
 
     props: {
@@ -32,9 +36,5 @@
         disabled: this.uiSchema['ui:disabled'] || false
       }
     },
-
-    components: {
-      CheckboxWidget
-    }
   }
 </script>

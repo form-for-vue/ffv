@@ -16,13 +16,14 @@
     render (h, context) {
       function getPropComponent () {
         const componentName = COMPONENT_TYPES[context.props.schema.type]
-        return componentName in context.props.registry.props ? context.props.registry.props[componentName].name : UnsupportedProp.name
+        return componentName in context.props.registry.props
+          ? context.props.registry.props[componentName].name : UnsupportedProp.name // eslint-disable-line
       }
 
       function getFeedbacks () {
-        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0) {
+        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0)
           return context.props.errorSchema.errors
-        }
+
       }
       const feedbacks = getFeedbacks()
 

@@ -42,7 +42,7 @@
 
     watch: {
       media (val) {
-        this.onUpload(val, this.onProgress).then((responseData) => {
+        this.onUpload(val, this.onProgress).then(responseData => {
           if (responseData !== false) {
             this.$emit('input', responseData)
             this.$emit('change', responseData)

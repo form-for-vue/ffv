@@ -5,7 +5,7 @@
     <slot></slot>
 
     <div slot="feedback">
-      <div v-for="feedback in feedbacks">{{ feedback }}</div>
+      <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
     </div>
   </b-form-group>
 </template>

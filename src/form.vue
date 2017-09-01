@@ -19,11 +19,15 @@
 <script>
   import ErrorWidget from './widgets/error-widget.vue'
   import FormWidget from './widgets/form-widget.vue'
-  import SchemaProp from './props/schema-prop.vue'
   import { getDefaultRegistry } from './utils'
   import { validateFormData } from './validate'
 
   export default {
+    components: {
+      ErrorWidget,
+      FormWidget,
+    },
+
     props: {
       schema: {
         type: Object,
@@ -59,11 +63,6 @@
       }
     },
 
-    components: {
-      ErrorWidget,
-      FormWidget,
-    },
-
     methods: {
       validate (value) {
         const {errors, errorSchema} = validateFormData(this.schema, value)
@@ -71,15 +70,13 @@
         this.errorSchema = errorSchema
       },
       handleInput (value) {
-        if (!this.noValidate && this.liveValidate === 'eager') {
+        if (!this.noValidate && this.liveValidate === 'eager')
           this.validate(value)
-        }
         this.$emit('input', value)
       },
       handleBlur (value) {
-        if (!this.noValidate && this.liveValidate === 'lazy') {
+        if (!this.noValidate && this.liveValidate === 'lazy')
           this.validate(value)
-        }
       },
       getRegistry () {
         const {props, widgets} = getDefaultRegistry()
