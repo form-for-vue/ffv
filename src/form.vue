@@ -13,6 +13,8 @@
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>
+
+      <slot></slot>
     </form-widget>
   </div>
 </template>
