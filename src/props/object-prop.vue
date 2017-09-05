@@ -11,6 +11,7 @@
       :value="prop.value"
       :registry="registry"
       :onUpload="prop.onUpload"
+      :onDownload="prop.onDownload"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
@@ -28,6 +29,7 @@
       value: Object,
       registry: Object,
       onUpload: Object,
+      onDownload: Object,
     },
 
     computed: {
@@ -38,13 +40,15 @@
           const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propName] : {}
           const propErrorSchema = this.errorSchema && this.errorSchema[propName] !== undefined ? this.errorSchema[propName] : {}
           const propOnUpload = this.onUpload && this.onUpload[propName] !== undefined ? this.onUpload[propName] : {}
+          const propOnDownload = this.onDownload && this.onDownload[propName] !== undefined ? this.onDownload[propName] : {}
           return {
             name: propName,
             value: propValue,
             schema: propSchema,
             uiSchema: propUiSchema,
             errorSchema: propErrorSchema,
-            onUpload: propOnUpload
+            onUpload: propOnUpload,
+            onDownload: propOnDownload,
           }
         })
       }

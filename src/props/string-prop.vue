@@ -7,6 +7,7 @@
     :invalid="invalid"
     :type="uiSchema['ui:widget'] || 'text'"
     :onUpload="onUpload"
+    :onDownload="onDownload"
     @input="value => $emit('input', value)"
     @blur="value => $emit('blur', value)"
   ></component>
@@ -34,6 +35,7 @@
       required: Boolean,
       value: [String, Object],
       onUpload: Function,
+      onDownload: Function,
       invalid: Boolean,
     },
 

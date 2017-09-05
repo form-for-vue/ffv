@@ -23,7 +23,6 @@
       function getFeedbacks () {
         if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0)
           return context.props.errorSchema.errors
-
       }
       const feedbacks = getFeedbacks()
 
@@ -44,6 +43,7 @@
             value: context.props.value,
             registry: context.props.registry,
             onUpload: context.props.onUpload,
+            onDownload: context.props.onDownload,
           },
           on: context.data.on,
         }),
