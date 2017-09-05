@@ -81,6 +81,7 @@
       handleBlur (value) {
         if (!this.noValidate && this.liveValidate === 'lazy')
           this.validate(value)
+        this.$emit('input', value)
       },
       getRegistry () {
         const {props, widgets} = getDefaultRegistry()
