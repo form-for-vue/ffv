@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div style="direction: ltr">
+    <div v-if="errors && errors.length > 0">
+      <div v-for="error in errors">{{ error }}</div>
+    </div>
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :img-src="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" no-body></b-card>
     </div>
@@ -15,7 +18,7 @@
       class="col-12"
     >
     </b-form-file>
-    <div style="direction: ltr">
+    <div>
       <b-progress :value="progressValue" variant="success" class="mt-1"></b-progress>
     </div>
   </div>
@@ -34,7 +37,7 @@
       url: String,
       multiple: Boolean,
       onUpload: Function,
-      onDownload: Function,
+      onPreview: Function,
     },
 
     data () {
@@ -43,25 +46,32 @@
         mediaSrc: null,
         previewMedia: null,
         progressValue: null,
+        errors: null,
       }
     },
 
     watch: {
       media (val) {
         this.previewFile(val)
-        this.onUpload(val, this.onProgress).then(responseData => {
-          if (responseData !== false) {
-            this.$emit('input', responseData)
-            this.$emit('change', responseData)
-          }
-        })
+        if(this.onUpload) {
+          this.onUpload(val, this.onProgress).then(responseData => {
+            if (responseData !== false) {
+              this.$emit('input', responseData)
+              this.$emit('change', responseData)
+            }
+          })
+        }
       },
     },
 
     mounted () {
-      this.onDownload().then(url => {
-        this.previewMedia = url
-      })
+      if(this.onPreview) {
+        this.onPreview().then(url => {
+          this.previewMedia = url
+        }).catch(errors => {
+          this.errors = errors
+        })
+      }
     },
 
     methods: {

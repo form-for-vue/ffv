@@ -43,7 +43,7 @@
             value: context.props.value,
             registry: context.props.registry,
             onUpload: context.props.onUpload,
-            onDownload: context.props.onDownload,
+            onPreview: context.props.onPreview,
           },
           on: context.data.on,
         }),

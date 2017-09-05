@@ -11,7 +11,7 @@
       :value="prop.value"
       :registry="registry"
       :onUpload="prop.onUpload"
-      :onDownload="prop.onDownload"
+      :onPreview="prop.onPreview"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
@@ -29,7 +29,7 @@
       value: Object,
       registry: Object,
       onUpload: Object,
-      onDownload: Object,
+      onPreview: Object,
     },
 
     computed: {
@@ -40,7 +40,7 @@
           const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propName] : {}
           const propErrorSchema = this.errorSchema && this.errorSchema[propName] !== undefined ? this.errorSchema[propName] : {}
           const propOnUpload = this.onUpload && this.onUpload[propName] !== undefined ? this.onUpload[propName] : undefined
-          const propOnDownload = this.onDownload && this.onDownload[propName] !== undefined ? this.onDownload[propName] : undefined
+          const propOnPreview = this.onPreview && this.onPreview[propName] !== undefined ? this.onPreview[propName] : undefined
           return {
             name: propName,
             value: propValue,
@@ -48,7 +48,7 @@
             uiSchema: propUiSchema,
             errorSchema: propErrorSchema,
             onUpload: propOnUpload,
-            onDownload: propOnDownload,
+            onPreview: propOnPreview,
           }
         })
       }

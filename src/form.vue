@@ -9,7 +9,7 @@
         :value="value"
         :registry="registry"
         :onUpload="onUpload"
-        :onDownload="onDownload"
+        :onPreview="onPreview"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>
@@ -56,7 +56,7 @@
       onSubmit: Function,
       widgets: Array,
       onUpload: Object,
-      onDownload: Object,
+      onPreview: Object,
     },
 
     data () {
