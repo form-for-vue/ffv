@@ -39,8 +39,8 @@
           const propSchema = this.schema.properties[propName]
           const propUiSchema = this.uiSchema && this.uiSchema[propName] !== undefined ? this.uiSchema[propName] : {}
           const propErrorSchema = this.errorSchema && this.errorSchema[propName] !== undefined ? this.errorSchema[propName] : {}
-          const propOnUpload = this.onUpload && this.onUpload[propName] !== undefined ? this.onUpload[propName] : {}
-          const propOnDownload = this.onDownload && this.onDownload[propName] !== undefined ? this.onDownload[propName] : {}
+          const propOnUpload = this.onUpload && this.onUpload[propName] !== undefined ? this.onUpload[propName] : undefined
+          const propOnDownload = this.onDownload && this.onDownload[propName] !== undefined ? this.onDownload[propName] : undefined
           return {
             name: propName,
             value: propValue,

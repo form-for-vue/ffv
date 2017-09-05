@@ -28,7 +28,7 @@
 
       return h(WrapperWidget, {
         props: {
-          label: context.props.schema.title !== null ? context.props.schema.title : context.props.name,
+          label: context.props.schema && context.props.schema.title !== undefined ? context.props.schema.title : context.props.name,
           feedbacks,
         }
       }, [
