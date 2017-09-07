@@ -1,5 +1,5 @@
 <template>
-  <div style="direction: ltr">
+  <div>
     <div v-if="errors && errors.length > 0">
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </div>

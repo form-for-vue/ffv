@@ -53,6 +53,7 @@ module.exports = {
     'vue/v-on-style': 2,
     'vue/no-multi-spaces': 2,
     'vue/max-attributes-per-line': 2,
+    'vue/attribute-hyphenation': [2, 'never'],
   },
   globals: {
     requestAnimationFrame: true,
