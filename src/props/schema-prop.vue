@@ -29,6 +29,10 @@
 
     render (h, context) {
       function getWrapperWidget () {
+        const widget = context.props.wrapper
+        if (widget in context.props.registry.widgets) {
+          return context.props.registry.widgets[widget]
+        }
         return WrapperWidget
       }
 
@@ -79,7 +83,7 @@
         }),
         h('template', {
           slot: 'feedback',
-        }, (feedbacks || []).map((feedback) => {
+        }, (feedbacks || []).map(feedback => {
           return h('div', {
             domProps: {
               innerHTML: feedback

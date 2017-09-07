@@ -9,7 +9,7 @@
         :registry="registry"
         :onUpload="onUpload"
         :onPreview="onPreview"
-        :wrapper="wrapper"
+        :wrapper="uiSchema['ui:wrapper'] ? uiSchema['ui:wrapper'] : wrapper"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>
