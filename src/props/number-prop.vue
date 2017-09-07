@@ -27,8 +27,8 @@
       uiSchema: Object,
       required: Boolean,
       disabled: Boolean,
-      value: String,
       invalid: Boolean,
+      value: String,
     },
 
     methods: {

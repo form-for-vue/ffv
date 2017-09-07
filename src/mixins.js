@@ -25,8 +25,19 @@ export const mixin = {
   },
 
   methods: {
-    getWidget (widget, schema) {
-      const { type } = schema
+    /**
+     * get widget from core widgets or custom widgets passed by user, supported for specified schema type
+     * @param schema
+     * @param widget
+     * @param registeredWidgets
+     * @returns widget
+     */
+    getWidget (schema, widget, registeredWidgets = {}) {
+      const {type} = schema
+
+      if (registeredWidgets.hasOwnProperty(widget)) {
+        return registeredWidgets[widget]
+      }
 
       if (!this.widgetMap.hasOwnProperty(type)) {
         throw new Error(`No widget for type "${type}"`)

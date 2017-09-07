@@ -15,6 +15,13 @@
 
     render (h, context) {
       function getPropComponent () {
+        const prop = context.props.uiSchema['ui:field']
+        if (typeof prop === 'function') {
+          return prop
+        }
+        if (typeof prop === 'string' && prop in context.props.registry.props) {
+          return context.props.registry.props[prop]
+        }
         const componentName = COMPONENT_TYPES[context.props.schema.type]
         return componentName in context.props.registry.props
           ? context.props.registry.props[componentName].name : UnsupportedProp.name // eslint-disable-line
@@ -25,6 +32,7 @@
           return context.props.errorSchema.errors
         }
       }
+
       const feedbacks = getFeedbacks()
 
       return h(WrapperWidget, {

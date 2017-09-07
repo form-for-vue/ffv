@@ -20,6 +20,7 @@
 
 <script>
   import FormWidget from './widgets/form-widget.vue'
+  import Vue from 'vue'
   import { getDefaultRegistry } from './utils'
   import { validateFormData } from './validate'
 
@@ -52,7 +53,8 @@
       },
       onSubmit: Function,
       onBlur: Function,
-      widgets: Array,
+      widgets: Object,
+      props: Object,
       onUpload: Object,
       onPreview: Object,
     },
@@ -83,14 +85,21 @@
         }
         this.$emit('input', value)
 
-        if(this.onBlur) {
+        if (this.onBlur) {
           this.onBlur()
         }
       },
       getRegistry () {
+        if(this.widgets || this.props) {
+          const __components = {...this.widgets,...this.props}
+          Object.keys(__components).forEach(key => {
+            Vue.component(key, __components[key])
+          })
+        }
+
         const {props, widgets} = getDefaultRegistry()
         return {
-          props: {...props},
+          props: {...props, ...this.props},
           widgets: {...widgets, ...this.widgets},
         }
       }

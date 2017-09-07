@@ -9,7 +9,7 @@ import {
 } from './props'
 import Form from './form.vue'
 
-const defaultComponents = {
+const components = {
   'boolean-prop': BooleanProp,
   'number-prop': NumberProp,
   'object-prop': ObjectProp,
@@ -21,10 +21,9 @@ const defaultComponents = {
 }
 
 const plugin = {
-  install (Vue, options = {props: []}) {
-    const __components = Object.assign({}, defaultComponents, options.props)
-    Object.keys(__components).forEach(key => {
-      Vue.component(key, __components[key])
+  install (Vue) {
+    Object.keys(components).forEach(key => {
+      Vue.component(key, components[key])
     })
   }
 }

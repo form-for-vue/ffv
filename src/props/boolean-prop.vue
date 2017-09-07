@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="getWidget(uiSchema['ui:widget'] || 'checkbox', schema)"
+    :is="getWidget(schema, uiSchema['ui:widget'] || 'checkbox', registry.widgets)"
     :label="schema.title"
     :value="value"
     :required="required"
@@ -33,8 +33,9 @@
         type: Boolean,
         default: false,
       },
-      value: Boolean,
       invalid: Boolean,
+      value: Boolean,
+      registry: Object,
     },
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="getWidget(uiSchema['ui:widget'] || 'text', schema)"
+    :is="getWidget(schema, uiSchema['ui:widget'] || 'text', registry.widgets)"
     :value="value"
     :required="required"
     :disabled="disabled"
@@ -40,10 +40,11 @@
         type: Boolean,
         default: false,
       },
+      invalid: Boolean,
       value: [String, Object],
+      registry: Object,
       onUpload: Function,
       onPreview: Function,
-      invalid: Boolean,
     },
   }
 </script>
