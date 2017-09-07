@@ -4,18 +4,17 @@
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </div>
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
-      <b-card :img-src="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" no-body></b-card>
+      <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
     <b-form-file
       :placeholder="placeholder"
-      :choose-label="label"
+      :chooseLabel="label"
       :required="required"
       :disabled="disabled"
       :type="type"
       :state="invalid ? 'invalid' : 'null'"
       :multiple="multiple"
       v-model="media"
-      class="col-12"
     >
     </b-form-file>
     <div>
@@ -45,7 +44,7 @@
         media: null,
         mediaSrc: null,
         previewMedia: null,
-        progressValue: null,
+        progressValue: 0,
         errors: null,
       }
     },

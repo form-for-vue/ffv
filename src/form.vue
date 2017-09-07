@@ -1,6 +1,5 @@
 <template>
   <div>
-    <error-widget :errors="errors"></error-widget>
     <form-widget :noHtml5Validate="noHtml5Validate" :onCustomSubmit="onSubmit">
       <schema-prop
         :schema="schema"
@@ -20,14 +19,12 @@
 </template>
 
 <script>
-  import ErrorWidget from './widgets/error-widget.vue'
   import FormWidget from './widgets/form-widget.vue'
   import { getDefaultRegistry } from './utils'
   import { validateFormData } from './validate'
 
   export default {
     components: {
-      ErrorWidget,
       FormWidget,
     },
 
@@ -54,6 +51,7 @@
         default: false,
       },
       onSubmit: Function,
+      onBlur: Function,
       widgets: Array,
       onUpload: Object,
       onPreview: Object,
@@ -84,6 +82,10 @@
           this.validate(value)
         }
         this.$emit('input', value)
+
+        if(this.onBlur) {
+          this.onBlur()
+        }
       },
       getRegistry () {
         const {props, widgets} = getDefaultRegistry()
