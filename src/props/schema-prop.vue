@@ -15,7 +15,7 @@
 
     render (h, context) {
       function getPropComponent () {
-        const prop = context.props.uiSchema['ui:field']
+        const prop = context.props.uiSchema.prop
         if (typeof prop === 'function') {
           return prop
         }
@@ -39,6 +39,7 @@
         props: {
           label: context.props.schema && context.props.schema.title !== undefined ? context.props.schema.title : context.props.name,
           feedbacks,
+          classNames: context.props.uiSchema.classNames
         }
       }, [
         h(getPropComponent(), {
@@ -47,8 +48,8 @@
             schema: context.props.schema,
             uiSchema: context.props.uiSchema,
             errorSchema: context.props.errorSchema,
-            required: context.props.required || context.props.uiSchema['ui:required'],
-            disabled: context.props.disabled || context.props.uiSchema['ui:disabled'],
+            required: context.props.required || context.props.uiSchema.required,
+            disabled: context.props.disabled || context.props.uiSchema.disabled,
             invalid: feedbacks && feedbacks.length > 0,
             value: context.props.value,
             registry: context.props.registry,

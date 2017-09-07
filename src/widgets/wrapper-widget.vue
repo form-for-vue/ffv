@@ -1,6 +1,7 @@
 <template>
   <b-form-group
     :label="label"
+    :class="classNames"
   >
     <slot></slot>
 
@@ -17,6 +18,7 @@
     props: {
       label: String,
       feedbacks: Array,
+      classNames: String,
     },
   }
 </script>
