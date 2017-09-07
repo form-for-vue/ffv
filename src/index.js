@@ -9,17 +9,23 @@ import {
 } from './props'
 import Form from './form.vue'
 
-const plugin = {
-  install (Vue) {
-    Vue.component('boolean-prop', BooleanProp)
-    Vue.component('number-prop', NumberProp)
-    Vue.component('object-prop', ObjectProp)
-    Vue.component('schema-prop', SchemaProp)
-    Vue.component('string-prop', StringProp)
-    Vue.component('array-prop', ArrayProp)
-    Vue.component('unsupported-prop', UnsupportedProp)
+const defaultComponents = {
+  'boolean-prop': BooleanProp,
+  'number-prop': NumberProp,
+  'object-prop': ObjectProp,
+  'schema-prop': SchemaProp,
+  'string-prop': StringProp,
+  'array-prop': ArrayProp,
+  'unsupported-prop': UnsupportedProp,
+  'v-form': Form
+}
 
-    Vue.component('v-form', Form)
+const plugin = {
+  install (Vue, options = {props: []}) {
+    const __components = Object.assign({}, defaultComponents, options.props)
+    Object.keys(__components).forEach(key => {
+      Vue.component(key, __components[key])
+    })
   }
 }
 
