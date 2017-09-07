@@ -1423,9 +1423,15 @@ debug@*:
   dependencies:
     ms "2.0.0"
 
-debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.3, debug@^2.6.8:
+debug@^2.1.1, debug@^2.2.0, debug@^2.6.0, debug@^2.6.8:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
+  dependencies:
+    ms "2.0.0"
+
+debug@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-3.0.1.tgz#0564c612b521dc92d9f2988f0549e34f9c98db64"
   dependencies:
     ms "2.0.0"
 
@@ -1706,11 +1712,11 @@ eslint-plugin-standard@^3.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-3.0.1.tgz#34d0c915b45edc6f010393c7eef3823b08565cf2"
 
 eslint-plugin-vue@beta:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-3.12.0.tgz#e9ad09d6c628fb2b6578068feda54403cf7a94db"
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-3.13.0.tgz#77dbe45c42ac56503cc0f2e2612911a439e96304"
   dependencies:
     requireindex "^1.1.0"
-    vue-eslint-parser "2.0.0-beta.7"
+    vue-eslint-parser "^2.0.1-beta.0"
 
 eslint-scope@^3.7.1:
   version "3.7.1"
@@ -5359,13 +5365,14 @@ void-elements@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
-vue-eslint-parser@2.0.0-beta.7:
-  version "2.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.0-beta.7.tgz#43737861129620d16326ab7486919365b3d6e379"
+vue-eslint-parser@^2.0.1-beta.0:
+  version "2.0.1-beta.0"
+  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-2.0.1-beta.0.tgz#1ce5a7619bfb9ebaacd4f4ba9aeb591edd9132ce"
   dependencies:
-    debug "^2.6.3"
+    debug "^3.0.0"
     eslint-scope "^3.7.1"
     espree "^3.3.2"
+    esquery "^1.0.0"
     lodash "^4.17.4"
 
 vue-hot-reload-api@^2.1.0:

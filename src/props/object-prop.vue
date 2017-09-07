@@ -63,9 +63,9 @@
         const value = Object.assign({}, this.value)
         Object.keys(this.schema.properties).forEach(propName => {
           const propSchema = this.schema.properties[propName]
-          if (value[propName] === undefined)
+          if (value[propName] === undefined) {
             value[propName] = propSchema.default
-
+          }
         })
         this.$emit('input', value)
       },

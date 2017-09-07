@@ -15,8 +15,9 @@
 
     methods: {
       onSubmit () {
-        if (this.onCustomSubmit)
+        if (this.onCustomSubmit) {
           this.onCustomSubmit()
+        }
       }
     }
   }

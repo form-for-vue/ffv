@@ -1,7 +1,7 @@
 <template>
   <div style="direction: ltr">
     <div v-if="errors && errors.length > 0">
-      <div v-for="error in errors">{{ error }}</div>
+      <div v-for="error in errors" :key="error">{{ error }}</div>
     </div>
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :img-src="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" no-body></b-card>
@@ -84,8 +84,9 @@
           this.mediaSrc = reader.result
         }, false)
 
-        if (media)
+        if (media) {
           reader.readAsDataURL(media)
+        }
       },
     }
   }

@@ -28,11 +28,13 @@ export const mixin = {
     getWidget (widget, schema) {
       const { type } = schema
 
-      if (!this.widgetMap.hasOwnProperty(type))
+      if (!this.widgetMap.hasOwnProperty(type)) {
         throw new Error(`No widget for type "${type}"`)
+      }
 
-      if (this.widgetMap[type].hasOwnProperty(widget))
+      if (this.widgetMap[type].hasOwnProperty(widget)) {
         return this.widgetMap[type][widget]
+      }
 
       throw new Error(`No widget "${widget}" for type "${type}"`)
     }

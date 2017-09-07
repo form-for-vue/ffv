@@ -20,15 +20,16 @@ module.exports = {
     'import/first': 2,
     'import/no-unresolved': 0,
     'sort-imports': 2,
-    'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+    'brace-style': 2,
     'comma-dangle': ['error', 'only-multiline'],
     'no-console': process.env.NODE_ENV === 'production' ? ['error', {'allow': ['warn', 'error']}] : 0,
     'indent': ['error', 2],
     'semi': ['error', 'never'],
     'consistent-return': 0,
-    'curly': ['error', 'multi'],
+    'curly': ['error', 'all'],
     'space-before-function-paren': ['error', 'always'],
     'space-before-blocks': 2,
+    'no-multi-spaces': 2,
     'vue/order-in-components': ['error', {
       'order': [
         ['name', 'delimiters', 'functional', 'model'],
@@ -46,7 +47,12 @@ module.exports = {
         'render',
         'renderError'
       ]
-    }]
+    }],
+    'vue/mustache-interpolation-spacing': ['error', 'always'],
+    'vue/v-bind-style': 2,
+    'vue/v-on-style': 2,
+    'vue/no-multi-spaces': 2,
+    'vue/max-attributes-per-line': 2,
   },
   globals: {
     requestAnimationFrame: true,

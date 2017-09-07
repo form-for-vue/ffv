@@ -21,8 +21,9 @@
       }
 
       function getFeedbacks () {
-        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0)
+        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0) {
           return context.props.errorSchema.errors
+        }
       }
       const feedbacks = getFeedbacks()
 

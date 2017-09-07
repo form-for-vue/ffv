@@ -74,13 +74,15 @@
         this.errorSchema = errorSchema
       },
       handleInput (value) {
-        if (!this.noValidate && this.liveValidate === 'eager')
+        if (!this.noValidate && this.liveValidate === 'eager') {
           this.validate(value)
+        }
         this.$emit('input', value)
       },
       handleBlur (value) {
-        if (!this.noValidate && this.liveValidate === 'lazy')
+        if (!this.noValidate && this.liveValidate === 'lazy') {
           this.validate(value)
+        }
         this.$emit('input', value)
       },
       getRegistry () {
