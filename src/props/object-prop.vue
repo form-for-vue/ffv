@@ -13,6 +13,7 @@
       :registry="registry"
       :onUpload="prop.onUpload"
       :onPreview="prop.onPreview"
+      :wrapper="wrapper"
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
@@ -31,6 +32,7 @@
       registry: Object,
       onUpload: Object,
       onPreview: Object,
+      wrapper: String,
     },
 
     computed: {

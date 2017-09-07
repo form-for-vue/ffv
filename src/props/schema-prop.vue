@@ -13,7 +13,25 @@
   export default {
     functional: true,
 
+    props: {
+      name: String,
+      schema: Object,
+      uiSchema: Object,
+      errorSchema: [Object, Boolean],
+      required: Boolean,
+      disabled: Boolean,
+      value: null,
+      registry: Object,
+      onUpload: [Object, Function],
+      onPreview: [Object, Function],
+      wrapper: String,
+    },
+
     render (h, context) {
+      function getWrapperWidget () {
+        return WrapperWidget
+      }
+
       function getPropComponent () {
         const prop = context.props.uiSchema.prop
         if (typeof prop === 'function') {
@@ -35,10 +53,10 @@
 
       const feedbacks = getFeedbacks()
 
-      return h(WrapperWidget, {
+      return h(getWrapperWidget(), {
         props: {
+          wrapper: context.props.wrapper,
           label: context.props.schema && context.props.schema.title !== undefined ? context.props.schema.title : context.props.name,
-          feedbacks,
           classNames: context.props.uiSchema.classNames
         }
       }, [
@@ -55,9 +73,19 @@
             registry: context.props.registry,
             onUpload: context.props.onUpload,
             onPreview: context.props.onPreview,
+            wrapper: context.props.wrapper,
           },
           on: context.data.on,
         }),
+        h('template', {
+          slot: 'feedback',
+        }, (feedbacks || []).map((feedback) => {
+          return h('div', {
+            domProps: {
+              innerHTML: feedback
+            },
+          })
+        }))
       ])
     },
   }

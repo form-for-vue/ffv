@@ -9,6 +9,7 @@
         :registry="registry"
         :onUpload="onUpload"
         :onPreview="onPreview"
+        :wrapper="wrapper"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>
@@ -20,7 +21,6 @@
 
 <script>
   import FormWidget from './widgets/form-widget.vue'
-  import Vue from 'vue'
   import { getDefaultRegistry } from './utils'
   import { validateFormData } from './validate'
 
@@ -57,6 +57,13 @@
       props: Object,
       onUpload: Object,
       onPreview: Object,
+      wrapper: {
+        type: String,
+        default: 'complex',
+        validator (value) {
+          return ['simple', 'complex'].includes(value)
+        }
+      },
     },
 
     data () {
@@ -90,13 +97,6 @@
         }
       },
       getRegistry () {
-        if(this.widgets || this.props) {
-          const __components = {...this.widgets,...this.props}
-          Object.keys(__components).forEach(key => {
-            Vue.component(key, __components[key])
-          })
-        }
-
         const {props, widgets} = getDefaultRegistry()
         return {
           props: {...props, ...this.props},
