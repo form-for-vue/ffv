@@ -7,6 +7,7 @@
     :disabled="disabled"
     :value="value"
     :invalid="invalid"
+    :registry="registry"
     @input="handleInput"
     @blur="handleBlur"
   ></string-prop>
@@ -29,6 +30,7 @@
       disabled: Boolean,
       invalid: Boolean,
       value: String,
+      registry: Object,
     },
 
     methods: {
