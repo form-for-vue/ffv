@@ -4,6 +4,7 @@
     :schema="schema"
     :uiSchema="uiSchema"
     :required="required"
+    :disabled="disabled"
     :value="value"
     :invalid="invalid"
     @input="handleInput"
@@ -25,6 +26,7 @@
       schema: Object,
       uiSchema: Object,
       required: Boolean,
+      disabled: Boolean,
       value: String,
       invalid: Boolean,
     },

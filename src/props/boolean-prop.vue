@@ -3,7 +3,7 @@
     :is="getWidget(uiSchema['ui:widget'] || 'checkbox', schema)"
     :label="schema.title"
     :value="value"
-    :required="requiredProp"
+    :required="required"
     :disabled="disabled"
     :invalid="invalid"
     @input="value => $emit('input', value)"
@@ -25,16 +25,16 @@
     props: {
       schema: Object,
       uiSchema: Object,
-      required: Boolean,
+      required: {
+        type: Boolean,
+        default: false,
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
       value: Boolean,
       invalid: Boolean,
-    },
-
-    data () {
-      return {
-        requiredProp: this.uiSchema['ui:required'] || this.required || false,
-        disabled: this.uiSchema['ui:disabled'] || false
-      }
     },
   }
 </script>

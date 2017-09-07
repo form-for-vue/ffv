@@ -8,6 +8,7 @@
       :uiSchema="prop.uiSchema"
       :errorSchema="prop.errorSchema"
       :required="isRequired(prop.name)"
+      :disabled="prop.uiSchema[prop.name]"
       :value="prop.value"
       :registry="registry"
       :onUpload="prop.onUpload"
