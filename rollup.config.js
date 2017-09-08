@@ -21,6 +21,9 @@ if (!fs.existsSync(dist)) {
   fs.mkdirSync(dist)
 }
 
+const args = process.argv.slice(2)
+const shouldMinify = args.includes('--minify') || args.includes('-m')
+
 module.exports = {
   input: path.resolve(lib, 'index.js'),
   external: Object.keys(devDependencies),
@@ -41,8 +44,8 @@ module.exports = {
       resolve: ['.vue'],
       '@': path.resolve(__dirname, './src')
     }),
-    json()
-    // uglify({}, minify)
+    json(),
+    shouldMinify === true ? uglify({}, minify) : {},
   ],
   globals: {
     //
