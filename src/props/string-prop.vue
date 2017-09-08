@@ -1,11 +1,11 @@
 <template>
   <component
-    :is="getWidget(schema, uiSchema.widget || 'text', registry.widgets)"
+    :is="getWidget(schema, uiSchema['ui:widget'] || 'text', registry.widgets)"
     :value="value"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :type="uiSchema.widget || 'text'"
+    :type="uiSchema['ui:widget'] || 'text'"
     :onUpload="onUpload"
     :onPreview="onPreview"
     @input="value => $emit('input', value)"

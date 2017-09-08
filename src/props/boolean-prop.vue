@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="getWidget(schema, uiSchema.widget || 'checkbox', registry.widgets)"
+    :is="getWidget(schema, uiSchema['ui:widget'] || 'checkbox', registry.widgets)"
     :label="schema.title"
     :value="value"
     :required="required"
