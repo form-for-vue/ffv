@@ -1,6 +1,6 @@
 {
   "name": "ffv",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Form For Vue",
   "author": "Form For Vue",
   "main": "dist/ffv.common.js",
@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "rollup -c",
+    "build": "rollup -c --minify",
     "watch": "rollup -c --watch",
     "lint": "yon run lint:js && yon run lint:css",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
