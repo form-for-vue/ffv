@@ -8,8 +8,8 @@
     :type="uiSchema['ui:widget'] || 'text'"
     :onUpload="onUpload"
     :onPreview="onPreview"
-    @input="value => $emit('input', value)"
-    @blur="value => $emit('blur', value)"
+    @input="handleInput"
+    @blur="handleBlur"
   ></component>
 </template>
 
@@ -41,10 +41,26 @@
         default: false,
       },
       invalid: Boolean,
-      value: [String, Object],
+      value: [String, Number, Object],
       registry: Object,
       onUpload: Function,
       onPreview: Function,
     },
+
+    methods: {
+      handleInput (value) {
+        // To make required property error do it's job
+        if (value === '') {
+          value = undefined
+        }
+        this.$emit('input', value)
+      },
+      handleBlur (value) {
+        if (value === '') {
+          value = undefined
+        }
+        this.$emit('blur', value)
+      },
+    }
   }
 </script>

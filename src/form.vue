@@ -70,14 +70,12 @@
       return {
         registry: this.getRegistry(),
         errorSchema: null,
-        errors: null,
       }
     },
 
     methods: {
       validate (value) {
-        const {errors, errorSchema} = validateFormData(this.schema, value)
-        this.errors = errors
+        const {errorSchema} = validateFormData(this.schema, value)
         this.errorSchema = errorSchema
       },
       handleInput (value) {

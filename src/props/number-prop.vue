@@ -29,7 +29,7 @@
       required: Boolean,
       disabled: Boolean,
       invalid: Boolean,
-      value: String,
+      value: Number,
       registry: Object,
     },
 

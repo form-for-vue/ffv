@@ -17,11 +17,11 @@
     props: {
       label: String,
       placeholder: String,
-      value: String,
+      value: [String, Number],
       required: Boolean,
       disabled: Boolean,
       type: String,
       invalid: Boolean,
-    }
+    },
   }
 </script>
