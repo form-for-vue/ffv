@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="errors && errors.length > 0">
+    <template v-if="errors && errors.length > 0">
       <div v-for="error in errors" :key="error">{{ error }}</div>
-    </div>
+    </template>
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
@@ -18,7 +18,7 @@
     >
     </b-form-file>
     <div>
-      <b-progress :value="progressValue" variant="success" class="mt-1"></b-progress>
+      <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
     </div>
   </div>
 </template>
@@ -33,7 +33,6 @@
       disabled: Boolean,
       type: String,
       invalid: Boolean,
-      url: String,
       multiple: Boolean,
       onUpload: Function,
       onPreview: Function,
@@ -46,28 +45,33 @@
         previewMedia: null,
         progressValue: 0,
         errors: null,
+        status: 'success',
       }
     },
 
     watch: {
       media (val) {
         this.previewFile(val)
-        if(this.onUpload) {
+        if (this.onUpload) {
           this.onUpload(val, this.onProgress).then(responseData => {
             if (responseData !== false) {
               this.$emit('input', responseData)
               this.$emit('change', responseData)
             }
+          }).catch(errors => {
+            this.status = 'danger'
+            this.errors = errors
           })
         }
       },
     },
 
     mounted () {
-      if(this.onPreview) {
+      if (this.onPreview) {
         this.onPreview().then(url => {
           this.previewMedia = url
         }).catch(errors => {
+          this.status = 'danger'
           this.errors = errors
         })
       }

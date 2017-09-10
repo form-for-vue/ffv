@@ -30,6 +30,8 @@
 
     render (h, context) {
       function getWrapperWidget () {
+        // schema prop inside form tag customization causes a lot of headache
+        // disabled wrapper customization for some time :)
         if (context.props.name === 'form') {
           return WrapperWidget
         }
