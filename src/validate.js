@@ -1,4 +1,5 @@
 import Ajv from 'ajv'
+import localize from 'ajv-i18n/localize/fa'
 
 /**
  * Converts a json pointer into an array of reference tokens
@@ -77,16 +78,8 @@ export function validateFormData (schema, value) {
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
-    const errorSchema = transformErrors(ajv.errors)
-    console.log(errorSchema)
-    const errors = ajv.errors.filter(error => {
-      if (error.dataPath !== '') {
-        return error
-      }
-    }).map(error => {
-      return `${error.dataPath.replace('/', '.')} ${error.message}`
-    })
-    return {errors, errorSchema}
+    const errorSchema = transformErrors(localize(ajv.errors))
+    return {errorSchema}
   } else {
     return true
   }
