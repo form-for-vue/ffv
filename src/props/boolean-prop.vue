@@ -1,6 +1,8 @@
 <template>
   <component
-    :is="getWidget(schema, uiSchema['ui:widget'] || 'checkbox', registry.widgets)"
+    :is="getWidget(schema,
+                  uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'checkbox' : 'checkbox',
+                  registry.widgets)"
     :label="schema.title"
     :value="value"
     :required="required"
@@ -23,6 +25,8 @@
     mixins: [mixin],
 
     props: {
+      name: String,
+      label: String,
       schema: Object,
       uiSchema: Object,
       required: {

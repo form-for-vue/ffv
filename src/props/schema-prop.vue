@@ -30,6 +30,10 @@
 
     render (h, context) {
       function getWrapperWidget () {
+        if (context.props.name === 'form') {
+          return WrapperWidget
+        }
+
         const widget = context.props.wrapper
         if (widget in context.props.registry.widgets) {
           return context.props.registry.widgets[widget]
@@ -38,7 +42,7 @@
       }
 
       function getPropComponent () {
-        const prop = context.props.uiSchema['ui:prop']
+        const prop = context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['prop'] : undefined
         if (typeof prop === 'function') {
           return prop
         }
@@ -52,19 +56,23 @@
 
       function getFeedbacks () {
         const {displayFeedback} = getUiOptions(context.props.schema)
-        if (context.props.errorSchema
-          && context.props.errorSchema.errors !== undefined
-          && context.props.errorSchema.errors.length > 0
-          && displayFeedback) {
+        if (context.props.errorSchema &&
+          context.props.errorSchema.errors !== undefined &&
+          context.props.errorSchema.errors.length > 0 &&
+          displayFeedback) {
           return context.props.errorSchema.errors
         }
       }
 
       const feedbacks = getFeedbacks()
+      const required = context.props.required ||
+        (context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['required'] : undefined)
+      const disabled = context.props.disabled ||
+        (context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['disabled'] : undefined)
 
       return h(getWrapperWidget(), {
         props: {
-          wrapper: context.props.wrapper,
+          wrapper: context.props.name === 'form' ? 'complex' : context.props.wrapper,
           label: context.props.schema.title ? context.props.schema.title : context.props.name,
           classNames: context.props.uiSchema.classNames
         }
@@ -72,11 +80,12 @@
         h(getPropComponent(), {
           props: {
             name: context.props.name,
+            label: context.props.schema.title ? context.props.schema.title : context.props.name,
             schema: context.props.schema,
             uiSchema: context.props.uiSchema,
             errorSchema: context.props.errorSchema,
-            required: context.props.required || context.props.uiSchema['ui:required'],
-            disabled: context.props.disabled || context.props.uiSchema['ui:disabled'],
+            required,
+            disabled,
             invalid: feedbacks && feedbacks.length > 0,
             value: context.props.value,
             registry: context.props.registry,

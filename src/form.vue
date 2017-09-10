@@ -2,6 +2,7 @@
   <div>
     <form-widget :noHtml5Validate="noHtml5Validate" :onCustomSubmit="onSubmit">
       <schema-prop
+        name="form"
         :schema="schema"
         :uiSchema="uiSchema"
         :errorSchema="errorSchema"
@@ -9,7 +10,7 @@
         :registry="registry"
         :onUpload="onUpload"
         :onPreview="onPreview"
-        :wrapper="uiSchema['ui:wrapper'] ? uiSchema['ui:wrapper'] : wrapper"
+        :wrapper="uiSchema['ui:options'] && uiSchema['ui:options']['wrapper'] ? uiSchema['ui:options']['wrapper'] : wrapper"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>

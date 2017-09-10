@@ -1,11 +1,14 @@
 <template>
   <component
-    :is="getWidget(schema, uiSchema['ui:widget'] || 'text', registry.widgets)"
+    :is="getWidget(schema,
+                  uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'text' : 'text',
+                  registry.widgets)"
+    :label="label"
     :value="value"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :type="uiSchema['ui:widget'] || 'text'"
+    :type="uiSchema['ui:options'] ? uiSchema['ui:options']['inputType'] || 'text' : 'text'"
     :onUpload="onUpload"
     :onPreview="onPreview"
     @input="handleInput"
@@ -30,6 +33,7 @@
 
     props: {
       name: String,
+      label: String,
       schema: Object,
       uiSchema: Object,
       required: {
