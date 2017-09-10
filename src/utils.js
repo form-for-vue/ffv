@@ -34,3 +34,11 @@ export function getDefaultRegistry () {
     widgets: widgets
   }
 }
+
+export function getUiOptions (schema) {
+  if (schema.type === 'object') {
+    return {displayFeedback: false}
+  } else {
+    return {displayFeedback: true}
+  }
+}

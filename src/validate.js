@@ -21,7 +21,27 @@ function parse (pointer) {
 }
 
 /**
- * Transform errors array to errorSchema object in order to break it to related props
+ * required error messages are bound to object type, need to split them
+ * on each specific prop
+ * @param error
+ * @returns missingProperty
+ */
+function getRequiredErrorProp (error) {
+  if (error.params && error.params.missingProperty) {
+    return error.params.missingProperty
+  }
+}
+
+function addObjectProp (object, prop) {
+  if (!(prop in object)) {
+    object[prop] = {}
+  }
+
+  return object[prop]
+}
+
+/**
+ * Transform errors array to errorSchema object in order to split it to related props
  * @param errors
  * @returns {errorSchema}
  */
@@ -30,16 +50,18 @@ function transformErrors (errors) {
     return {}
   }
   return errors.reduce((errorSchema, error) => {
-    const { dataPath, message } = error
+    const {dataPath, message} = error
     const path = parse(dataPath)
     let parent = errorSchema
     path.forEach(segment => {
-      if (!(segment in parent)) {
-        parent[segment] = {}
-      }
-
-      parent = parent[segment]
+      parent = addObjectProp(parent, segment)
     })
+
+    const missingProperty = getRequiredErrorProp(error)
+    if (missingProperty) {
+      parent = addObjectProp(parent, missingProperty)
+    }
+
     if (Array.isArray(parent.errors)) {
       parent.errors = parent.errors.concat(message)
     } else {
@@ -51,11 +73,12 @@ function transformErrors (errors) {
 }
 
 export function validateFormData (schema, value) {
-  const ajv = new Ajv({ allErrors: true, jsonPointers: true })
+  const ajv = new Ajv({allErrors: true, jsonPointers: true})
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
     const errorSchema = transformErrors(ajv.errors)
+    console.log(errorSchema)
     const errors = ajv.errors.filter(error => {
       if (error.dataPath !== '') {
         return error
@@ -63,7 +86,7 @@ export function validateFormData (schema, value) {
     }).map(error => {
       return `${error.dataPath.replace('/', '.')} ${error.message}`
     })
-    return { errors, errorSchema }
+    return {errors, errorSchema}
   } else {
     return true
   }

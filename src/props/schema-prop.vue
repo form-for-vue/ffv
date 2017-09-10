@@ -1,5 +1,6 @@
 <script>
   import WrapperWidget from '@/widgets/wrapper-widget'
+  import { getUiOptions } from '@/utils'
 
   const COMPONENT_TYPES = {
     array: 'ArrayProp',
@@ -50,7 +51,11 @@
       }
 
       function getFeedbacks () {
-        if (context.props.errorSchema && context.props.errorSchema.errors !== undefined && context.props.errorSchema.errors.length > 0) {
+        const {displayFeedback} = getUiOptions(context.props.schema)
+        if (context.props.errorSchema
+          && context.props.errorSchema.errors !== undefined
+          && context.props.errorSchema.errors.length > 0
+          && displayFeedback) {
           return context.props.errorSchema.errors
         }
       }
@@ -60,7 +65,7 @@
       return h(getWrapperWidget(), {
         props: {
           wrapper: context.props.wrapper,
-          label: context.props.schema && context.props.schema.title !== undefined ? context.props.schema.title : context.props.name,
+          label: context.props.schema.title ? context.props.schema.title : context.props.name,
           classNames: context.props.uiSchema.classNames
         }
       }, [
