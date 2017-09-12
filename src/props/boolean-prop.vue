@@ -3,7 +3,7 @@
     :is="getWidget(schema,
                   uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'checkbox' : 'checkbox',
                   registry.widgets)"
-    :label="schema.title"
+    :label="uiSchema['ui:options'] && uiSchema['ui:options']['noTitle'] ? undefined : schema.title"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"

@@ -3,7 +3,7 @@
     :is="getWidget(schema,
                   uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'text' : 'text',
                   registry.widgets)"
-    :label="label"
+    :label="uiSchema['ui:options'] && uiSchema['ui:options']['noTitle'] ? undefined : label"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
