@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import localize from 'ajv-i18n/localize/fa'
+import localize_fa from 'ajv-i18n/localize/fa'
 
 /**
  * Converts a json pointer into an array of reference tokens
@@ -47,7 +47,7 @@ function addObjectProp (object, prop) {
  * @returns {errorSchema}
  */
 function transformErrors (errors) {
-  if (!errors.length) {
+  if (!(errors && errors.length)) {
     return {}
   }
   return errors.reduce((errorSchema, error) => {
@@ -78,7 +78,8 @@ export function validateFormData (schema, value) {
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
-    const errorSchema = transformErrors(localize(ajv.errors))
+    localize_fa(ajv.errors)
+    const errorSchema = transformErrors(ajv.errors)
     return {errorSchema}
   } else {
     return true
