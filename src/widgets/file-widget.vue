@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <template v-if="errors && errors.length > 0">
-      <div v-for="error in errors" :key="error">{{ error }}</div>
-    </template>
+  <wrapper-widget :class="classNames">
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
@@ -20,19 +17,31 @@
     <div>
       <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
     </div>
-  </div>
+
+    <template v-if="errors && errors.length > 0" slot="feedback">
+      <div v-for="error in errors" :key="error">{{ error }}</div>
+    </template>
+  </wrapper-widget>
 </template>
 
 <script>
+  import WrapperWidget from './wrapper-widget.vue'
+
   export default {
+    components: {
+      WrapperWidget,
+    },
+
     props: {
       label: String,
+      type: String,
       placeholder: String,
-      value: String,
       required: Boolean,
       disabled: Boolean,
-      type: String,
       invalid: Boolean,
+      value: String,
+      classNames: String,
+      feedbacks: Array,
       multiple: Boolean,
       onUpload: Function,
       onPreview: Function,

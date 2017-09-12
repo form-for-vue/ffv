@@ -10,7 +10,6 @@
         :registry="registry"
         :onUpload="onUpload"
         :onPreview="onPreview"
-        :wrapper="uiSchema['ui:options'] && uiSchema['ui:options']['wrapper'] ? uiSchema['ui:options']['wrapper'] : wrapper"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>
@@ -58,13 +57,6 @@
       props: Object,
       onUpload: Object,
       onPreview: Object,
-      wrapper: {
-        type: String,
-        default: 'complex',
-        validator (value) {
-          return ['simple', 'complex'].includes(value)
-        }
-      },
     },
 
     data () {

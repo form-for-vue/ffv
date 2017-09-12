@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <wrapper-widget :label="schema.title ? schema.title : name">
     <schema-prop
       v-for="prop in props"
       :key="prop.name"
@@ -17,11 +17,17 @@
       @input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"
       @blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"
     ></schema-prop>
-  </div>
+  </wrapper-widget>
 </template>
 
 <script>
+  import WrapperWidget from '@/widgets/wrapper-widget'
+
   export default {
+    components: {
+      WrapperWidget,
+    },
+
     props: {
       name: String,
       schema: Object,

@@ -4,10 +4,12 @@
                   uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'text' : 'text',
                   registry.widgets)"
     :label="label"
-    :value="value"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
+    :value="value"
+    :classNames="classNames"
+    :feedbacks="feedbacks"
     :type="uiSchema['ui:options'] ? uiSchema['ui:options']['inputType'] || 'text' : 'text'"
     :onUpload="onUpload"
     :onPreview="onPreview"
@@ -46,6 +48,8 @@
       },
       invalid: Boolean,
       value: [String, Number, Object],
+      classNames: String,
+      feedbacks: Array,
       registry: Object,
       onUpload: Function,
       onPreview: Function,

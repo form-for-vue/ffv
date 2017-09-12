@@ -6,8 +6,10 @@
     :uiSchema="uiSchema"
     :required="required"
     :disabled="disabled"
-    :value="value"
     :invalid="invalid"
+    :value="value"
+    :classNames="classNames"
+    :feedbacks="feedbacks"
     :registry="registry"
     @input="handleInput"
     @blur="handleBlur"
@@ -32,6 +34,8 @@
       disabled: Boolean,
       invalid: Boolean,
       value: Number,
+      classNames: String,
+      feedbacks: Array,
       registry: Object,
     },
 

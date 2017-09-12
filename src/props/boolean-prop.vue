@@ -4,10 +4,12 @@
                   uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'checkbox' : 'checkbox',
                   registry.widgets)"
     :label="schema.title"
-    :value="value"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
+    :value="value"
+    :classNames="classNames"
+    :feedbacks="feedbacks"
     @input="value => $emit('input', value)"
     @change="value => $emit('change', value)"
   ></component>
@@ -38,7 +40,12 @@
         default: false,
       },
       invalid: Boolean,
-      value: Boolean,
+      value: {
+        type: Boolean,
+        default: false,
+      },
+      classNames: String,
+      feedbacks: Array,
       registry: Object,
     },
   }

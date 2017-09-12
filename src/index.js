@@ -5,7 +5,6 @@ import {
   ObjectProp,
   SchemaProp,
   StringProp,
-  UnsupportedProp
 } from './props'
 import Form from './form.vue'
 
@@ -16,7 +15,6 @@ const components = {
   'schema-prop': SchemaProp,
   'string-prop': StringProp,
   'array-prop': ArrayProp,
-  'unsupported-prop': UnsupportedProp,
   'v-form': Form
 }
 
