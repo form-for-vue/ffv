@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :label="schema.title ? schema.title : name">
+  <wrapper-widget :label="schema.title ? schema.title : name" :classNames="classNames">
     <schema-prop
       v-for="prop in props"
       :key="prop.name"
@@ -35,6 +35,7 @@
       errorSchema: [Object, Boolean],
       required: Boolean,
       value: Object,
+      classNames: String,
       registry: Object,
       onUpload: Object,
       onPreview: Object,
