@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :class="classNames">
+  <wrapper-widget :classNames="classNames">
     <b-form-checkbox
       :checked="value"
       :required="required"

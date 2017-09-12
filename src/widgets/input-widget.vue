@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :class="classNames" :label="label">
+  <wrapper-widget :classNames="classNames" :label="label">
     <b-form-input
       :placeholder="placeholder"
       :value="value"

@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :class="classNames">
+  <wrapper-widget :classNames="classNames">
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
