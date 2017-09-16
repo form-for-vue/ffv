@@ -7,7 +7,7 @@
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :value="value"
+    :value="value ? value : defaultValue"
     :classNames="classNames"
     :feedbacks="feedbacks"
     :registry="registry"
@@ -34,6 +34,7 @@
       disabled: Boolean,
       invalid: Boolean,
       value: Number,
+      defaultValue: Number,
       classNames: String,
       feedbacks: Array,
       registry: Object,

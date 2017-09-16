@@ -7,7 +7,7 @@
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :value="value"
+    :value="value ? value : defaultValue"
     :classNames="classNames"
     :feedbacks="feedbacks"
     :type="uiSchema['ui:options'] ? uiSchema['ui:options']['inputType'] || 'text' : 'text'"
@@ -48,6 +48,7 @@
       },
       invalid: Boolean,
       value: [String, Number, Object],
+      defaultValue: [String, Number, Object],
       classNames: String,
       feedbacks: Array,
       registry: Object,

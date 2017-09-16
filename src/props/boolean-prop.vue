@@ -7,7 +7,7 @@
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :value="value"
+    :value="value ? value : defaultValue"
     :classNames="classNames"
     :feedbacks="feedbacks"
     @input="value => $emit('input', value)"
@@ -44,6 +44,7 @@
         type: Boolean,
         default: false,
       },
+      defaultValue: Boolean,
       classNames: String,
       feedbacks: Array,
       registry: Object,

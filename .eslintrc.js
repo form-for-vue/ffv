@@ -48,7 +48,7 @@ module.exports = {
         'renderError'
       ]
     }],
-    'vue/mustache-interpolation-spacing': ['error', 'always'],
+    'vue/mustache-interpolation-spacing': [2, 'always'],
     'vue/v-bind-style': 2,
     'vue/v-on-style': 2,
     'vue/no-multi-spaces': 2,
