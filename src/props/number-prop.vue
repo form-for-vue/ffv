@@ -2,6 +2,7 @@
   <string-prop
     :name="name"
     :label="label"
+    :description="description"
     :schema="schema"
     :uiSchema="uiSchema"
     :required="required"
@@ -28,6 +29,7 @@
     props: {
       name: String,
       label: String,
+      description: String,
       schema: Object,
       uiSchema: Object,
       required: Boolean,

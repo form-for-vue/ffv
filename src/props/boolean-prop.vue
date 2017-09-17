@@ -1,9 +1,8 @@
 <template>
   <component
-    :is="getWidget(schema,
-                  uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'checkbox' : 'checkbox',
-                  registry.widgets)"
-    :label="uiSchema['ui:options'] && uiSchema['ui:options']['noTitle'] ? undefined : schema.title"
+    :is="getWidget(schema, uiOptions.widget || 'checkbox', registry.widgets)"
+    :label="uiOptions.noLabel ? undefined : schema.title"
+    :description="description"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
@@ -17,6 +16,7 @@
 
 <script>
   import CheckboxWidget from '@/widgets/checkbox-widget'
+  import { getUiOptions } from '@/utils'
   import { mixin } from '@/mixins'
 
   export default {
@@ -29,6 +29,7 @@
     props: {
       name: String,
       label: String,
+      description: String,
       schema: Object,
       uiSchema: Object,
       required: {
@@ -48,6 +49,13 @@
       classNames: String,
       feedbacks: Array,
       registry: Object,
+    },
+
+    data () {
+      const uiOptions = getUiOptions(this.schema, this.uiSchema)
+      return {
+        uiOptions,
+      }
     },
   }
 </script>

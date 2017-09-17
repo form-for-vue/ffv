@@ -1,5 +1,8 @@
 <template>
-  <wrapper-widget :label="schema.title ? schema.title : name" :classNames="classNames">
+  <wrapper-widget
+    :label="schema.title ? schema.title : name"
+    :description="schema.description"
+    :classNames="classNames">
     <schema-prop
       v-for="prop in props"
       :key="prop.name"

@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :classNames="classNames" :label="label">
+  <wrapper-widget :classNames="classNames" :label="label" :description="description">
     <b-form-input
       :placeholder="placeholder"
       :value="value"
@@ -28,6 +28,7 @@
 
     props: {
       label: String,
+      description: String,
       type: String,
       placeholder: String,
       required: Boolean,

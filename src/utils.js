@@ -35,10 +35,28 @@ export function getDefaultRegistry () {
   }
 }
 
-export function getUiOptions (schema) {
+export function isObject (thing) {
+  return typeof thing === 'object' && thing !== null && !Array.isArray(thing)
+}
+
+export function getUiOptions (schema, uiSchema) {
+  const defaults = {
+    displayFeedback: true,
+  }
+
+  const uiSchemaOptions = uiSchema ? Object.keys(uiSchema)
+    .filter(key => key.indexOf('ui:') === 0)
+    .reduce((options, key) => {
+      const value = uiSchema[key]
+
+      if (key === 'ui:options' && isObject(value)) {
+        return {...options, ...value}
+      }
+    }, {}) : {}
+
   if (schema.type === 'object') {
-    return {displayFeedback: false}
+    return {...defaults, ...uiSchemaOptions, displayFeedback: false}
   } else {
-    return {displayFeedback: true}
+    return {...defaults, ...uiSchemaOptions}
   }
 }

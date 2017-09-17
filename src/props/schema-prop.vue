@@ -29,8 +29,10 @@
     },
 
     render (h, context) {
+      const uiOptions = getUiOptions(context.props.schema, context.props.uiSchema)
+
       function getPropComponent () {
-        const prop = context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['prop'] : undefined
+        const prop = uiOptions.prop || undefined
         if (typeof prop === 'function') {
           return prop
         }
@@ -43,30 +45,26 @@
       }
 
       function getFeedbacks () {
-        const {displayFeedback} = getUiOptions(context.props.schema)
         if (context.props.errorSchema &&
           context.props.errorSchema.errors !== undefined &&
           context.props.errorSchema.errors.length > 0 &&
-          displayFeedback) {
+          uiOptions.displayFeedback) {
           return context.props.errorSchema.errors
         }
       }
 
       const feedbacks = getFeedbacks()
-      const required = context.props.required ||
-        (context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['required'] : undefined)
-      const disabled = context.props.disabled ||
-        (context.props.uiSchema['ui:options'] ? context.props.uiSchema['ui:options']['disabled'] : undefined)
 
       return h(getPropComponent(), {
         props: {
           name: context.props.name,
           label: context.props.schema.title ? context.props.schema.title : context.props.name,
+          description: context.props.schema.description,
           schema: context.props.schema,
           uiSchema: context.props.uiSchema,
           errorSchema: context.props.errorSchema,
-          required,
-          disabled,
+          required: context.props.required || uiOptions.required,
+          disabled: context.props.disabled || uiOptions.disabled,
           invalid: feedbacks && feedbacks.length > 0,
           value: context.props.value,
           defaultValue: context.props.schema.defaultValue,

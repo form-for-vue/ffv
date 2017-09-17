@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :classNames="classNames">
+  <wrapper-widget :classNames="classNames" :description="description">
     <b-form-checkbox
       :checked="value"
       :required="required"
@@ -26,6 +26,7 @@
 
     props: {
       label: String,
+      description: String,
       required: Boolean,
       disabled: Boolean,
       invalid: Boolean,

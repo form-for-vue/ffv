@@ -1,16 +1,15 @@
 <template>
   <component
-    :is="getWidget(schema,
-                  uiSchema['ui:options'] ? uiSchema['ui:options']['widget'] || 'text' : 'text',
-                  registry.widgets)"
-    :label="uiSchema['ui:options'] && uiSchema['ui:options']['noTitle'] ? undefined : label"
+    :is="getWidget(schema, uiOptions.widget || 'text', registry.widgets)"
+    :label="uiOptions.noLabel ? undefined : label"
+    :description="uiOptions.noLabel ? undefined : label"
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
     :value="value ? value : defaultValue"
     :classNames="classNames"
     :feedbacks="feedbacks"
-    :type="uiSchema['ui:options'] ? uiSchema['ui:options']['inputType'] || 'text' : 'text'"
+    :type="uiOptions.inputType || 'text'"
     :onUpload="onUpload"
     :onPreview="onPreview"
     @input="handleInput"
@@ -22,6 +21,7 @@
   import FileWidget from '@/widgets/file-widget'
   import InputWidget from '@/widgets/input-widget'
   import TextareaWidget from '@/widgets/textarea-widget'
+  import { getUiOptions } from '@/utils'
   import { mixin } from '@/mixins'
 
   export default {
@@ -36,6 +36,7 @@
     props: {
       name: String,
       label: String,
+      description: String,
       schema: Object,
       uiSchema: Object,
       required: {
@@ -54,6 +55,13 @@
       registry: Object,
       onUpload: Function,
       onPreview: Function,
+    },
+
+    data () {
+      const uiOptions = getUiOptions(this.schema, this.uiSchema)
+      return {
+        uiOptions,
+      }
     },
 
     methods: {
