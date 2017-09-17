@@ -14,7 +14,9 @@
         @blur="handleBlur"
       ></schema-prop>
 
-      <slot></slot>
+      <div slot="actions">
+        <slot></slot>
+      </div>
     </form-widget>
   </div>
 </template>

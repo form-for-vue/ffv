@@ -68,7 +68,7 @@
           invalid: feedbacks && feedbacks.length > 0,
           value: context.props.value,
           defaultValue: context.props.schema.defaultValue,
-          classNames: context.props.uiSchema.classNames,
+          classNames: uiOptions.classNames,
           feedbacks,
           registry: context.props.registry,
           onUpload: context.props.onUpload,
