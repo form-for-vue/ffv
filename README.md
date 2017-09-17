@@ -17,8 +17,6 @@ npm install --save ffv
 ```js
 import Vue from 'vue'
 import Ffv from 'ffv'
-// You need a specific loader for CSS files like https://github.com/webpack/css-loader
-import 'ffv/dist/ffv.css'
 
 Vue.use(Ffv)
 ```
@@ -34,6 +32,45 @@ Vue.use(Ffv)
 <!-- From CDN -->
 <link rel="stylesheet" href="https://unpkg.com/ffv/dist/ffv.css"></link>
 <script src="https://unpkg.com/ffv"></script>
+```
+
+### Form initialization
+
+```html
+<template>
+  <v-form
+    :schema="schema"
+    v-model="value">
+  </v-form>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      schema: {
+        "type": "object",
+        "title": "Basic Form",
+        "required": [
+          "firstName",
+          "lastName",
+        ],
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "title": "First name"
+          },
+          "lastName": {
+            "type": "string",
+            "title": "Last name"
+          }
+        }
+      },
+      value: null,
+    }
+  }
+}
+</script>
 ```
 
 ## Development
