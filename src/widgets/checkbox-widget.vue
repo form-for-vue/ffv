@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :classNames="classNames" :description="description">
+  <wrapper-widget :classNames="classNames">
     <b-form-checkbox
       :checked="value"
       :required="required"
@@ -13,6 +13,10 @@
     <template slot="feedback">
       <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
     </template>
+
+    <p slot="description" style="text-align: justify;" class="text-muted">
+      {{ description }}
+    </p>
   </wrapper-widget>
 </template>
 

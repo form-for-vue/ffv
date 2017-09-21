@@ -17,16 +17,24 @@
         }
       }
 
+      function showDescription () {
+        if((context.slots().description || []).length > 0) {
+          return h('template', {
+            slot: 'description'
+          }, context.slots().description)
+        }
+      }
+
       return h(
         'b-form-group', {
           'class': context.props.classNames,
           props: {
             label: context.props.label,
-            description: context.props.description,
           },
         }, [
           context.slots().default,
           showFeedbacks(),
+          showDescription(),
         ]
       )
     },

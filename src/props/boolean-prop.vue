@@ -6,7 +6,7 @@
     :required="required"
     :disabled="disabled"
     :invalid="invalid"
-    :value="value ? value : defaultValue"
+    :value="value == true || value == false ? value : defaultValue"
     :classNames="classNames"
     :feedbacks="feedbacks"
     @input="value => $emit('input', value)"

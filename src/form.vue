@@ -69,8 +69,8 @@
     },
 
     methods: {
-      validate (value) {
-        const {errorSchema} = validateFormData(this.schema, value)
+      validate () {
+        const {errorSchema} = validateFormData(this.schema, this.value)
         this.errorSchema = errorSchema
       },
       handleInput (value) {
