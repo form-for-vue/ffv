@@ -1,6 +1,52 @@
 import * as props from './props'
 import * as widgets from './widgets'
 
+const widgetMap = {
+  boolean: {
+    checkbox: 'CheckboxWidget'
+  },
+  string: {
+    text: 'InputWidget',
+    password: 'InputWidget',
+    textarea: 'TextareaWidget',
+    file: 'FileWidget'
+  },
+  number: {
+    text: 'InputWidget'
+  },
+  integer: {
+    text: 'InputWidget'
+  },
+  array: {
+    select: 'SelectWidget'
+  },
+}
+
+/**
+ * get widget from core widgets or custom widgets passed by user, supported for specified schema type
+ * @param schema
+ * @param widget
+ * @param registeredWidgets
+ * @returns widget
+ */
+export function getWidget (schema, widget, registeredWidgets = {}) {
+  const {type} = schema
+
+  if (registeredWidgets.hasOwnProperty(widget)) {
+    return registeredWidgets[widget]
+  }
+
+  if (!widgetMap.hasOwnProperty(type)) {
+    throw new Error(`No widget for type "${type}"`)
+  }
+
+  if (widgetMap[type].hasOwnProperty(widget)) {
+    return widgets[widgetMap[type][widget]] // eslint-disable-line
+  }
+
+  throw new Error(`No widget "${widget}" for type "${type}"`)
+}
+
 export function asNumber (value) {
   if (value === '') {
     return undefined
@@ -39,9 +85,10 @@ export function isObject (thing) {
   return typeof thing === 'object' && thing !== null && !Array.isArray(thing)
 }
 
-export function getUiOptions (schema, uiSchema) {
+export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
   const defaults = {
-    displayFeedback: true,
+    displayErrors: true,
+    displayLabel: true,
   }
 
   const uiSchemaOptions = uiSchema ? Object.keys(uiSchema)
@@ -54,9 +101,26 @@ export function getUiOptions (schema, uiSchema) {
       }
     }, {}) : {}
 
+  const schemaOptions = schema ? {
+    label: schema.title,
+    description: schema.description,
+    defaultValue: schema.defaultValue,
+  } : {}
+
   if (schema.type === 'object') {
-    return {...defaults, ...uiSchemaOptions, displayFeedback: false}
+    return {...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions, displayErrors: false}
   } else {
-    return {...defaults, ...uiSchemaOptions}
+    return {...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions}
   }
+}
+
+export function getIdSchema ({schema, idSchema = {$id: 'root'}, name, id}) {
+  if (schema.type !== 'object') {
+    if(id) {
+      return {$id: id}
+    } else {
+      return idSchema[name] || idSchema
+    }
+  }
+  return {$id: idSchema.$id + '_' + name}
 }

@@ -1,27 +1,17 @@
 <template>
-  <wrapper-widget :id="id" :classNames="classNames">
-    <b-form-checkbox
-      :checked="value"
+  <wrapper-widget :classNames="classNames" :description="description">
+    <b-form-radio
+      :value="value"
       :required="required"
       :disabled="disabled"
+      :options="options"
       :invalid="invalid ? 'invalid' : 'null'"
       @change="handleChange"
     >
-      <template v-if="displayLabel">
-        {{ label }}
-      </template>
-    </b-form-checkbox>
-
-    <p
-      v-if="displayLabel"
-      slot="description"
-      style="text-align: justify;"
-      class="text-muted">
-      {{ description }}
-    </p>
+    </b-form-radio>
 
     <template slot="feedback">
-      <div v-for="error in errors" :key="error">{{ error }}</div>
+      <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
     </template>
   </wrapper-widget>
 </template>
@@ -35,17 +25,14 @@
     },
 
     props: {
-      id: String,
-      errors: Array,
-      value: Boolean,
-      required: Boolean,
-      invalid: Boolean,
       label: String,
       description: String,
-      // uiOptions
+      required: Boolean,
       disabled: Boolean,
+      invalid: Boolean,
+      value: Boolean,
       classNames: String,
-      displayLabel: Boolean,
+      feedbacks: Array,
     },
 
     methods: {

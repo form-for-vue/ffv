@@ -1,6 +1,6 @@
 <script>
+  import { getIdSchema, getUiOptions } from '@/utils'
   import UnsupportedProp from '@/props/unsupported-prop'
-  import { getUiOptions } from '@/utils'
 
   const COMPONENT_TYPES = {
     array: 'ArrayProp',
@@ -20,19 +20,33 @@
       uiSchema: Object,
       errorSchema: [Object, Boolean],
       required: Boolean,
-      disabled: Boolean,
       value: null,
-      defaultValue: null,
       registry: Object,
       onUpload: [Object, Function],
       onPreview: [Object, Function],
     },
 
     render (h, context) {
-      const uiOptions = getUiOptions(context.props.schema, context.props.uiSchema)
+      const errors = () => {
+        if (context.props.errorSchema &&
+          context.props.errorSchema.errors !== undefined &&
+          context.props.errorSchema.errors.length > 0) {
+          return context.props.errorSchema.errors
+        }
+      }
+
+      const uiOptions = getUiOptions(
+        context.props.schema,
+        context.props.uiSchema, {
+          required: context.props.required,
+          invalid: errors && errors.length > 0,
+          onUpload: context.props.onUpload,
+          onPreview: context.props.onPreview
+        }
+      )
 
       function getPropComponent () {
-        const prop = uiOptions.prop || undefined
+        const prop = uiOptions.prop
         if (typeof prop === 'function') {
           return prop
         }
@@ -44,37 +58,24 @@
           ? context.props.registry.props[componentName].name : UnsupportedProp.name
       }
 
-      function getFeedbacks () {
-        if (context.props.errorSchema &&
-          context.props.errorSchema.errors !== undefined &&
-          context.props.errorSchema.errors.length > 0 &&
-          uiOptions.displayFeedback) {
-          return context.props.errorSchema.errors
-        }
-      }
-
-      const feedbacks = getFeedbacks()
-
       return h(getPropComponent(), {
         props: {
           name: context.props.name,
-          label: context.props.schema.title ? context.props.schema.title : context.props.name,
-          description: context.props.schema.description,
           schema: context.props.schema,
           uiSchema: context.props.uiSchema,
           errorSchema: context.props.errorSchema,
-          required: context.props.required || uiOptions.required,
-          disabled: context.props.disabled || uiOptions.disabled,
-          invalid: feedbacks && feedbacks.length > 0,
+          idSchema: getIdSchema({
+            schema: context.props.schema,
+            idSchema: context.props.idSchema,
+            name: context.props.name,
+            id: uiOptions.$id
+          }),
+          errors: uiOptions.displayFeedback ? errors : undefined,
           value: context.props.value,
-          defaultValue: context.props.schema.defaultValue,
-          classNames: uiOptions.classNames,
-          feedbacks,
           registry: context.props.registry,
-          onUpload: context.props.onUpload,
-          onPreview: context.props.onPreview,
+          uiOptions,
         },
-        on: context.data.on,
+        on: context.listeners,
       })
     },
   }

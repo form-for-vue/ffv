@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :classNames="classNames" :label="label">
+  <wrapper-widget :id="id" :classNames="classNames">
     <b-form-textarea
       :placeholder="placeholder"
       :value="value"
@@ -12,8 +12,18 @@
     >
     </b-form-textarea>
 
+    <div v-if="displayLabel">{{ label }}</div>
+
+    <p
+      v-if="displayLabel"
+      slot="description"
+      style="text-align: justify;"
+      class="text-muted">
+      {{ description }}
+    </p>
+
     <template slot="feedback">
-      <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
+      <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
   </wrapper-widget>
 </template>
@@ -27,14 +37,18 @@
     },
 
     props: {
-      label: String,
-      placeholder: String,
+      id: String,
+      errors: Array,
+      value: [String, Number],
       required: Boolean,
-      disabled: Boolean,
       invalid: Boolean,
-      value: String,
+      label: String,
+      description: String,
+      // uiOptions
+      disabled: Boolean,
       classNames: String,
-      feedbacks: Array,
+      displayLabel: Boolean,
+      placeholder: String,
     }
   }
 </script>

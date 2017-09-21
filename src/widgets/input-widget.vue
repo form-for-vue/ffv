@@ -1,19 +1,29 @@
 <template>
-  <wrapper-widget :classNames="classNames" :label="label" :description="description">
+  <wrapper-widget :id="id" :classNames="classNames">
     <b-form-input
       :placeholder="placeholder"
       :value="value"
       :required="required"
       :disabled="disabled"
-      :type="type"
+      :type="inputType"
       :state="invalid ? 'invalid' : 'null'"
       @input="value => $emit('input', value)"
       @change="value => $emit('blur', value)"
     >
     </b-form-input>
 
+    <div v-if="displayLabel">{{ label }}</div>
+
+    <p
+      v-if="displayLabel"
+      slot="description"
+      style="text-align: justify;"
+      class="text-muted">
+      {{ description }}
+    </p>
+
     <template slot="feedback">
-      <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
+      <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
   </wrapper-widget>
 </template>
@@ -27,16 +37,19 @@
     },
 
     props: {
+      id: String,
+      errors: Array,
+      value: [String, Number],
+      required: Boolean,
+      invalid: Boolean,
       label: String,
       description: String,
-      type: String,
-      placeholder: String,
-      required: Boolean,
+      // uiOptions
       disabled: Boolean,
-      invalid: Boolean,
-      value: [String, Number],
       classNames: String,
-      feedbacks: Array,
+      displayLabel: Boolean,
+      inputType: String,
+      placeholder: String,
     },
   }
 </script>

@@ -95,7 +95,7 @@
           props: {...props, ...this.props},
           widgets: {...widgets, ...this.widgets},
         }
-      }
+      },
     }
   }
 </script>

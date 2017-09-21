@@ -1,83 +1,49 @@
-<template>
-  <component
-    :is="getWidget(schema, uiOptions.widget || 'text', registry.widgets)"
-    :label="uiOptions.noLabel ? undefined : label"
-    :description="uiOptions.noLabel ? undefined : label"
-    :required="required"
-    :disabled="disabled"
-    :invalid="invalid"
-    :value="value ? value : defaultValue"
-    :classNames="classNames"
-    :feedbacks="feedbacks"
-    :type="uiOptions.inputType || 'text'"
-    :onUpload="onUpload"
-    :onPreview="onPreview"
-    @input="handleInput"
-    @blur="handleBlur"
-  ></component>
-</template>
-
 <script>
-  import FileWidget from '@/widgets/file-widget'
-  import InputWidget from '@/widgets/input-widget'
-  import TextareaWidget from '@/widgets/textarea-widget'
-  import { getUiOptions } from '@/utils'
-  import { mixin } from '@/mixins'
+  import { getWidget } from '@/utils'
 
   export default {
-    components: {
-      InputWidget,
-      TextareaWidget,
-      FileWidget,
-    },
-
-    mixins: [mixin],
+    functional: true,
 
     props: {
       name: String,
-      label: String,
-      description: String,
       schema: Object,
       uiSchema: Object,
-      required: {
-        type: Boolean,
-        default: false,
-      },
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-      invalid: Boolean,
+      idSchema: Object,
+      errors: Array,
       value: [String, Number, Object],
-      defaultValue: [String, Number, Object],
-      classNames: String,
-      feedbacks: Array,
       registry: Object,
-      onUpload: Function,
-      onPreview: Function,
+      uiOptions: Object,
     },
 
-    data () {
-      const uiOptions = getUiOptions(this.schema, this.uiSchema)
-      return {
-        uiOptions,
-      }
-    },
+//    methods: {
+//      handleInput (value) {
+//        // To make required property error do it's job
+//        if (value === '') {
+//          value = undefined
+//        }
+//        this.$emit('input', value)
+//      },
+//      handleBlur (value) {
+//        if (value === '') {
+//          value = undefined
+//        }
+//        this.$emit('blur', value)
+//      },
+//    },
 
-    methods: {
-      handleInput (value) {
-        // To make required property error do it's job
-        if (value === '') {
-          value = undefined
-        }
-        this.$emit('input', value)
-      },
-      handleBlur (value) {
-        if (value === '') {
-          value = undefined
-        }
-        this.$emit('blur', value)
-      },
+    render (h, context) {
+      console.log(context.props.idSchema)
+      return h(getWidget(context.props.schema,
+        context.props.uiOptions.widget || 'text',
+        context.props.registry.widgets), {
+          props: {
+            id: context.props.idSchema.$id,
+            errors: context.props.errors,
+            value: context.props.value ? context.props.value : context.props.uiOptions.defaultValue,
+            ...context.props.uiOptions,
+          },
+          on: context.listeners,
+        })
     }
   }
 </script>

@@ -33,15 +33,14 @@
     },
 
     props: {
+      value: String,
       label: String,
       type: String,
       placeholder: String,
       required: Boolean,
       disabled: Boolean,
       invalid: Boolean,
-      value: String,
       classNames: String,
-      feedbacks: Array,
       multiple: Boolean,
       onUpload: Function,
       onPreview: Function,

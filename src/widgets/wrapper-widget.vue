@@ -3,17 +3,15 @@
     functional: true,
 
     props: {
-      label: String,
       classNames: String,
-      description: String,
     },
 
     render (h, context) {
-      function showFeedbacks () {
-        if ((context.slots().feedback || []).length > 0) {
+      function showLabel () {
+        if ((context.slots().label || []).length > 0) {
           return h('template', {
-            slot: 'feedback'
-          }, context.slots().feedback)
+            slot: 'label'
+          }, context.slots().label)
         }
       }
 
@@ -25,16 +23,22 @@
         }
       }
 
+      function showFeedbacks () {
+        if ((context.slots().feedback || []).length > 0) {
+          return h('template', {
+            slot: 'feedback'
+          }, context.slots().feedback)
+        }
+      }
+
       return h(
         'b-form-group', {
           'class': context.props.classNames,
-          props: {
-            label: context.props.label,
-          },
         }, [
           context.slots().default,
-          showFeedbacks(),
+          showLabel(),
           showDescription(),
+          showFeedbacks(),
         ]
       )
     },

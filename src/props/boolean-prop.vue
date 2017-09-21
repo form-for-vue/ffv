@@ -1,61 +1,47 @@
-<template>
-  <component
-    :is="getWidget(schema, uiOptions.widget || 'checkbox', registry.widgets)"
-    :label="uiOptions.noLabel ? undefined : schema.title"
-    :description="description"
-    :required="required"
-    :disabled="disabled"
-    :invalid="invalid"
-    :value="value == true || value == false ? value : defaultValue"
-    :classNames="classNames"
-    :feedbacks="feedbacks"
-    @input="value => $emit('input', value)"
-    @change="value => $emit('change', value)"
-  ></component>
-</template>
-
 <script>
-  import CheckboxWidget from '@/widgets/checkbox-widget'
-  import { getUiOptions } from '@/utils'
-  import { mixin } from '@/mixins'
+  import { getWidget } from '@/utils'
 
   export default {
-    components: {
-      CheckboxWidget
-    },
-
-    mixins: [mixin],
+    functional: true,
 
     props: {
       name: String,
-      label: String,
-      description: String,
       schema: Object,
       uiSchema: Object,
-      required: {
-        type: Boolean,
-        default: false,
-      },
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-      invalid: Boolean,
+      idSchema: Object,
+      errors: Array,
       value: {
         type: Boolean,
         default: false,
       },
-      defaultValue: Boolean,
-      classNames: String,
-      feedbacks: Array,
       registry: Object,
+      uiOptions: Object,
     },
 
-    data () {
-      const uiOptions = getUiOptions(this.schema, this.uiSchema)
-      return {
-        uiOptions,
+    methods: {
+      optionsList (schema) {
+        if (schema.enum && schema.enumNames) {
+          return schema.enum.map((value, i) => {
+            const label = (schema.enumNames && schema.enumNames[i]) || String(value)
+            return {label, value}
+          })
+        }
       }
     },
+
+    render (h, context) {
+      const value = context.props.value === true || context.props.value === false ? context.props.value : context.props.uiOptions.defaultValue
+      return h(getWidget(context.props.schema,
+        context.props.uiOptions.widget || 'checkbox',
+        context.props.registry.widgets), {
+          props: {
+            id: context.props.idSchema.$id,
+            errors: context.props.errors,
+            value,
+            ...context.props.uiOptions,
+          },
+          on: context.listeners,
+        })
+    }
   }
 </script>
