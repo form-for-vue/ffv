@@ -12,7 +12,7 @@
     >
     </b-form-textarea>
 
-    <div v-if="displayLabel">{{ label }}</div>
+    <div v-if="displayLabel" slot="label">{{ label }}</div>
 
     <p
       v-if="displayLabel"
@@ -32,6 +32,8 @@
   import WrapperWidget from './wrapper-widget.vue'
 
   export default {
+    name: 'textarea-widget',
+
     components: {
       WrapperWidget,
     },

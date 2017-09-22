@@ -30,6 +30,8 @@
   import WrapperWidget from './wrapper-widget.vue'
 
   export default {
+    name: 'checkbox-widget',
+
     components: {
       WrapperWidget,
     },

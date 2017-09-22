@@ -1,28 +1,3 @@
-<!--<template>-->
-  <!--<wrapper-widget-->
-    <!--:label="schema.title ? schema.title : name"-->
-    <!--:description="schema.description"-->
-    <!--:classNames="classNames">-->
-    <!--<schema-prop-->
-      <!--v-for="prop in props"-->
-      <!--:key="prop.name"-->
-      <!--:name="prop.name"-->
-      <!--:schema="prop.schema"-->
-      <!--:uiSchema="prop.uiSchema"-->
-      <!--:errorSchema="prop.errorSchema"-->
-      <!--:required="isRequired(prop.name)"-->
-      <!--:disabled="prop.uiSchema[prop.name]"-->
-      <!--:value="prop.value"-->
-      <!--:registry="registry"-->
-      <!--:onUpload="prop.onUpload"-->
-      <!--:onPreview="prop.onPreview"-->
-      <!--:wrapper="wrapper"-->
-      <!--@input="propVal => $emit('input', Object.assign({}, value, { [prop.name]: propVal }))"-->
-      <!--@blur="propVal => $emit('blur', Object.assign({}, value, { [prop.name]: propVal }))"-->
-    <!--&gt;</schema-prop>-->
-  <!--</wrapper-widget>-->
-<!--</template>-->
-
 <script>
   import SchemaProp from './schema-prop.vue'
   import WrapperWidget from '@/widgets/wrapper-widget'
@@ -42,7 +17,6 @@
     computed: {
       props () {
         const idSchema = this.getPropsIdSchema()
-        console.log(idSchema)
         return Object.keys(this.schema.properties).map(propName => {
           const propValue = (this.value || {})[propName]
           const propSchema = this.schema.properties[propName]
@@ -81,8 +55,9 @@
         this.$emit('input', value)
       },
       getPropsIdSchema () {
-        return Object.keys(this.schema.properties).reduce((props, propName)=> {
-          return {[propName]: this.idSchema.$id + '_' + propName}
+        return Object.keys(this.schema.properties).reduce((props, propName) => {
+          props[propName] = {$id: this.idSchema.$id + '_' + propName}
+          return props
         }, {})
       },
       isRequired (name) {
@@ -94,33 +69,34 @@
 
     render (h) {
       return h(WrapperWidget, {
-        props: {
-          ...this.uiOptions,
-        }
-      }, this.props.map(prop => {
-        return h(SchemaProp, {
           props: {
-            name: prop.name,
-            schema: prop.schema,
-            uiSchema: prop.uiSchema,
-            errorSchema: prop.errorSchema,
-            idSchema: prop.idSchema,
-            required: this.isRequired(prop.name),
-            value: prop.value,
-            registry: this.registry,
-            onUpload: prop.onUpload,
-            onPreview: prop.onPreview,
-          },
-          on: {
-            input: propVal => {
-              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
-            },
-            blur: propVal => {
-              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-            }
+            id: this.idSchema.$id,
+            ...this.uiOptions,
           }
+        }, this.props.map(prop => {
+          return h(SchemaProp, {
+            props: {
+              name: prop.name,
+              schema: prop.schema,
+              uiSchema: prop.uiSchema,
+              errorSchema: prop.errorSchema,
+              idSchema: prop.idSchema,
+              required: this.isRequired(prop.name),
+              value: prop.value,
+              registry: this.registry,
+              onUpload: prop.onUpload,
+              onPreview: prop.onPreview,
+            },
+            on: {
+              input: propVal => {
+                this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
+              },
+              blur: propVal => {
+                this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
+              }
+            }
+          })
         })
-      })
       )
     },
   }

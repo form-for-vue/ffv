@@ -32,7 +32,6 @@
 //    },
 
     render (h, context) {
-      console.log(context.props.idSchema)
       return h(getWidget(context.props.schema,
         context.props.uiOptions.widget || 'text',
         context.props.registry.widgets), {

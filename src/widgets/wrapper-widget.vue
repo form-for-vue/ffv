@@ -3,6 +3,7 @@
     functional: true,
 
     props: {
+      id: String,
       classNames: String,
     },
 
@@ -34,6 +35,9 @@
       return h(
         'b-form-group', {
           'class': context.props.classNames,
+          attrs: {
+            id: context.props.id,
+          },
         }, [
           context.slots().default,
           showLabel(),

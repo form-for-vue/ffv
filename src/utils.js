@@ -114,13 +114,10 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
   }
 }
 
-export function getIdSchema ({schema, idSchema = {$id: 'root'}, name, id}) {
-  if (schema.type !== 'object') {
-    if(id) {
-      return {$id: id}
-    } else {
-      return idSchema[name] || idSchema
-    }
+export function getIdSchema ({idSchema, id}) {
+  if (id) {
+    return {$id: id}
+  } else {
+    return idSchema || {$id: 'root'}
   }
-  return {$id: idSchema.$id + '_' + name}
 }

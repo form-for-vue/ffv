@@ -18,7 +18,7 @@
       <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
     </div>
 
-    <template v-if="errors && errors.length > 0" slot="feedback">
+    <template slot="feedback">
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
   </wrapper-widget>
@@ -28,6 +28,8 @@
   import WrapperWidget from './wrapper-widget.vue'
 
   export default {
+    name: 'file-widget',
+
     components: {
       WrapperWidget,
     },

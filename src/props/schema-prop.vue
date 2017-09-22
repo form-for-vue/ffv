@@ -19,6 +19,7 @@
       schema: Object,
       uiSchema: Object,
       errorSchema: [Object, Boolean],
+      idSchema: Object,
       required: Boolean,
       value: null,
       registry: Object,
@@ -27,12 +28,11 @@
     },
 
     render (h, context) {
-      const errors = () => {
-        if (context.props.errorSchema &&
-          context.props.errorSchema.errors !== undefined &&
-          context.props.errorSchema.errors.length > 0) {
-          return context.props.errorSchema.errors
-        }
+      let errors
+      if (context.props.errorSchema &&
+        context.props.errorSchema.errors !== undefined &&
+        context.props.errorSchema.errors.length > 0) {
+        errors = context.props.errorSchema.errors
       }
 
       const uiOptions = getUiOptions(
@@ -65,12 +65,10 @@
           uiSchema: context.props.uiSchema,
           errorSchema: context.props.errorSchema,
           idSchema: getIdSchema({
-            schema: context.props.schema,
             idSchema: context.props.idSchema,
-            name: context.props.name,
             id: uiOptions.$id
           }),
-          errors: uiOptions.displayFeedback ? errors : undefined,
+          errors: uiOptions.displayErrors ? errors : undefined,
           value: context.props.value,
           registry: context.props.registry,
           uiOptions,
