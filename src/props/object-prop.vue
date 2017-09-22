@@ -69,34 +69,34 @@
 
     render (h) {
       return h(WrapperWidget, {
+        props: {
+          id: this.idSchema.$id,
+          ...this.uiOptions,
+        }
+      }, this.props.map(prop => {
+        return h(SchemaProp, {
           props: {
-            id: this.idSchema.$id,
-            ...this.uiOptions,
-          }
-        }, this.props.map(prop => {
-          return h(SchemaProp, {
-            props: {
-              name: prop.name,
-              schema: prop.schema,
-              uiSchema: prop.uiSchema,
-              errorSchema: prop.errorSchema,
-              idSchema: prop.idSchema,
-              required: this.isRequired(prop.name),
-              value: prop.value,
-              registry: this.registry,
-              onUpload: prop.onUpload,
-              onPreview: prop.onPreview,
+            name: prop.name,
+            schema: prop.schema,
+            uiSchema: prop.uiSchema,
+            errorSchema: prop.errorSchema,
+            idSchema: prop.idSchema,
+            required: this.isRequired(prop.name),
+            value: prop.value,
+            registry: this.registry,
+            onUpload: prop.onUpload,
+            onPreview: prop.onPreview,
+          },
+          on: {
+            input: propVal => {
+              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
             },
-            on: {
-              input: propVal => {
-                this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
-              },
-              blur: propVal => {
-                this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-              }
+            blur: propVal => {
+              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
             }
-          })
+          }
         })
+      })
       )
     },
   }

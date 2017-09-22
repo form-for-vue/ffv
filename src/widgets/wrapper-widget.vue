@@ -4,6 +4,8 @@
 
     props: {
       id: String,
+      label: String,
+      description: String,
       classNames: String,
     },
 
@@ -37,6 +39,10 @@
           'class': context.props.classNames,
           attrs: {
             id: context.props.id,
+          },
+          props: {
+            label: context.props.label,
+            description: context.props.description,
           },
         }, [
           context.slots().default,
