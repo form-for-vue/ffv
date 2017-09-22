@@ -71,7 +71,6 @@
       return h(WrapperWidget, {
         props: {
           id: this.idSchema.$id,
-          ...this.uiOptions,
         }
       }, this.props.map(prop => {
         return h(SchemaProp, {
@@ -96,7 +95,20 @@
             }
           }
         })
-      })
+      }).concat([
+        h('div', {
+          attrs: {
+            id: this.idSchema.$id + '_label'
+          },
+          slot: 'label'
+        }, this.uiOptions.label),
+        h('div', {
+          attrs: {
+            id: this.idSchema.$id + '_description'
+          },
+          slot: 'description'
+        }, this.uiOptions.description)
+      ])
       )
     },
   }
