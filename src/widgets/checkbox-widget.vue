@@ -7,17 +7,15 @@
       :invalid="invalid ? 'invalid' : 'null'"
       @change="handleChange"
     >
-      <template v-if="displayLabel">
-        {{ label }}
-      </template>
+      <div v-if="displayLabel" v-html="label"></div>
     </b-form-checkbox>
 
     <p
       v-if="displayLabel"
       slot="description"
       style="text-align: justify;"
-      class="text-muted">
-      {{ description }}
+      class="text-muted"
+      v-html="description">
     </p>
 
     <template slot="feedback">

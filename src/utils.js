@@ -118,6 +118,6 @@ export function getIdSchema ({idSchema, id}) {
   if (id) {
     return {$id: id}
   } else {
-    return idSchema || {$id: 'root'}
+    return idSchema || {$id: 'ffv-root'}
   }
 }

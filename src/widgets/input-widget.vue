@@ -12,14 +12,14 @@
     >
     </b-form-input>
 
-    <div v-if="displayLabel" slot="label">{{ label }}</div>
+    <div v-if="displayLabel" slot="label" v-html="label"></div>
 
     <p
       v-if="displayLabel"
       slot="description"
       style="text-align: justify;"
-      class="text-muted">
-      {{ description }}
+      class="text-muted"
+      v-html="description">
     </p>
 
     <template slot="feedback">
