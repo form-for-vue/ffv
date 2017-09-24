@@ -69,8 +69,11 @@
     },
 
     methods: {
-      validate () {
-        const {errorSchema} = validateFormData(this.schema, this.value)
+      validateAll () {
+        this.validate({allErrors: true})
+      },
+      validate (options) {
+        const {errorSchema} = validateFormData(this.schema, this.value, options)
         this.errorSchema = errorSchema
       },
       handleInput (value) {

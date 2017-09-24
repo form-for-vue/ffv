@@ -63,23 +63,43 @@ function transformErrors (errors) {
       parent = addObjectProp(parent, missingProperty)
     }
 
-    if (Array.isArray(parent.errors)) {
-      parent.errors = parent.errors.concat(message)
+    if (Array.isArray(parent._errors)) {
+      parent._errors = parent._errors.concat(message)
     } else {
-      parent.errors = [message]
+      parent._errors = [message]
     }
 
     return errorSchema
   }, {})
 }
 
-export function validateFormData (schema, value) {
+/**
+ * show errors of existing value props
+ * if value: {prop1: {...}} and errorSchema: {prop1: {...}, prop2: {...}}
+ * then reducedErrorSchema will be {prop1: {...}}
+ * @param errorSchema
+ * @param value
+ * @returns reducedErrorSchema
+ */
+function showExistingValueErrors (errorSchema, value) {
+  return Object.keys(errorSchema).filter((prop) => {
+    return value.hasOwnProperty(prop) && !(value[prop] === undefined || value[prop] === null)
+  }).reduce((reducedErrorSchema, prop) => {
+    reducedErrorSchema[prop] = errorSchema[prop]
+    return reducedErrorSchema
+  }, {})
+}
+
+export function validateFormData (schema, value, options) {
   const ajv = new Ajv({allErrors: true, jsonPointers: true})
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
     localize_fa(ajv.errors)
-    const errorSchema = transformErrors(ajv.errors)
+    let errorSchema = transformErrors(ajv.errors)
+    if (!options.allErrors) {
+      errorSchema = showExistingValueErrors(errorSchema, value)
+    }
     return {errorSchema}
   } else {
     return true

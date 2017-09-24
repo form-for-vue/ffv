@@ -30,9 +30,9 @@
     render (h, context) {
       let errors
       if (context.props.errorSchema &&
-        context.props.errorSchema.errors !== undefined &&
-        context.props.errorSchema.errors.length > 0) {
-        errors = context.props.errorSchema.errors
+        context.props.errorSchema._errors !== undefined &&
+        context.props.errorSchema._errors.length > 0) {
+        errors = context.props.errorSchema._errors
       }
 
       const uiOptions = getUiOptions(
