@@ -97,7 +97,7 @@ export function validateFormData (schema, value, options) {
   if (!valid) {
     localize_fa(ajv.errors)
     let errorSchema = transformErrors(ajv.errors)
-    if (!options.allErrors) {
+    if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
     }
     return {errorSchema}
