@@ -19,6 +19,7 @@
     </div>
 
     <template slot="feedback">
+      <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
   </wrapper-widget>
@@ -35,14 +36,20 @@
     },
 
     props: {
+      id: String,
+      errors: Array,
       value: String,
-      label: String,
-      type: String,
-      placeholder: String,
       required: Boolean,
-      disabled: Boolean,
       invalid: Boolean,
+      label: String,
+      description: String,
+      // uiOptions
+      disabled: Boolean,
       classNames: String,
+      displayLabel: Boolean,
+      inputType: String,
+      placeholder: String,
+      // file widget uiOptions
       multiple: Boolean,
       onUpload: Function,
       onPreview: Function,
@@ -54,7 +61,7 @@
         mediaSrc: null,
         previewMedia: null,
         progressValue: 0,
-        errors: null,
+        feedbacks: null,
         status: 'success',
       }
     },
@@ -70,7 +77,7 @@
             }
           }).catch(errors => {
             this.status = 'danger'
-            this.errors = errors
+            this.feedbacks = errors
           })
         }
       },
@@ -82,7 +89,7 @@
           this.previewMedia = url
         }).catch(errors => {
           this.status = 'danger'
-          this.errors = errors
+          this.feedbacks = errors
         })
       }
     },
