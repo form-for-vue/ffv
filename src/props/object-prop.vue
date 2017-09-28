@@ -1,6 +1,6 @@
 <script>
+  import { getObjectPropsIdSchema, getWidget } from '@/utils'
   import SchemaProp from './schema-prop.vue'
-  import { getWidget } from '@/utils'
 
   export default {
     props: {
@@ -16,7 +16,7 @@
 
     computed: {
       props () {
-        const idSchema = this.getPropsIdSchema()
+        const idSchema = getObjectPropsIdSchema(this.schema, this.idSchema)
         return Object.keys(this.schema.properties).map(propName => {
           const propValue = (this.value || {})[propName]
           const propSchema = this.schema.properties[propName]
@@ -53,12 +53,6 @@
           }
         })
         this.$emit('input', value)
-      },
-      getPropsIdSchema () {
-        return Object.keys(this.schema.properties).reduce((props, propName) => {
-          props[propName] = {$id: this.idSchema.$id + '_' + propName}
-          return props
-        }, {})
       },
       isRequired (name) {
         return (

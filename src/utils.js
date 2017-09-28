@@ -1,5 +1,5 @@
-import * as props from './props'
-import * as widgets from './widgets'
+import * as Props from './props'
+import * as Widgets from './widgets'
 
 const widgetMap = {
   object: {
@@ -46,7 +46,7 @@ export function getWidget (schema, widget, registeredWidgets = {}) {
 
   if (widgetMap[type].hasOwnProperty(widget)) {
     // some internal widgets are external so we will check registeredWidgets to find them :)
-    return widgets[widgetMap[type][widget]] || registeredWidgets[widgetMap[type][widget]] // eslint-disable-line
+    return Widgets[widgetMap[type][widget]] || registeredWidgets[widgetMap[type][widget]] // eslint-disable-line
   }
 
   throw new Error(`No widget "${widget}" for type "${type}"`)
@@ -81,8 +81,8 @@ export function asNumber (value) {
 
 export function getDefaultRegistry () {
   return {
-    props: props,
-    widgets: widgets
+    props: Props,
+    widgets: Widgets,
   }
 }
 
@@ -125,4 +125,11 @@ export function getIdSchema ({idSchema, id}) {
   } else {
     return idSchema || {$id: 'ffv-root'}
   }
+}
+
+export function getObjectPropsIdSchema (schema, idSchema) {
+  return Object.keys(schema.properties).reduce((props, propName) => {
+    props[propName] = {$id: idSchema.$id + '__' + propName}
+    return props
+  }, {})
 }
