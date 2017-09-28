@@ -1,8 +1,8 @@
 {
   "name": "ffv",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Form For Vue",
-  "author": "Form For Vue",
+  "author": "Siavash Kavousi",
   "main": "dist/ffv.common.js",
   "module": "dist/ffv.esm.js",
   "browser": "dist/ffv.js",
