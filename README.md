@@ -73,6 +73,44 @@ export default {
 </script>
 ```
 
+### UiSchema
+uiSchema for jsonSchema is just like what css is for HTML. We use it to instruct 
+ffv how we want our form to be seen. To customize each prop pass available options for
+that widget in `ui:options` of that prop.  
+
+```javascript
+const schema = {
+  type: "object",
+  properties: {
+    firstName: {
+      type: "string",
+    },
+    lastName: {
+      type: "string",
+    }
+  }
+}
+const uiSchema = {
+  firstName: {
+    "ui:options": {
+      ...
+    }
+  },
+  lastName: {
+    "ui:options": {
+      ...
+    }
+  }
+}
+```
+
+### Widgets
+
+#### widget options
+* input widget
+* text area widget
+
+
 ## Development
 
 ### Build
