@@ -5,6 +5,7 @@ import ObjectProp from './object-prop.vue'
 import SchemaProp from './schema-prop.vue'
 import StringProp from './string-prop.vue'
 import UnsupportedProp from './unsupported-prop.vue'
+import WizardProp from './wizard-prop.vue'
 
 export {
   BooleanProp,
@@ -13,5 +14,6 @@ export {
   SchemaProp,
   StringProp,
   ArrayProp,
-  UnsupportedProp
+  UnsupportedProp,
+  WizardProp,
 }

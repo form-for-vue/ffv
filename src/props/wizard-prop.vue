@@ -3,6 +3,8 @@
   import { getWidget } from '@/utils'
 
   export default {
+    name: 'wizard-prop',
+
     props: {
       name: String,
       schema: Object,
@@ -68,15 +70,25 @@
     },
 
     render (h) {
+      const steps = this.props.map(prop => {
+        return {
+          label: this.schema.properties[prop.name].title || prop.name,
+          slot: prop.name,
+        }
+      })
+
       return h(getWidget(this.schema,
-        this.uiOptions.widget || 'wrapper',
+        this.uiOptions.widget || 'wizard',
         this.registry.widgets), {
           props: {
             id: this.idSchema.$id,
+            steps,
             ...this.uiOptions,
           }
-        }, this.props.map(prop => {
-          return h(SchemaProp, {
+        }, this.props.map((prop, index) => {
+          return h('div', {
+            slot: steps[index].slot,
+          }, [h(SchemaProp, {
             props: {
               name: prop.name,
               schema: prop.schema,
@@ -97,7 +109,7 @@
                 this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
               }
             }
-          })
+          })])
         }).concat([
           h('div', {
             attrs: {

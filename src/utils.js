@@ -2,23 +2,27 @@ import * as props from './props'
 import * as widgets from './widgets'
 
 const widgetMap = {
+  object: {
+    wrapper: 'WrapperWidget',
+    wizard: 'VueGoodWizard',
+  },
   boolean: {
-    checkbox: 'CheckboxWidget'
+    checkbox: 'CheckboxWidget',
   },
   string: {
     text: 'InputWidget',
     password: 'InputWidget',
     textarea: 'TextareaWidget',
-    file: 'FileWidget'
+    file: 'FileWidget',
   },
   number: {
-    text: 'InputWidget'
+    text: 'InputWidget',
   },
   integer: {
-    text: 'InputWidget'
+    text: 'InputWidget',
   },
   array: {
-    select: 'SelectWidget'
+    select: 'SelectWidget',
   },
 }
 
@@ -41,7 +45,8 @@ export function getWidget (schema, widget, registeredWidgets = {}) {
   }
 
   if (widgetMap[type].hasOwnProperty(widget)) {
-    return widgets[widgetMap[type][widget]] // eslint-disable-line
+    // some internal widgets are external so we will check registeredWidgets to find them :)
+    return widgets[widgetMap[type][widget]] || registeredWidgets[widgetMap[type][widget]] // eslint-disable-line
   }
 
   throw new Error(`No widget "${widget}" for type "${type}"`)

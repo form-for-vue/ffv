@@ -82,7 +82,7 @@ function transformErrors (errors) {
  * @returns reducedErrorSchema
  */
 function showExistingValueErrors (errorSchema, value) {
-  return Object.keys(errorSchema).filter((prop) => {
+  return Object.keys(errorSchema).filter(prop => {
     return value.hasOwnProperty(prop) && !(value[prop] === undefined || value[prop] === null)
   }).reduce((reducedErrorSchema, prop) => {
     reducedErrorSchema[prop] = errorSchema[prop]
@@ -91,7 +91,7 @@ function showExistingValueErrors (errorSchema, value) {
 }
 
 export function validateFormData (schema, value, options) {
-  const ajv = new Ajv({allErrors: true, jsonPointers: true})
+  const ajv = new Ajv({allErrors: true, jsonPointers: true, removeAdditional: 'all'})
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
