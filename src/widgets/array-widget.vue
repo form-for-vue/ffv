@@ -8,6 +8,7 @@
       id: String,
       canAdd: Boolean,
       items: Object,
+      onClick: Function,
       // uiOptions
       required: Boolean,
       invalid: Boolean,
@@ -23,6 +24,9 @@
         if (this.canAdd) {
           return h('div', {
             'class': 'btn btn-primary',
+            on: {
+              click: this.onClick,
+            }
           })
         }
       }
@@ -47,8 +51,13 @@
           slot: 'description'
         }, this.displayLabel ? this.description : undefined),
         // items
-        ...this.items.map(item => {
-          return h(SimpleArrayItemWidget, item)
+        ...this.items.map((item, index) => {
+          return h(SimpleArrayItemWidget, {
+            props: {
+              canMoveUp: index > 0,
+              canMoveDown: index < this.items.length - 1,
+            }
+          },item)
         }),
         // actions
         showAddAction(),

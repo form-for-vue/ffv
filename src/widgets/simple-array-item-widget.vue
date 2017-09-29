@@ -2,9 +2,18 @@
   export default {
     props: {
       hasToolbar: Boolean,
-      canMoveUp: Boolean,
-      canMoveDown: Boolean,
-      canRemove: Boolean,
+      canMoveUp: {
+        type: Boolean,
+        default: true,
+      },
+      canMoveDown: {
+        type: Boolean,
+        default: true,
+      },
+      canRemove: {
+        type: Boolean,
+        default: true,
+      },
     },
 
     render (h) {
