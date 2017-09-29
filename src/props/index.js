@@ -8,12 +8,12 @@ import UnsupportedProp from './unsupported-prop.vue'
 import WizardProp from './wizard-prop.vue'
 
 export {
+  ArrayProp,
   BooleanProp,
   NumberProp,
   ObjectProp,
   SchemaProp,
   StringProp,
-  ArrayProp,
   UnsupportedProp,
   WizardProp,
 }

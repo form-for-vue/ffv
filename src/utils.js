@@ -22,7 +22,7 @@ const widgetMap = {
     text: 'InputWidget',
   },
   array: {
-    select: 'SelectWidget',
+    simple: 'ArrayWidget',
   },
 }
 
@@ -119,6 +119,8 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
   }
 }
 
+const ID_DELIMITER = '__'
+
 export function getIdSchema ({idSchema, id}) {
   if (id) {
     return {$id: id}
@@ -129,7 +131,11 @@ export function getIdSchema ({idSchema, id}) {
 
 export function getObjectPropsIdSchema (schema, idSchema) {
   return Object.keys(schema.properties).reduce((props, propName) => {
-    props[propName] = {$id: idSchema.$id + '__' + propName}
+    props[propName] = {$id: idSchema.$id + ID_DELIMITER + propName}
     return props
   }, {})
+}
+
+export function getPropChildId (idSchema, name) {
+  return idSchema.$id + ID_DELIMITER + name
 }
