@@ -1,5 +1,5 @@
 <script>
-  import { getObjectPropsIdSchema, getWidget } from '@/utils'
+  import { getObjectPropsIdSchema, getPropChildId, getWidget } from '@/utils'
   import SchemaProp from './schema-prop.vue'
 
   export default {
@@ -95,13 +95,13 @@
         }).concat([
           h('div', {
             attrs: {
-              id: this.idSchema.$id + '_label'
+              id: getPropChildId(this.idSchema, 'label'),
             },
             slot: 'label'
           }, this.uiOptions.label),
           h('div', {
             attrs: {
-              id: this.idSchema.$id + '_description'
+              id: getPropChildId(this.idSchema, 'description'),
             },
             slot: 'description'
           }, this.uiOptions.description)
