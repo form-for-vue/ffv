@@ -1,13 +1,13 @@
 <script>
-  import SimpleArrayItemWidget from './simple-array-item-widget.vue'
   import WrapperWidget from './wrapper-widget.vue'
   import { getPropChildId } from '@/utils'
 
   export default {
+    functional: true,
+
     props: {
-      id: String,
+      idSchema: Object,
       canAdd: Boolean,
-      items: Object,
       onClick: Function,
       // uiOptions
       required: Boolean,
@@ -19,46 +19,39 @@
       displayLabel: Boolean,
     },
 
-    render (h) {
+    render (h, context) {
       function showAddAction () {
-        if (this.canAdd) {
+        if (context.props.canAdd) {
           return h('div', {
-            'class': 'btn btn-primary',
+            'class': 'btn btn-primary fa fa-plus',
             on: {
-              click: this.onClick,
-            }
+              click: context.props.onClick,
+            },
           })
         }
       }
 
       return h(WrapperWidget, {
         props: {
-          id: this.id,
-          classNames: this.classNames,
+          id: context.props.idSchema.$id,
+          classNames: context.props.classNames,
         }
       }, [
         // label and description
         h('div', {
           attrs: {
-            id: getPropChildId(this.idSchema, 'label')
+            id: getPropChildId(context.props.idSchema, 'label')
           },
           slot: 'label'
-        }, this.displayLabel ? this.label : undefined),
+        }, context.props.displayLabel ? context.props.label : undefined),
         h('div', {
           attrs: {
-            id: getPropChildId(this.idSchema, 'description')
+            id: getPropChildId(context.props.idSchema, 'description')
           },
           slot: 'description'
-        }, this.displayLabel ? this.description : undefined),
+        }, context.props.displayLabel ? context.props.description : undefined),
         // items
-        ...this.items.map((item, index) => {
-          return h(SimpleArrayItemWidget, {
-            props: {
-              canMoveUp: index > 0,
-              canMoveDown: index < this.items.length - 1,
-            }
-          },item)
-        }),
+        context.slots().default,
         // actions
         showAddAction(),
       ])

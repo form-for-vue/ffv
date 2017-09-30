@@ -1,5 +1,13 @@
 <script>
-  import { getWidget, isObject } from '@/utils'
+  import {
+    getPropChildId,
+    getWidget,
+    isObject,
+    isFixedItems,
+    getDefaultFormState,
+  } from '@/utils'
+  import SchemaProp from './schema-prop.vue'
+  import SimpleArrayItemWidget from '@/widgets/simple-array-item-widget'
 
   export default {
     props: {
@@ -8,36 +16,32 @@
       uiSchema: Object,
       errorSchema: [Object, Boolean],
       idSchema: Object,
-      value: Object,
+      value: Array,
       registry: Object,
       uiOptions: Object,
     },
 
     computed: {
       items () {
-        this.value.map((item, index) => {
+        return (this.value || []).map((item, index) => {
           const itemValue = (this.value || {})[index]
-          const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : {}
+          const itemSchema = this.schema.items
+          const itemUiSchema = this.uiSchema ? this.uiSchema.items : undefined
+          const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : undefined
+          const itemIdSchema = {$id: getPropChildId(this.idSchema, index)}
           return {
             index: index,
             value: itemValue,
-            errorSchema: itemErrorSchema
+            schema: itemSchema,
+            uiSchema: itemUiSchema,
+            errorSchema: itemErrorSchema,
+            idSchema: itemIdSchema,
           }
         })
       },
     },
 
     methods: {
-//      defaultProps (itemSchema) {
-//        if (this.schema.minItems) {
-//          const value = Object.assign({}, this.value)
-//          const defaultsLength = defaults ? defaults.length : 0
-//          if (schema.minItems > defaultsLength) {
-//
-//          }
-//          this.$emit('input', value)
-//        }
-//      },
       canAddItem (items) {
         let {addable} = this.uiSchema
         if (addable !== false) {
@@ -51,13 +55,6 @@
         }
         return addable
       },
-      isFixedItems (schema) {
-        return (
-          Array.isArray(schema.items) &&
-          schema.items.length > 0 &&
-          schema.items.every(item => isObject(item))
-        )
-      },
       allowAdditionalItems (schema) {
         if (schema.additionalItems === true) {
           console.warn('additionalItems=true is currently not supported')
@@ -66,10 +63,10 @@
       },
       onAddClick () {
         let itemSchema = this.schema.items
-        if (this.isFixedItems(this.schema) && this.allowAdditionalItems(this.schema)) {
+        if (isFixedItems(this.schema) && this.allowAdditionalItems(this.schema)) {
           itemSchema = this.schema.additionalItems
         }
-        return itemSchema
+        this.$emit('input', [...(this.value || []), getDefaultFormState(itemSchema, undefined)])
       },
       isItemRequired (itemSchema) {
         if (Array.isArray(itemSchema.type)) {
@@ -80,90 +77,83 @@
         // All non-null array item types are inherently required by design
         return itemSchema.type !== 'null'
       },
+      onReorderClick (index, newIndex, event) {
+        if (event) {
+          event.preventDefault()
+        }
+        const value = this.value.map((item, i) => {
+          if (i === newIndex) {
+            return this.value[index]
+          } else if (i === index) {
+            return this.value[newIndex]
+          } else {
+            return item
+          }
+        })
+        this.$emit('input', value)
+      },
+      onDropIndexClick (index, event) {
+        if (event) {
+          event.preventDefault()
+        }
+        this.$emit('input', this.value.filter((_, i) => i !== index))
+      },
       // render functions
       renderSimpleArray (h) {
+        const {orderable, removable} = {
+          orderable: true,
+          removable: true,
+          ...this.uiOptions,
+        }
+
         return h(getWidget(this.schema,
           this.uiOptions.widget || 'simple',
           this.registry.widgets), {
             props: {
-              id: this.idSchema.$id,
+              idSchema: this.idSchema,
               canAdd: this.canAddItem(this.value),
-              items: this.items,
               onClick: this.onAddClick,
-              required: this.isItemRequired(this.schema.items),
               ...this.uiOptions,
             },
+          }, this.items.map((item, index) => {
+            return h(SimpleArrayItemWidget, {
+                props: {
+                  index,
+                  hasToolbar: orderable || removable,
+                  canMoveUp: orderable && index > 0,
+                  canMoveDown: orderable && index < this.items.length - 1,
+                  onReorderClick: this.onReorderClick,
+                  onDropIndexClick: this.onDropIndexClick,
+                }
+              },
+              [h(SchemaProp, {
+                props: {
+                  schema: item.schema,
+                  uiSchema: item.uiSchema,
+                  errorSchema: item.errorSchema,
+                  idSchema: item.idSchema,
+                  required: this.isItemRequired(item.schema),
+                  value: item.value,
+                  registry: this.registry,
+                },
+                on: {
+                  input: itemVal => {
+                    this.value.splice(item.index, 1, itemVal)
+                    this.$emit('input', this.value)
+                  },
+                  blur: itemVal => {
+                    this.value.splice(item.index, 1, itemVal)
+                    this.$emit('blur', this.value)
+                  }
+                },
+              }, item)])
           })
+        )
       }
     },
 
-//    propItem (h, itemProp) {
-//      const {
-//        index,
-//        canRemove = true,
-//        canMoveUp = true,
-//        canMoveDown = true,
-//        itemSchema,
-//        itemValue,
-//        itemUiSchema,
-//        itemIdSchema,
-//        itemErrorSchema,
-//      } = itemProp
-//
-//      const {orderable, removable} = {
-//        orderable: true,
-//        removable: true,
-//        ...this.uiOptions,
-//      }
-//      const has = {
-//        moveUp: orderable && canMoveUp,
-//        moveDown: orderable && canMoveDown,
-//        remove: removable && canRemove,
-//      }
-//      has.toolbar = Object.keys(has).some(key => has[key])
-//
-//      return {
-//        prop: h(SchemaProp, {
-//          props: {
-//            schema: itemSchema,
-//            uiSchema: itemUiSchema,
-//            errorSchema: itemErrorSchema,
-//            idSchema: itemIdSchema,
-//            required: isItemRequired(itemSchema),
-//            value: itemValue,
-//            registry: this.registry,
-//            onUpload: item.onUpload,
-//            onPreview: item.onPreview,
-//          },
-//          on: {
-//            input: itemVal => {
-//              this.$emit('input', items.splice(item.index, 1, itemVal))
-//            },
-//            blur: itemVal => {
-//              this.$emit('blur', items.splice(item.index, 1, itemVal))
-//            }
-//          }
-//        }),
-//        ...has,
-//      }
-//    },
-//
-//    renderItem (h, itemProp) {
-//      const {prop, toolbar, moveUp, moveDown, remove} = this.propItem(h, itemProp)
-//      return h('div', {
-//        'class': toolbar ? 'col-xs-9' : 'col-xs-12'
-//      }, [
-//        prop,
-//        function (toolbar) {
-//          if (toolbar) {
-//            if (moveUp) {
-//              return h('div', {
-//                'class': 'fa-arrow-up'
-//              })
-//            }
-//          }
-//        }
-//      ])
-//    },
+    render (h) {
+      return this.renderSimpleArray(h)
+    },
   }
 </script>

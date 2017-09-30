@@ -139,3 +139,74 @@ export function getObjectPropsIdSchema (schema, idSchema) {
 export function getPropChildId (idSchema, name) {
   return idSchema.$id + ID_DELIMITER + name
 }
+
+export function isFixedItems (schema) {
+  return (
+    Array.isArray(schema.items) &&
+    schema.items.length > 0 &&
+    schema.items.every(item => isObject(item))
+  )
+}
+
+export function computeDefaults (schema, parentDefaults) {
+  // Compute the defaults recursively: give highest priority to deepest nodes.
+  let defaults = parentDefaults
+  if (isObject(defaults) && isObject(schema.default)) {
+    // For object defaults, only override parent defaults that are defined in
+    // schema.default.
+    defaults = mergeObjects(defaults, schema.default)
+  } else if ('default' in schema) {
+    // Use schema defaults for this node.
+    defaults = schema.default
+  } else if (isFixedItems(schema)) {
+    defaults = schema.items.map(itemSchema =>
+      computeDefaults(itemSchema, undefined)
+    )
+  }
+
+  // Not defaults defined for this node, fallback to generic typed ones.
+  if (typeof defaults === 'undefined') {
+    defaults = schema.default
+  }
+
+  switch (schema.type) {
+    case 'array':
+      return []
+  }
+
+  return defaults
+}
+
+export function mergeObjects (obj1, obj2, concatArrays = false) {
+  // Recursively merge deeply nested objects.
+  let acc = Object.assign({}, obj1)
+  // Prevent mutation of source object.
+  return Object.keys(obj2).reduce((acc, key) => {
+    const left = obj1[key],
+      right = obj2[key]
+    if (obj1.hasOwnProperty(key) && isObject(right)) {
+      acc[key] = mergeObjects(left, right, concatArrays)
+    } else if (concatArrays && Array.isArray(left) && Array.isArray(right)) {
+      acc[key] = left.concat(right)
+    } else {
+      acc[key] = right
+    }
+    return acc
+  }, acc)
+}
+
+export function getDefaultFormState (schema, value) {
+  if (!isObject(schema)) {
+    throw new Error('Invalid schema: ' + schema)
+  }
+  const defaults = computeDefaults(schema, schema.default)
+  if (typeof value === 'undefined') {
+    // No form data? Use schema defaults.
+    return defaults
+  }
+  if (isObject(value)) {
+    // Override schema defaults with form data.
+    return mergeObjects(defaults, value)
+  }
+  return value || defaults
+}

@@ -23,7 +23,7 @@ module.exports = {
     'brace-style': 2,
     'comma-dangle': ['error', 'only-multiline'],
     'no-console': process.env.NODE_ENV === 'production' ? ['error', {'allow': ['warn', 'error']}] : 0,
-    'indent': ['error', 2],
+    'indent': ['error', 2, { "SwitchCase": 1 }],
     'semi': ['error', 'never'],
     'consistent-return': 0,
     'curly': ['error', 'all'],
