@@ -1,10 +1,10 @@
 <script>
   import {
+    getDefaultFormState,
     getPropChildId,
     getWidget,
-    isObject,
     isFixedItems,
-    getDefaultFormState,
+    isObject,
   } from '@/utils'
   import SchemaProp from './schema-prop.vue'
   import SimpleArrayItemWidget from '@/widgets/simple-array-item-widget'
@@ -117,15 +117,15 @@
             },
           }, this.items.map((item, index) => {
             return h(SimpleArrayItemWidget, {
-                props: {
-                  index,
-                  hasToolbar: orderable || removable,
-                  canMoveUp: orderable && index > 0,
-                  canMoveDown: orderable && index < this.items.length - 1,
-                  onReorderClick: this.onReorderClick,
-                  onDropIndexClick: this.onDropIndexClick,
-                }
-              },
+              props: {
+                index,
+                hasToolbar: orderable || removable,
+                canMoveUp: orderable && index > 0,
+                canMoveDown: orderable && index < this.items.length - 1,
+                onReorderClick: this.onReorderClick,
+                onDropIndexClick: this.onDropIndexClick,
+              }
+            },
               [h(SchemaProp, {
                 props: {
                   schema: item.schema,
