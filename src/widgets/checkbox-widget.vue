@@ -38,11 +38,14 @@
       id: String,
       errors: Array,
       value: Boolean,
+      // -- uiOptions --
+      // schema prop
       required: Boolean,
       invalid: Boolean,
+      // json schema
       label: String,
       description: String,
-      // uiOptions
+      // ui schema
       disabled: Boolean,
       classNames: String,
       displayLabel: Boolean,
