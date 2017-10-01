@@ -1,25 +1,21 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames">
-    <b-form-textarea
-      :placeholder="placeholder"
-      :value="value"
+    <b-form-checkbox
+      :checked="value"
       :required="required"
       :disabled="disabled"
-      :rows="2"
-      :state="invalid ? 'invalid' : 'null'"
-      @input="value => $emit('input', value)"
-      @change="value => $emit('blur', value)"
+      :invalid="invalid ? 'invalid' : 'null'"
+      @change="handleChange"
     >
-    </b-form-textarea>
-
-    <div v-if="displayLabel" slot="label">{{ label }}</div>
+      <div v-if="displayLabel" v-html="label"></div>
+    </b-form-checkbox>
 
     <p
       v-if="displayLabel"
       slot="description"
       style="text-align: justify;"
-      class="text-muted">
-      {{ description }}
+      class="text-muted"
+      v-html="description">
     </p>
 
     <template slot="feedback">
@@ -29,10 +25,10 @@
 </template>
 
 <script>
-  import WrapperWidget from './wrapper-widget.vue'
+  import WrapperWidget from './wrapper-widget.js'
 
   export default {
-    name: 'textarea-widget',
+    name: 'checkbox-widget',
 
     components: {
       WrapperWidget,
@@ -41,7 +37,7 @@
     props: {
       id: String,
       errors: Array,
-      value: [String, Number],
+      value: Boolean,
       // -- uiOptions --
       // schema prop
       required: Boolean,
@@ -53,7 +49,13 @@
       disabled: Boolean,
       classNames: String,
       displayLabel: Boolean,
-      placeholder: String,
+    },
+
+    methods: {
+      handleChange (value) {
+        this.$emit('input', value)
+        this.$emit('blur', value)
+      }
     }
   }
 </script>

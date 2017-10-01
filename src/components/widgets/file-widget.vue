@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import WrapperWidget from './wrapper-widget.vue'
+  import WrapperWidget from './wrapper-widget.js'
 
   export default {
     name: 'file-widget',

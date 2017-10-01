@@ -5,8 +5,8 @@ import {
   ObjectProp,
   SchemaProp,
   StringProp,
-} from './props'
-import Form from './form.vue'
+} from './components/props'
+import Form from './components/form.vue'
 
 const components = {
   'boolean-prop': BooleanProp,

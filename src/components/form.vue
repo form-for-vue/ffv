@@ -23,8 +23,8 @@
 
 <script>
   import FormWidget from './widgets/form-widget.vue'
-  import { getDefaultRegistry } from './utils'
-  import { validateFormData } from './validate'
+  import { getDefaultRegistry } from '../utils'
+  import { validateFormData } from '../validate'
 
   export default {
     components: {

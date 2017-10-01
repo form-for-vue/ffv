@@ -5,8 +5,8 @@ import {
   isFixedItems,
   isObject,
 } from '@/utils'
-import SchemaProp from './schema-prop.vue'
-import SimpleArrayItemWidget from '@/widgets/simple-array-item-widget'
+import SchemaProp from './schema-prop'
+import SimpleArrayItemWidget from '../widgets/simple-array-item-widget'
 import draggable from 'vuedraggable'
 
 export default {

@@ -1,5 +1,5 @@
-import * as Props from './props'
-import * as Widgets from './widgets'
+import * as Props from './components/props'
+import * as Widgets from './components/widgets'
 
 const widgetMap = {
   object: {
