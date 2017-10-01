@@ -23,6 +23,7 @@ const widgetMap = {
   },
   array: {
     simple: 'ArrayWidget',
+    draggable: 'vuedraggable'
   },
 }
 
