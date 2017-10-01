@@ -1,5 +1,5 @@
-import ArrayProp from './array-prop.vue'
-import BooleanProp from './boolean-prop.vue'
+import ArrayProp from './array-prop'
+import BooleanProp from './boolean-prop'
 import NumberProp from './number-prop.vue'
 import ObjectProp from './object-prop.vue'
 import SchemaProp from './schema-prop.vue'

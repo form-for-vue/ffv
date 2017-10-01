@@ -99,7 +99,11 @@
   "homepage": "https://github.com/form-for-vue/ffv#readme",
   "license": "MIT",
   "dependencies": {
-    "ajv": "^5.2.2",
-    "ajv-i18n": "^2.1.1"
+    "ajv": "^5.2.2"
+  },
+  "optionalDependencies": {
+    "ajv-i18n": "^2.1.1",
+    "vue-good-wizard": "^1.1.2",
+    "vuedraggable": "^2.14.1"
   }
 }
