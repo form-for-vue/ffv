@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import StringProp from '@/props/string-prop'
+  import StringProp from './string-prop'
   import { asNumber } from '@/utils'
 
   export default {
