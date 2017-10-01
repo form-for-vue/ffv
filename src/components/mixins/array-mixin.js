@@ -3,6 +3,7 @@ import {
   getPropChildId,
   isFixedItems,
   isObject,
+  retrieveSchema,
 } from '@/utils'
 
 export default {
@@ -21,7 +22,7 @@ export default {
     items () {
       return (this.value || []).map((item, index) => {
         const itemValue = (this.value || {})[index]
-        const itemSchema = this.schema.items
+        const itemSchema = retrieveSchema(this.schema.items, this.registry.definitions)
         const itemUiSchema = this.uiSchema ? this.uiSchema.items : undefined
         const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : undefined
         const itemIdSchema = {$id: getPropChildId(this.idSchema, index)}
@@ -62,7 +63,7 @@ export default {
         event.preventDefault()
         event.stopPropagation()
       }
-      let itemSchema = this.schema.items
+      let itemSchema = retrieveSchema(this.schema.items, this.registry.definitions)
       if (isFixedItems(this.schema) && this.allowAdditionalItems(this.schema)) {
         itemSchema = this.schema.additionalItems
       }

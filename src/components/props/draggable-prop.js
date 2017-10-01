@@ -3,6 +3,8 @@ import arrayMixin from '../mixins/array-mixin'
 import { getWidget } from '@/utils'
 
 export default {
+  name: 'draggable-prop',
+
   mixins: [arrayMixin],
 
   render (h) {

@@ -37,7 +37,7 @@ module.exports = {
         fs.writeFileSync(path.resolve(dist, `${name}.css`), new CleanCSS().minify(style).styles)
       }
     }),
-    resolve({ external: ['vue'] }),
+    resolve({ external: ['vue', 'vuedraggable'] }),
     commonjs(),
     babel({ exclude: 'node_modules/**' }),
     alias({

@@ -97,6 +97,7 @@
         return {
           props: {...props, ...this.props},
           widgets: {...widgets, ...this.widgets},
+          definitions: this.schema.definitions || {},
         }
       },
     }

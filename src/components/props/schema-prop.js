@@ -1,4 +1,4 @@
-import { getIdSchema, getUiOptions } from '@/utils'
+import { getIdSchema, getUiOptions, retrieveSchema } from '@/utils'
 import UnsupportedProp from './unsupported-prop.vue'
 
 const COMPONENT_TYPES = {
@@ -34,8 +34,9 @@ export default {
       errors = context.props.errorSchema._errors
     }
 
+    const schema = retrieveSchema(context.props.schema, context.props.registry.definitions)
     const uiOptions = getUiOptions(
-      context.props.schema,
+      schema,
       context.props.uiSchema, {
         required: context.props.required,
         invalid: errors && errors.length > 0,
@@ -52,7 +53,7 @@ export default {
       if (typeof prop === 'string' && prop in context.props.registry.props) {
         return context.props.registry.props[prop]
       }
-      const componentName = COMPONENT_TYPES[context.props.schema.type]
+      const componentName = COMPONENT_TYPES[schema.type]
       return componentName in context.props.registry.props
         ? context.props.registry.props[componentName].name : UnsupportedProp.name
     }
@@ -60,7 +61,7 @@ export default {
     return h(getPropComponent(), {
       props: {
         name: context.props.name,
-        schema: context.props.schema,
+        schema: schema,
         uiSchema: context.props.uiSchema,
         errorSchema: context.props.errorSchema,
         idSchema: getIdSchema({
