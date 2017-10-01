@@ -2,16 +2,18 @@
   "presets": [
     [
       "env",
-    {
-      "targets": {
-        "browsers": [
-          "last 2 versions"
-        ]
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions"
+          ]
+        },
+        "modules": false
       }
-    }
     ]
   ],
   "plugins": [
+    "external-helpers",
     "transform-vue-jsx",
     "transform-object-rest-spread"
   ],
