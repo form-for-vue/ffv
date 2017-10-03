@@ -57,6 +57,7 @@
       onBlur: Function,
       widgets: Object,
       props: Object,
+      handlers: Object,
       onUpload: Object,
       onPreview: Object,
     },
