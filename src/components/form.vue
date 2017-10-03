@@ -8,6 +8,7 @@
         :errorSchema="errorSchema"
         :value="value"
         :registry="registry"
+        :handlers="handlers"
         :onUpload="onUpload"
         :onPreview="onPreview"
         @input="handleInput"

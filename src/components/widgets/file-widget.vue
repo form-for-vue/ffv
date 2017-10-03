@@ -52,10 +52,8 @@
       displayLabel: Boolean,
       inputType: String,
       placeholder: String,
-      // file widget uiOptions
       multiple: Boolean,
-      onUpload: Function,
-      onPreview: Function,
+      handlers: Object,
     },
 
     data () {
@@ -72,8 +70,8 @@
     watch: {
       media (val) {
         this.previewFile(val)
-        if (this.onUpload) {
-          this.onUpload(val, this.onProgress).then(responseData => {
+        if(this.handlers && this.handlers.onUpload) {
+          this.handlers.onUpload(val, this.onProgress).then(responseData => {
             if (responseData !== false) {
               this.$emit('input', responseData)
               this.$emit('change', responseData)
@@ -87,8 +85,8 @@
     },
 
     mounted () {
-      if (this.onPreview) {
-        this.onPreview().then(url => {
+      if (this.handlers && this.handlers.onPreview) {
+        this.handlers.onPreview().then(url => {
           this.previewMedia = url
         }).catch(errors => {
           this.status = 'danger'
