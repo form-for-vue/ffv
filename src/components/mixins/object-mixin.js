@@ -18,7 +18,7 @@ export default {
       return Object.keys(this.schema.properties).map(propName => {
         const propValue = (this.value || {})[propName]
         const propSchema = retrieveSchema(this.schema.properties[propName], this.registry.definitions)
-        const propUiSchema = this.uiSchema[propName] || {}
+        const propUiSchema = this.uiSchema && this.uiSchema[propName] ? this.uiSchema[propName] : {}
         const propErrorSchema = this.errorSchema ? this.errorSchema[propName] : {}
         const propIdSchema = idSchema[propName]
         const propHandlers = this.uiOptions && this.uiOptions.handlers ? this.uiOptions.handlers[propName] : undefined

@@ -23,8 +23,8 @@ export default {
       return (this.value || []).map((item, index) => {
         const itemValue = (this.value || {})[index]
         const itemSchema = retrieveSchema(this.schema.items, this.registry.definitions)
-        const itemUiSchema = this.uiSchema ? this.uiSchema.items : undefined
-        const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : undefined
+        const itemUiSchema = this.uiSchema ? this.uiSchema.items : {}
+        const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : {}
         const itemIdSchema = {$id: getPropChildId(this.idSchema, index)}
         return {
           index: index,
