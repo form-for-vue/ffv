@@ -6,9 +6,22 @@ export default {
     label: String,
     description: String,
     classNames: String,
+    horizontal: Boolean,
   },
 
   render (h, context) {
+    function showContents () {
+      if ((context.slots().default || []).length > 0) {
+        if(context.props.horizontal) {
+          return h('div', {
+            'class': 'row'
+          }, context.slots().default)
+        } else {
+          return context.slots().default
+        }
+      }
+    }
+
     function showLabel () {
       if ((context.slots().label || []).length > 0) {
         return h('template', {
@@ -44,7 +57,7 @@ export default {
           description: context.props.description,
         },
       }, [
-        context.slots().default,
+        showContents(),
         showLabel(),
         showDescription(),
         showFeedbacks(),

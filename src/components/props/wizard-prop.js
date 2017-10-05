@@ -1,5 +1,5 @@
 import SchemaProp from './schema-prop.js'
-import { findIndex } from 'lodash-es'
+import findIndex from 'lodash-es/findIndex'
 import { getWidget } from '@/utils'
 import objectMixin from '../mixins/object-mixin'
 
