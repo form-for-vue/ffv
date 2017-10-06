@@ -5,15 +5,17 @@ import FileWidget from './file-widget.vue'
 import FormWidget from './form-widget.vue'
 import InputWidget from './input-widget.vue'
 import TextareaWidget from './textarea-widget.vue'
+import WrapperArrayItemWidget from './wrapper-array-item-widget'
 import WrapperWidget from './wrapper-widget'
 
 export {
   ArrayItemWidget,
   ArrayWidget,
   CheckboxWidget,
-  InputWidget,
-  WrapperWidget,
-  TextareaWidget,
+  FileWidget,
   FormWidget,
-  FileWidget
+  InputWidget,
+  TextareaWidget,
+  WrapperArrayItemWidget,
+  WrapperWidget,
 }

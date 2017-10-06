@@ -8,22 +8,34 @@ export default {
   mixins: [arrayMixin],
 
   render: function (h) {
-    return h('div', [
+    return h('div', {
+      'class': 'row col'
+    }, [
       h('div', {
         attrs: {
           id: getPropChildId(this.idSchema, 'label'),
         },
-        'class': 'mr-2',
+        'class': 'col-12',
         slot: 'label'
       }, this.uiOptions.label),
       h(getWidget(this.schema,
         this.uiOptions.widget || 'draggable',
         this.registry.widgets), {
-          'class': 'row col-12',
+          'class': 'col-12',
           props: {
             list: this.value,
           },
-        }, this.items.map(item => {
+        }, this.items.map((item, index) => {
+          if(item.schema.type === 'object') {
+            let uiOptions = item.uiSchema['ui:options']
+            uiOptions = {
+              ...uiOptions,
+              widget: 'arrayItem',
+              index: index,
+              remove: this.onDropIndexClick.bind(null, index)
+            }
+            item.uiSchema = {...item.uiSchema, 'ui:options': uiOptions}
+          }
           return h(SchemaProp, {
             props: {
               schema: item.schema,
@@ -60,6 +72,7 @@ export default {
         }
       }) : undefined,
       h('div', {
+        'class': 'col-12',
         attrs: {
           id: getPropChildId(this.idSchema, 'description'),
         },

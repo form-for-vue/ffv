@@ -5,6 +5,7 @@ const widgetMap = {
   object: {
     wrapper: 'WrapperWidget',
     wizard: 'VueGoodWizard',
+    arrayItem: 'WrapperArrayItemWidget',
   },
   boolean: {
     checkbox: 'CheckboxWidget',
