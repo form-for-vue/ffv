@@ -15,6 +15,7 @@ const widgetMap = {
     password: 'InputWidget',
     textarea: 'TextareaWidget',
     file: 'FileWidget',
+    select: 'SelectWidget',
   },
   number: {
     text: 'InputWidget',
@@ -248,3 +249,50 @@ export function retrieveSchema (schema, definitions = {}) {
   return {...$refSchema, ...localSchema}
 }
 
+/**
+ * This function checks if the given schema matches a single
+ * constant value.
+ */
+export function isConstant (schema) {
+  return (
+    (Array.isArray(schema.enum) && schema.enum.length === 1) ||
+    schema.hasOwnProperty('const')
+  )
+}
+
+export function toConstant (schema) {
+  if (Array.isArray(schema.enum) && schema.enum.length === 1) {
+    return schema.enum[0]
+  } else if (schema.hasOwnProperty('const')) {
+    return schema.const
+  } else {
+    throw new Error('schema cannot be inferred as a constant')
+  }
+}
+
+export function isSelect (_schema, definitions = {}) {
+  const schema = retrieveSchema(_schema, definitions)
+  const altSchemas = schema.oneOf || schema.anyOf
+  if (Array.isArray(schema.enum)) {
+    return true
+  } else if (Array.isArray(altSchemas)) {
+    return altSchemas.every(altSchemas => isConstant(altSchemas))
+  }
+  return false
+}
+
+export function optionsList (schema) {
+  if (schema.enum) {
+    return schema.enum.map((value, i) => {
+      const label = (schema.enumNames && schema.enumNames[i]) || String(value)
+      return {label, value}
+    })
+  } else {
+    const altSchemas = schema.oneOf || schema.anyOf
+    return altSchemas.map(schema => {
+      const value = toConstant(schema)
+      const label = schema.title || String(value)
+      return {label, value}
+    })
+  }
+}
