@@ -19,7 +19,7 @@ export default {
     },
     extractPagesProps (steps) {
       return Object.keys(steps).map(step => {
-        if (step.includes('.')) {
+        if (step.includes('ui:others')) {
           return this.props
         } else {
           const index = findIndex(this.props, {name: step})

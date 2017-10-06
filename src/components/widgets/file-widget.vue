@@ -74,7 +74,7 @@
           this.handlers.onUpload(val, this.onProgress).then(responseData => {
             if (responseData !== false) {
               this.$emit('input', responseData)
-              this.$emit('change', responseData)
+              this.$emit('blur', responseData)
             }
           }).catch(errors => {
             this.status = 'danger'
