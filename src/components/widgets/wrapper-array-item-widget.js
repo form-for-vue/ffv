@@ -96,7 +96,7 @@ export default {
             h('div', {
               'class': 'font-weight-bold rounded-circle text-center',
               style: 'font-size: 24px; color: #218838; width: 30px;'
-            }, context.props.index)
+            }, context.props.index + 1)
           ]),
           h('div', {
             'class': 'col'

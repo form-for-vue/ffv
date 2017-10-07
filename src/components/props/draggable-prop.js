@@ -15,7 +15,7 @@ export default {
         attrs: {
           id: getPropChildId(this.idSchema, 'label'),
         },
-        'class': 'col-12',
+        'class': 'col-12 mb-1 text-bold',
         slot: 'label'
       }, this.uiOptions.label),
       h(getWidget(this.schema,
@@ -26,37 +26,68 @@ export default {
             list: this.value,
           },
         }, this.items.map((item, index) => {
-          if(item.schema.type === 'object') {
+          if (item.schema.type === 'object') {
             let uiOptions = item.uiSchema['ui:options']
             uiOptions = {
               ...uiOptions,
               widget: 'arrayItem',
               index: index,
-              remove: this.onDropIndexClick.bind(null, index)
+              remove: this.onDropIndexClick.bind(null, index),
             }
             item.uiSchema = {...item.uiSchema, 'ui:options': uiOptions}
-          }
-          return h(SchemaProp, {
-            props: {
-              schema: item.schema,
-              uiSchema: item.uiSchema,
-              errorSchema: item.errorSchema,
-              idSchema: item.idSchema,
-              required: this.isItemRequired(item.schema),
-              value: item.value,
-              registry: this.registry,
-            },
-            on: {
-              input: itemVal => {
-                this.value.splice(item.index, 1, itemVal)
-                this.$emit('input', this.value)
+            return h(SchemaProp, {
+              props: {
+                schema: item.schema,
+                uiSchema: item.uiSchema,
+                errorSchema: item.errorSchema,
+                idSchema: item.idSchema,
+                required: this.isItemRequired(item.schema),
+                value: item.value,
+                registry: this.registry,
               },
-              blur: itemVal => {
-                this.value.splice(item.index, 1, itemVal)
-                this.$emit('blur', this.value)
-              }
-            },
-          })
+              on: {
+                input: itemVal => {
+                  this.value.splice(item.index, 1, itemVal)
+                  this.$emit('input', this.value)
+                },
+                blur: itemVal => {
+                  this.value.splice(item.index, 1, itemVal)
+                  this.$emit('blur', this.value)
+                }
+              },
+            })
+          } else {
+            return h(getWidget(this.schema,
+              this.uiOptions.widget || 'arrayItem',
+              this.registry.widgets), {
+                props: {
+                  index: index,
+                  remove: this.onDropIndexClick.bind(null, index),
+                }
+              }, [
+                h(SchemaProp, {
+                  props: {
+                    schema: item.schema,
+                    uiSchema: item.uiSchema,
+                    errorSchema: item.errorSchema,
+                    idSchema: item.idSchema,
+                    required: this.isItemRequired(item.schema),
+                    value: item.value,
+                    registry: this.registry,
+                  },
+                  on: {
+                    input: itemVal => {
+                      this.value.splice(item.index, 1, itemVal)
+                      this.$emit('input', this.value)
+                    },
+                    blur: itemVal => {
+                      this.value.splice(item.index, 1, itemVal)
+                      this.$emit('blur', this.value)
+                    }
+                  },
+                })
+              ])
+          }
         })
       ),
       this.canAddItem(this.value) ? h('div', {

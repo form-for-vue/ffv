@@ -24,8 +24,10 @@ const widgetMap = {
     text: 'InputWidget',
   },
   array: {
+    wrapper: 'WrapperWidget',
     simple: 'ArrayWidget',
-    draggable: 'draggable'
+    draggable: 'draggable',
+    arrayItem: 'WrapperArrayItemWidget',
   },
 }
 
@@ -112,7 +114,7 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
   const schemaOptions = schema ? {
     label: schema.title,
     description: schema.description,
-    defaultValue: schema.defaultValue,
+    defaultValue: schema.default,
   } : {}
 
   if (schema.type === 'object') {
