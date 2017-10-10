@@ -17,32 +17,45 @@ export default {
         }
       })
     },
+    getPageProps (props) {
+      return props.map(prop => {
+        const removedProps = this.props.splice(findIndex(this.props, {name: prop}), 1)
+        if (removedProps && removedProps.length > 0) {
+          return removedProps[0]
+        }
+      })
+    },
     extractPagesProps (steps) {
       return Object.keys(steps).map(step => {
         if (step.includes('ui:others')) {
           return this.props
+        } else if (step.includes('ui')) {
+          return this.getPageProps(steps[step].props)
         } else {
-          const index = findIndex(this.props, {name: step})
-          return this.props.splice(index, 1)
+          return this.props.splice(findIndex(this.props, {name: step}), 1)
         }
       })
-    }
+    },
+    chooseStepsStrategy () {
+      if (this.uiOptions && this.uiOptions['ui:steps']) {
+        const steps = this.getSteps(this.uiOptions['ui:steps'])
+        const pages = this.extractPagesProps(this.uiOptions['ui:steps'])
+        return {steps, pages}
+      } else {
+        const steps = this.props.map(prop => {
+          return {
+            label: this.schema.properties[prop.name].title || prop.name,
+            slot: prop.name,
+          }
+        })
+        const pages = this.props
+        return {steps, pages}
+      }
+    },
   },
 
   render (h) {
-    let steps, pages
-    if (this.uiOptions && this.uiOptions['ui:steps']) {
-      steps = this.getSteps(this.uiOptions['ui:steps'])
-      pages = this.extractPagesProps(this.uiOptions['ui:steps'])
-    } else {
-      steps = this.props.map(prop => {
-        return {
-          label: this.schema.properties[prop.name].title || prop.name,
-          slot: prop.name,
-        }
-      })
-      pages = this.props
-    }
+    const {steps, pages} = this.chooseStepsStrategy()
 
     return h(getWidget(this.schema,
       this.uiOptions.widget || 'wizard',
