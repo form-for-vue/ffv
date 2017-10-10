@@ -2,8 +2,9 @@
   <div>
     <form-widget :noHtml5Validate="noHtml5Validate" :onCustomSubmit="onSubmit">
       <schema-prop
+        v-if="reducedSchema"
         name="form"
-        :schema="schema"
+        :schema="reducedSchema"
         :uiSchema="uiSchema"
         :errorSchema="errorSchema"
         :value="value"
@@ -23,8 +24,8 @@
 </template>
 
 <script>
+  import { getDefaultRegistry, reduceSchema } from '../utils'
   import FormWidget from './widgets/form-widget.vue'
-  import { getDefaultRegistry } from '../utils'
   import { validateFormData } from '../validate'
 
   export default {
@@ -59,14 +60,20 @@
       widgets: Object,
       props: Object,
       handlers: Object,
-      onUpload: Object,
-      onPreview: Object,
     },
 
     data () {
       return {
         registry: this.getRegistry(),
         errorSchema: null,
+      }
+    },
+
+    computed: {
+      reducedSchema () {
+        if(this.schema) {
+          return reduceSchema(this.schema, this.schema.definitions)
+        }
       }
     },
 
@@ -99,7 +106,6 @@
         return {
           props: {...props, ...this.props},
           widgets: {...widgets, ...this.widgets},
-          definitions: this.schema.definitions || {},
         }
       },
     }

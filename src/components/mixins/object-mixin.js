@@ -1,4 +1,4 @@
-import { getObjectPropsIdSchema, retrieveSchema } from '@/utils'
+import { getObjectPropsIdSchema } from '../../utils'
 
 export default {
   props: {
@@ -17,7 +17,7 @@ export default {
       const idSchema = getObjectPropsIdSchema(this.schema, this.idSchema)
       return Object.keys(this.schema.properties).map(propName => {
         const propValue = (this.value || {})[propName]
-        const propSchema = retrieveSchema(this.schema.properties[propName], this.registry.definitions)
+        const propSchema = this.schema.properties[propName]
         const propUiSchema = this.uiSchema && this.uiSchema[propName] ? this.uiSchema[propName] : {}
         const propErrorSchema = this.errorSchema ? this.errorSchema[propName] : {}
         const propIdSchema = idSchema[propName]

@@ -252,6 +252,35 @@ export function retrieveSchema (schema, definitions = {}) {
 }
 
 /**
+ * traverse json schema and call cb (callback for each prop
+ * @param schema
+ * @param cb
+ */
+function traverseAndCall (schema, cb) {
+  if(schema.type === 'object') {
+    Object.keys(schema.properties).forEach(prop => {
+      schema.properties[prop] = traverseAndCall(schema.properties[prop], cb)
+    })
+    return schema
+  } else if(schema.type === 'array') {
+    schema.items = cb(schema.items)
+    return schema
+  } else {
+    return cb(schema)
+  }
+}
+
+export function reduceSchema (formSchema, definitions) {
+  function retrieve (schema) {
+    return retrieveSchema(schema, definitions)
+  }
+
+  if (definitions) {
+    return traverseAndCall(Object.assign({}, formSchema), retrieve)
+  }
+}
+
+/**
  * This function checks if the given schema matches a single
  * constant value.
  */
