@@ -10,8 +10,6 @@
         :value="value"
         :registry="registry"
         :handlers="handlers"
-        :onUpload="onUpload"
-        :onPreview="onPreview"
         @input="handleInput"
         @blur="handleBlur"
       ></schema-prop>

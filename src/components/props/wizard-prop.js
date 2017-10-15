@@ -79,8 +79,6 @@ export default {
               required: this.isRequired(prop.name),
               value: prop.value,
               registry: this.registry,
-              onUpload: prop.onUpload,
-              onPreview: prop.onPreview,
             },
             on: {
               input: propVal => {

@@ -39,8 +39,6 @@ export default {
         required: context.props.required,
         invalid: errors && errors.length > 0,
         handlers: context.props.handlers,
-        onUpload: context.props.onUpload,
-        onPreview: context.props.onPreview
       }
     )
 

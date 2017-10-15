@@ -22,8 +22,6 @@ export default {
         const propErrorSchema = this.errorSchema ? this.errorSchema[propName] : {}
         const propIdSchema = idSchema[propName]
         const propHandlers = this.uiOptions && this.uiOptions.handlers ? this.uiOptions.handlers[propName] : undefined
-        const propOnUpload = this.uiOptions && this.uiOptions.onUpload ? this.uiOptions.onUpload[propName] : undefined
-        const propOnPreview = this.uiOptions && this.uiOptions.onPreview ? this.uiOptions.onPreview[propName] : undefined
         return {
           name: propName,
           value: propValue,
@@ -32,8 +30,6 @@ export default {
           errorSchema: propErrorSchema,
           idSchema: propIdSchema,
           handlers: propHandlers,
-          onUpload: propOnUpload,
-          onPreview: propOnPreview,
         }
       })
     }
