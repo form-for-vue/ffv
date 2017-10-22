@@ -1,4 +1,4 @@
-import { getWidget } from '@/utils'
+import { getWidget } from '../../utils'
 
 export default {
   functional: true,

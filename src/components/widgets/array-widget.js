@@ -1,5 +1,5 @@
 import WrapperWidget from './wrapper-widget'
-import { getPropChildId } from '@/utils'
+import { getPropChildId } from '../../utils'
 
 export default {
   functional: true,

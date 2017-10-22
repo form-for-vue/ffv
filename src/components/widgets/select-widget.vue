@@ -61,7 +61,6 @@
       disabled: Boolean,
       classNames: String,
       displayLabel: Boolean,
-      inputType: String,
       placeholder: String,
       enumOptions: Array,
     },

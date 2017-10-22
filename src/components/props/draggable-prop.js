@@ -1,4 +1,4 @@
-import { getPropChildId, getWidget } from '@/utils'
+import { getPropChildId, getWidget } from '../../utils'
 import SchemaProp from './schema-prop'
 import arrayMixin from '../mixins/array-mixin'
 

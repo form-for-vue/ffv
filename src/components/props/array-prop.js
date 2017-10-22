@@ -1,7 +1,7 @@
 import SchemaProp from './schema-prop'
 import SimpleArrayItemWidget from '../widgets/simple-array-item-widget'
 import arrayMixin from '../mixins/array-mixin'
-import { getWidget } from '@/utils'
+import { getWidget } from '../../utils'
 
 export default {
   mixins: [arrayMixin],

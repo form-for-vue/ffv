@@ -19,7 +19,7 @@
 
 <script>
   import StringProp from './string-prop'
-  import { asNumber } from '@/utils'
+  import { asNumber } from '../../utils'
 
   export default {
     components: {

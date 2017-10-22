@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import localize_fa from 'ajv-i18n/localize/fa'
+import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
  * Converts a json pointer into an array of reference tokens

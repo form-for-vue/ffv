@@ -3,7 +3,7 @@ import {
   getPropChildId,
   isFixedItems,
   isObject,
-} from '@/utils'
+} from '../../utils'
 
 export default {
   props: {
