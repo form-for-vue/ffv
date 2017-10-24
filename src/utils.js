@@ -16,6 +16,7 @@ const widgetMap = {
     textarea: 'TextareaWidget',
     file: 'FileWidget',
     select: 'SelectWidget',
+    radio: 'RadioWidget'
   },
   number: {
     text: 'InputWidget',
