@@ -11,8 +11,7 @@
       <b-form-radio
         v-for="option in enumOptions"
         :key="option.value"
-        :value="option.value"
-        v-html="option.label"></b-form-radio>
+        :value="option.value">{{ option.label }}</b-form-radio>
     </b-form-radio-group>
 
     <div v-if="displayLabel" slot="label" v-html="label"></div>
