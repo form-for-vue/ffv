@@ -69,7 +69,7 @@
 
     computed: {
       reducedSchema () {
-        if(this.schema) {
+        if (this.schema) {
           return reduceSchema(this.schema, this.schema.definitions)
         }
       }

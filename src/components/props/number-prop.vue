@@ -1,17 +1,13 @@
 <template>
   <string-prop
     :name="name"
-    :label="label"
-    :description="description"
     :schema="schema"
     :uiSchema="uiSchema"
-    :required="required"
-    :disabled="disabled"
-    :invalid="invalid"
-    :value="value ? value : defaultValue"
-    :classNames="classNames"
-    :feedbacks="feedbacks"
+    :idSchema="idSchema"
+    :errors="errors"
+    :value="value"
     :registry="registry"
+    :uiOptions="uiOptions"
     @input="handleInput"
     @blur="handleBlur"
   ></string-prop>
@@ -28,18 +24,13 @@
 
     props: {
       name: String,
-      label: String,
-      description: String,
       schema: Object,
       uiSchema: Object,
-      required: Boolean,
-      disabled: Boolean,
-      invalid: Boolean,
+      idSchema: Object,
+      errors: Array,
       value: Number,
-      defaultValue: Number,
-      classNames: String,
-      feedbacks: Array,
       registry: Object,
+      uiOptions: Object,
     },
 
     methods: {
