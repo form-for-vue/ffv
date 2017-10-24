@@ -3,3 +3,5 @@ dist/*.js
 rollup.config.js
 
 playground
+
+nuxt.config.js
