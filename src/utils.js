@@ -277,6 +277,8 @@ export function reduceSchema (formSchema, definitions) {
 
   if (definitions) {
     return traverseAndCall(Object.assign({}, formSchema), retrieve)
+  } else {
+    return formSchema
   }
 }
 
