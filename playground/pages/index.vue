@@ -30,6 +30,7 @@
         formSelectOptions: [
           {value: samples.simple, text: 'Simple'},
           {value: samples.single, text: 'Single'},
+          {value: samples.radio, text: 'Radio'},
         ],
         selectedValue: samples.simple,
       }
