@@ -95,6 +95,7 @@ export default {
           'btn btn-primary mt-2': true,
           [this.uiOptions.classNames]: this.uiOptions.classNames,
         },
+        'style': 'cursor: pointer;',
         on: {
           click: this.onAddClick,
         },
