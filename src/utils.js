@@ -258,14 +258,14 @@ export function retrieveSchema (schema, definitions = {}) {
  * @param cb
  */
 function traverseAndCall (schema, cb) {
-  if(schema.type === 'object') {
-    Object.keys(schema.properties).forEach(prop => {
-      schema.properties[prop] = traverseAndCall(schema.properties[prop], cb)
-    })
+  if (schema.type === 'object') {
+    schema.properties = Object.keys(schema.properties).reduce((properties, prop) => {
+      properties[prop] = traverseAndCall(cb(schema.properties[prop], cb), cb)
+      return properties
+    }, {})
     return schema
-  } else if(schema.type === 'array') {
-    schema.items = cb(schema.items)
-    return schema
+  } else if (schema.type === 'array') {
+    return {...schema, items: cb(schema.items)}
   } else {
     return cb(schema)
   }
