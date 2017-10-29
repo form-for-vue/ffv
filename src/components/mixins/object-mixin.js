@@ -35,21 +35,7 @@ export default {
     }
   },
 
-  created () {
-    this.defaultProps()
-  },
-
   methods: {
-    defaultProps () {
-      const value = Object.assign({}, this.value)
-      Object.keys(this.schema.properties).forEach(propName => {
-        const propSchema = this.schema.properties[propName]
-        if (value[propName] === undefined) {
-          value[propName] = propSchema.default
-        }
-      })
-      this.$emit('input', value)
-    },
     isRequired (name) {
       return (
         Array.isArray(this.schema.required) && this.schema.required.indexOf(name) !== -1
