@@ -17,22 +17,23 @@ export default {
         }
       })
     },
-    getPageProps (props) {
-      return props.map(prop => {
-        const removedProps = this.props.splice(findIndex(this.props, {name: prop}), 1)
+    getProps (props, propsNames) {
+      return propsNames.map(propName => {
+        const removedProps = props.splice(findIndex(props, {name: propName}), 1)
         if (removedProps && removedProps.length > 0) {
           return removedProps[0]
         }
       })
     },
     extractPagesProps (steps) {
-      return Object.keys(steps).map(step => {
-        if (step.includes('ui:others')) {
+      return Object.keys(steps).map(stepName => {
+        const step = steps[stepName]
+        if (stepName.includes('ui:others')) {
           return this.props
-        } else if (step.includes('ui')) {
-          return this.getPageProps(steps[step].props)
+        } else if (stepName.includes('ui')) {
+          return this.getProps(this.props, step.props)
         } else {
-          return this.props.splice(findIndex(this.props, {name: step}), 1)
+          return this.props.splice(findIndex(this.props, {name: stepName}), 1)
         }
       })
     },
@@ -52,10 +53,60 @@ export default {
         return {steps, pages}
       }
     },
+    hasGroups () {
+      return this.uiOptions && this.uiOptions['ui:groups']
+    },
+    getGroups (props) {
+      const groups = this.uiOptions['ui:groups']
+      return Object.keys(groups).map(group => {
+        if (group.includes('ui:others')) {
+          return {widget: 'wrapper', props}
+        } else {
+          return {widget: groups[group].widget || 'wrapper', props: this.getProps(props, groups[group].props)}
+        }
+      })
+    }
   },
 
   render (h) {
     const {steps, pages} = this.chooseStepsStrategy()
+
+    function renderProps (props) {
+      return props.map(prop => {
+        return h(SchemaProp, {
+          props: {
+            name: prop.name,
+            schema: prop.schema,
+            uiSchema: prop.uiSchema,
+            errorSchema: prop.errorSchema,
+            idSchema: prop.idSchema,
+            required: this.isRequired(prop.name),
+            value: prop.value,
+            registry: this.registry,
+          },
+          on: {
+            input: propVal => {
+              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
+            },
+            blur: propVal => {
+              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
+            }
+          }
+        })
+      })
+    }
+
+    function renderGroups (page) {
+      if (this.hasGroups()) {
+        return this.getGroups(page).map(group => {
+          return h(getWidget(this.schema,
+            group.widget || 'wrapper',
+            this.registry.widgets), {}, renderProps.bind(this)(group.props))
+        })
+      } else {
+        return renderProps.bind(this)(page)
+      }
+    }
 
     return h(getWidget(this.schema,
       this.uiOptions.widget || 'wizard',
@@ -68,30 +119,8 @@ export default {
       }, pages.map((page, index) => {
         return h('div', {
           slot: steps[index].slot,
-        }, page.map(prop => {
-          return h(SchemaProp, {
-            props: {
-              name: prop.name,
-              schema: prop.schema,
-              uiSchema: prop.uiSchema,
-              errorSchema: prop.errorSchema,
-              idSchema: prop.idSchema,
-              required: this.isRequired(prop.name),
-              value: prop.value,
-              registry: this.registry,
-            },
-            on: {
-              input: propVal => {
-                this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
-              },
-              blur: propVal => {
-                this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-              }
-            }
-          })
-        })
-        )
+        }, renderGroups.bind(this)(page))
       })
     )
-  },
+  }
 }
