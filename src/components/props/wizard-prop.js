@@ -53,11 +53,12 @@ export default {
         return {steps, pages}
       }
     },
-    hasGroups () {
-      return this.uiOptions && this.uiOptions['ui:groups']
+    hasGroups (stepNumber) {
+      return this.uiOptions && this.uiOptions['ui:groups'] && this.uiOptions['ui:groups'][`step:${stepNumber}`]
     },
-    getGroups (props) {
-      const groups = this.uiOptions['ui:groups']
+    getGroups (props, stepNumber) {
+      const steps = this.uiOptions['ui:groups']
+      const groups = steps[`step:${stepNumber}`]
       return Object.keys(groups).map(group => {
         if (group.includes('ui:others')) {
           return {widget: 'wrapper', props}
@@ -96,9 +97,9 @@ export default {
       })
     }
 
-    function renderGroups (page) {
-      if (this.hasGroups()) {
-        return this.getGroups(page).map(group => {
+    function renderGroups (page, stepNumber) {
+      if (this.hasGroups(stepNumber)) {
+        return this.getGroups(page, stepNumber).map(group => {
           return h(getWidget(this.schema,
             group.widget || 'wrapper',
             this.registry.widgets), {}, renderProps.bind(this)(group.props))
@@ -119,7 +120,7 @@ export default {
       }, pages.map((page, index) => {
         return h('div', {
           slot: steps[index].slot,
-        }, renderGroups.bind(this)(page))
+        }, renderGroups.bind(this)(page, index + 1))
       })
     )
   }
