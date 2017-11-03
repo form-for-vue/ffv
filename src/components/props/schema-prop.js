@@ -36,6 +36,7 @@ export default {
     const uiOptions = getUiOptions(
       context.props.schema,
       context.props.uiSchema, {
+        name: context.props.name,
         required: context.props.required,
         invalid: errors && errors.length > 0,
         handlers: context.props.handlers,

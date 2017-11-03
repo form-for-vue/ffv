@@ -61,9 +61,9 @@ export default {
       const groups = steps[`step:${stepNumber}`]
       return Object.keys(groups).map(group => {
         if (group.includes('ui:others')) {
-          return {widget: 'wrapper', props}
+          return {...groups[group], props}
         } else {
-          return {widget: groups[group].widget || 'wrapper', props: this.getProps(props, groups[group].props)}
+          return {...groups[group], props: this.getProps(props, groups[group].props)}
         }
       })
     }
@@ -102,7 +102,11 @@ export default {
         return this.getGroups(page, stepNumber).map(group => {
           return h(getWidget(this.schema,
             group.widget || 'wrapper',
-            this.registry.widgets), {}, renderProps.bind(this)(group.props))
+            this.registry.widgets), {
+              props: {
+                ...group['ui:options'],
+              },
+            }, renderProps.bind(this)(group.props))
         })
       } else {
         return renderProps.bind(this)(page)

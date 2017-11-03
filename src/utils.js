@@ -113,7 +113,7 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
     }, {}) : {}
 
   const schemaOptions = schema ? {
-    label: schema.title,
+    label: schema.title || optionalArgs.name,
     description: schema.description,
     defaultValue: schema.default,
   } : {}

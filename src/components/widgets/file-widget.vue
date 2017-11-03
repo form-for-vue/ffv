@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :classNames="classNames">
+  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
     <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
       <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
@@ -18,7 +18,7 @@
       <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
     </div>
 
-    <template slot="feedback">
+    <template slot="feedback" v-if="displayErrors">
       <div v-for="feedback in feedbacks" :key="feedback">{{ feedback }}</div>
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
@@ -50,10 +50,15 @@
       disabled: Boolean,
       classNames: String,
       displayLabel: Boolean,
+      displayErrors: Boolean,
       inputType: String,
       placeholder: String,
       multiple: Boolean,
       handlers: Object,
+      size: {
+        type: Number,
+        default: 12,
+      },
     },
 
     data () {

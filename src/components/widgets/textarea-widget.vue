@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :id="id" :classNames="classNames">
+  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
     <b-form-textarea
       :placeholder="placeholder"
       :value="value"
@@ -22,7 +22,7 @@
       {{ description }}
     </p>
 
-    <template slot="feedback">
+    <template slot="feedback" v-if="displayErrors">
       <div v-for="error in errors" :key="error">{{ error }}</div>
     </template>
   </wrapper-widget>
@@ -53,7 +53,12 @@
       disabled: Boolean,
       classNames: String,
       displayLabel: Boolean,
+      displayErrors: Boolean,
       placeholder: String,
+      size: {
+        type: Number,
+        default: 12,
+      },
     }
   }
 </script>

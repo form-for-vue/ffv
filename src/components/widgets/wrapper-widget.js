@@ -4,37 +4,32 @@ export default {
   props: {
     id: String,
     label: String,
+    displayLabel: Boolean,
     description: String,
     classNames: String,
-    horizontal: Boolean,
+    thin: Boolean,
   },
 
   render (h, context) {
     function showContents () {
       if ((context.slots().default || []).length > 0) {
-        if(context.props.horizontal) {
-          return h('div', {
-            'class': 'row'
-          }, context.slots().default)
-        } else {
-          return context.slots().default
-        }
+        return h('div', {
+          'class': 'row col-md-12 mx-0 px-0'
+        }, context.slots().default)
       }
     }
 
     function showLabel () {
-      if ((context.slots().label || []).length > 0) {
-        return h('template', {
-          slot: 'label'
+      if (context.props.displayLabel && (context.slots().label || []).length > 0) {
+        return h('label', {
+          'class': 'col-md-12'
         }, context.slots().label)
       }
     }
 
     function showDescription () {
       if ((context.slots().description || []).length > 0) {
-        return h('template', {
-          slot: 'description'
-        }, context.slots().description)
+        return h('small', context.slots().description)
       }
     }
 
@@ -47,8 +42,8 @@ export default {
     }
 
     return h(
-      'b-form-group', {
-        'class': context.props.classNames,
+      'div', {
+        'class': `form-group ${context.props.classNames || ''}${context.props.thin ? ' mb-0' : ''}`,
         attrs: {
           id: context.props.id,
         },
@@ -57,8 +52,8 @@ export default {
           description: context.props.description,
         },
       }, [
-        showContents(),
         showLabel(),
+        showContents(),
         showDescription(),
         showFeedbacks(),
       ]
