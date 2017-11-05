@@ -44,8 +44,10 @@ export default {
       if ((context.slots().default || []).length > 0) {
         if (context.props.horizontal) {
           return h('div', {
-            'class': 'row'
-          }, context.slots().default)
+            'class': 'container',
+          }, [h('div', {
+            'class': 'row',
+          }, context.slots().default)])
         } else {
           return context.slots().default
         }
