@@ -56,6 +56,10 @@ export default {
         ? context.props.registry.props[componentName].name : UnsupportedProp.name
     }
 
+    if (uiOptions && uiOptions.hidden === true) {
+      return
+    }
+
     return h(getPropComponent(), {
       props: {
         name: context.props.name,
