@@ -31,4 +31,5 @@ if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(plugin)
 }
 
+export * from './components/mixins/index'
 export default plugin
