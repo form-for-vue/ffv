@@ -106,6 +106,14 @@ export default {
               props: {
                 ...group['ui:options'],
               },
+              on: {
+                input: val => {
+                  this.$emit('input', val)
+                },
+                blur: val => {
+                  this.$emit('blur', val)
+                },
+              },
             }, renderProps.bind(this)(group.props))
         })
       } else {

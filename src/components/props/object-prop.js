@@ -12,7 +12,15 @@ export default {
         props: {
           id: this.idSchema.$id,
           ...this.uiOptions,
-        }
+        },
+        on: {
+          input: val => {
+            this.$emit('input', val)
+          },
+          blur: val => {
+            this.$emit('blur', val)
+          },
+        },
       }, this.props.map(prop => {
         return h(SchemaProp, {
           props: {
