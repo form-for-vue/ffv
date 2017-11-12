@@ -1,4 +1,3 @@
-import SchemaProp from './schema-prop.js'
 import findIndex from 'lodash-es/findIndex'
 import { getWidget } from '../../utils'
 import objectMixin from '../mixins/object-mixin'
@@ -53,73 +52,10 @@ export default {
         return {steps, pages}
       }
     },
-    hasGroups (stepNumber) {
-      return this.uiOptions && this.uiOptions['ui:groups'] && this.uiOptions['ui:groups'][`step:${stepNumber}`]
-    },
-    getGroups (props, stepNumber) {
-      const steps = this.uiOptions['ui:groups']
-      const groups = steps[`step:${stepNumber}`]
-      return Object.keys(groups).map(group => {
-        if (group.includes('ui:others')) {
-          return {...groups[group], props}
-        } else {
-          return {...groups[group], props: this.getProps(props, groups[group].props)}
-        }
-      })
-    }
   },
 
   render (h) {
     const {steps, pages} = this.chooseStepsStrategy()
-
-    function renderProps (props) {
-      return props.map(prop => {
-        return h(SchemaProp, {
-          props: {
-            name: prop.name,
-            schema: prop.schema,
-            uiSchema: prop.uiSchema,
-            errorSchema: prop.errorSchema,
-            idSchema: prop.idSchema,
-            required: this.isRequired(prop.name),
-            value: prop.value,
-            registry: this.registry,
-          },
-          on: {
-            input: propVal => {
-              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
-            },
-            blur: propVal => {
-              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-            }
-          }
-        })
-      })
-    }
-
-    function renderGroups (page, stepNumber) {
-      if (this.hasGroups(stepNumber)) {
-        return this.getGroups(page, stepNumber).map(group => {
-          return h(getWidget(this.schema,
-            group.widget || 'wrapper',
-            this.registry.widgets), {
-              props: {
-                ...group['ui:options'],
-              },
-              on: {
-                input: val => {
-                  this.$emit('input', val)
-                },
-                blur: val => {
-                  this.$emit('blur', val)
-                },
-              },
-            }, renderProps.bind(this)(group.props))
-        })
-      } else {
-        return renderProps.bind(this)(page)
-      }
-    }
 
     return h(getWidget(this.schema,
       this.uiOptions.widget || 'wizard',
@@ -128,11 +64,22 @@ export default {
           id: this.idSchema.$id,
           steps,
           ...this.uiOptions,
-        }
+        },
+        on: {
+          input: val => {
+            this.$emit('input', val)
+          },
+          blur: val => {
+            this.$emit('blur', val)
+          },
+          'parent-value': val => {
+            this.$emit('input', val)
+          },
+        },
       }, pages.map((page, index) => {
         return h('div', {
           slot: steps[index].slot,
-        }, renderGroups.bind(this)(page, index + 1))
+        }, this.renderGroups.bind(this)(h, page, index + 1))
       })
     )
   }

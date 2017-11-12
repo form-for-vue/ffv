@@ -1,5 +1,4 @@
 import { getPropChildId, getWidget } from '../../utils'
-import SchemaProp from './schema-prop'
 import objectMixin from '../mixins/object-mixin'
 
 export default {
@@ -20,32 +19,11 @@ export default {
           blur: val => {
             this.$emit('blur', val)
           },
-        },
-      }, this.props.map(prop => {
-        return h(SchemaProp, {
-          props: {
-            name: prop.name,
-            schema: prop.schema,
-            uiSchema: prop.uiSchema,
-            errorSchema: prop.errorSchema,
-            idSchema: prop.idSchema,
-            required: this.isRequired(prop.name),
-            value: prop.value,
-            registry: this.registry,
+          'parent-value': val => {
+            this.$emit('input', val)
           },
-          on: {
-            input: propVal => {
-              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
-            },
-            blur: propVal => {
-              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-            },
-            'parent-value': val => {
-              this.$emit('input', val)
-            },
-          }
-        })
-      }).concat([
+        },
+      }, [this.renderGroups.bind(this)(h, this.props)].concat([
         h('div', {
           attrs: {
             id: getPropChildId(this.idSchema, 'label'),
