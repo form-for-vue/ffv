@@ -31,7 +31,10 @@ export default {
             },
             blur: propVal => {
               this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
-            }
+            },
+            'parent-value': val => {
+              this.$emit('input', val)
+            },
           }
         })
       }).concat([
