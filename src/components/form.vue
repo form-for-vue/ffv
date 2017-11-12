@@ -3,7 +3,6 @@
     <form-widget :noHtml5Validate="noHtml5Validate" :onCustomSubmit="onSubmit">
       <schema-prop
         v-if="reducedSchema"
-        name="form"
         :schema="reducedSchema"
         :uiSchema="uiSchema"
         :errorSchema="errorSchema"
