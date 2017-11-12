@@ -14,25 +14,22 @@ export default {
     uiOptions: Object,
   },
 
-//    methods: {
-//      handleInput (value) {
-//        // To make required property error do it's job
-//        if (value === '') {
-//          value = undefined
-//        }
-//        this.$emit('input', value)
-//      },
-//      handleBlur (value) {
-//        if (value === '') {
-//          value = undefined
-//        }
-//        this.$emit('blur', value)
-//      },
-//    },
-
   render (h, context) {
+    function wrapEventHandlers (listeners) {
+      return Object.keys(listeners).reduce((events, event) => {
+        events[event] = value => {
+          // To make required property error do it's job
+          if (value === '') {
+            value = undefined
+          }
+          context.listeners[event].call(null, value)
+        }
+        return events
+      }, {})
+    }
+
     const enumOptions = isSelect(context.props.schema) && optionsList(context.props.schema)
-    const defaultWidget = enumOptions ? "select" : "text"
+    const defaultWidget = enumOptions ? 'select' : 'text'
 
     return h(getWidget(context.props.schema,
       context.props.uiOptions.widget || defaultWidget,
@@ -44,7 +41,7 @@ export default {
           ...context.props.uiOptions,
           enumOptions,
         },
-        on: context.listeners,
+        on: wrapEventHandlers(context.listeners),
       })
   }
 }
