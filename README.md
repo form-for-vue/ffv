@@ -105,10 +105,18 @@ const uiSchema = {
 ```
 
 ### Widgets
+`ffv` has a very flexible approach in using widgets and props, in fact it simply add 
+form functionality such as validation to components of your own or built-in `ffv` components.
+you can pass your own widgets or props based on `ffv` template or use built-in widgets and props. 
+built-in components are listed below
 
 #### widget options
-* input widget
-* text area widget
+* checkbox
+* file
+* input
+* radio
+* select
+* text-area
 
 
 ## Development
