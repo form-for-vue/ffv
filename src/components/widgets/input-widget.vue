@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
+  <wrapper-widget :id="id" :classNames="classNames" :size="size">
     <b-form-input
       :placeholder="placeholder"
       :value="value"
@@ -7,8 +7,8 @@
       :disabled="disabled"
       :type="inputType"
       :state="invalid ? 'invalid' : 'null'"
-      @input="value => $emit('input', value)"
-      @change="value => $emit('blur', value)"
+      @input="handleInput"
+      @change="handleBlur"
     >
     </b-form-input>
 
@@ -30,6 +30,7 @@
 
 <script>
   import WrapperWidget from './wrapper-widget.js'
+  import widgetMixin from '../mixins/widget-mixin'
 
   export default {
     name: 'input-widget',
@@ -38,28 +39,12 @@
       WrapperWidget,
     },
 
+    mixins: [widgetMixin],
+
     props: {
-      id: String,
-      errors: Array,
       value: [String, Number],
-      // -- uiOptions --
-      // schema prop
-      required: Boolean,
-      invalid: Boolean,
-      // json schema
-      label: String,
-      description: String,
-      // ui schema
-      disabled: Boolean,
-      classNames: String,
-      displayLabel: Boolean,
-      displayErrors: Boolean,
       inputType: String,
       placeholder: String,
-      size: {
-        type: Number,
-        default: 12,
-      },
     },
   }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
+  <wrapper-widget :id="id" :classNames="classNames" :size="size">
     <b-form-checkbox
       :checked="value"
       :required="required"
@@ -7,8 +7,9 @@
       :invalid="invalid ? 'invalid' : 'null'"
       @change="handleChange"
     >
-      <div v-if="displayLabel" v-html="label"></div>
     </b-form-checkbox>
+
+    <div v-if="displayLabel" slot="label" v-html="label"></div>
 
     <p
       v-if="displayLabel"
@@ -26,6 +27,7 @@
 
 <script>
   import WrapperWidget from './wrapper-widget.js'
+  import widgetMixin from '../mixins/widget-mixin'
 
   export default {
     name: 'checkbox-widget',
@@ -34,33 +36,17 @@
       WrapperWidget,
     },
 
+    mixins: [widgetMixin],
+
     props: {
-      id: String,
-      errors: Array,
       value: Boolean,
-      // -- uiOptions --
-      // schema prop
-      required: Boolean,
-      invalid: Boolean,
-      // json schema
-      label: String,
-      description: String,
-      // ui schema
-      disabled: Boolean,
-      classNames: String,
-      displayLabel: Boolean,
-      displayErrors: Boolean,
-      size: {
-        type: Number,
-        default: 12,
-      },
     },
 
     methods: {
       handleChange (value) {
-        this.$emit('input', value)
-        this.$emit('blur', value)
-      }
-    }
+        this.handleInput(value)
+        this.handleBlur(value)
+      },
+    },
   }
 </script>

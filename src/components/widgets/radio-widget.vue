@@ -1,12 +1,12 @@
 <template>
-  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
+  <wrapper-widget :id="id" :classNames="classNames" :size="size">
     <b-form-radio-group
       :value="value"
       :required="required"
       :disable="disabled"
       :state="invalid ? 'invalid' : 'null'"
-      @input="value => $emit('input', value)"
-      @change="value => $emit('blur', value)"
+      @input="handleInput"
+      @change="handleBlur"
     >
       <b-form-radio
         v-for="option in enumOptions"
@@ -32,44 +32,21 @@
 
 <script>
   import WrapperWidget from './wrapper-widget.js'
+  import widgetMixin from '../mixins/widget-mixin'
 
   export default {
     components: {
       WrapperWidget,
     },
 
+    mixins: [widgetMixin],
+
     props: {
-      id: String,
-      errors: Array,
       value: {
         type: [String, Number],
         default: null
       },
-      // -- uiOptions --
-      // schema prop
-      required: Boolean,
-      invalid: Boolean,
-      // json schema
-      label: String,
-      description: String,
-      // ui schema
-      disabled: Boolean,
-      classNames: String,
-      displayLabel: Boolean,
-      displayErrors: Boolean,
-      placeholder: String,
       enumOptions: Array,
-      size: {
-        type: Number,
-        default: 12,
-      },
     },
-
-    methods: {
-      handleChange (value) {
-        this.$emit('input', value)
-        this.$emit('blur', value)
-      }
-    }
   }
 </script>

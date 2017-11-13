@@ -1,13 +1,13 @@
 <template>
-  <wrapper-widget :id="id" :classNames="`col-md-${size} ${classNames || ''}`">
+  <wrapper-widget :id="id" :classNames="classNames" :size="size">
     <b-form-select
       :value="value"
       :required="required"
       :disable="disabled"
       :options="[]"
       :state="invalid ? 'invalid' : 'null'"
-      @input="value => $emit('input', value)"
-      @change="value => $emit('blur', value)"
+      @input="handleInput"
+      @change="handleBlur"
     >
       <option v-if="displayLabel" :value="null" v-html="placeholder"></option>
       <option
@@ -35,6 +35,7 @@
 
 <script>
   import WrapperWidget from './wrapper-widget.js'
+  import widgetMixin from '../mixins/widget-mixin'
 
   export default {
     name: 'select-widget',
@@ -43,31 +44,15 @@
       WrapperWidget,
     },
 
+    mixins: [widgetMixin],
+
     props: {
-      id: String,
-      errors: Array,
       value: {
         type: [String, Number],
         default: null
       },
-      // -- uiOptions --
-      // schema prop
-      required: Boolean,
-      invalid: Boolean,
-      // json schema
-      label: String,
-      description: String,
-      // ui schema
-      disabled: Boolean,
-      classNames: String,
-      displayLabel: Boolean,
-      displayErrors: Boolean,
       placeholder: String,
       enumOptions: Array,
-      size: {
-        type: Number,
-        default: 12,
-      },
     },
   }
 </script>
