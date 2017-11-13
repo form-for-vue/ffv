@@ -4,6 +4,8 @@
 
 > Form For Vue
 
+Generate form based on standard `json-schema` and customize it using `ui-schema`
+
 ## Installation
 
 ```bash
