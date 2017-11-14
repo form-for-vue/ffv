@@ -1,40 +1,36 @@
 <template>
-  <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <b-form-checkbox
-      :checked="value"
-      :required="required"
-      :disabled="disabled"
-      :invalid="invalid ? 'invalid' : 'null'"
-      @change="handleChange"
-    >
-    </b-form-checkbox>
+  <div :id="id" :class="{classNames: classNames, 'form-group mb-0': true, [`col-md-${size}`]: size}">
+    <div class="row align-items-center h-100">
+      <b-form-checkbox
+        :checked="value"
+        :required="required"
+        :disabled="disabled"
+        :invalid="invalid ? 'invalid' : 'null'"
+        @change="handleChange"
+      >
+        <div v-if="displayLabel" v-html="label"></div>
+      </b-form-checkbox>
 
-    <div v-if="displayLabel" slot="label" v-html="label"></div>
+      <p
+        v-if="displayLabel"
+        slot="description"
+        style="text-align: justify;"
+        class="text-muted"
+        v-html="description">
+      </p>
 
-    <p
-      v-if="displayLabel"
-      slot="description"
-      style="text-align: justify;"
-      class="text-muted"
-      v-html="description">
-    </p>
-
-    <template slot="feedback" v-if="displayErrors">
-      <div v-for="error in errors" :key="error">{{ error }}</div>
-    </template>
-  </wrapper-widget>
+      <template slot="feedback" v-if="displayErrors">
+        <div v-for="error in errors" :key="error">{{ error }}</div>
+      </template>
+    </div>
+  </div>
 </template>
 
 <script>
-  import WrapperWidget from './wrapper-widget.js'
   import widgetMixin from '../mixins/widget-mixin'
 
   export default {
     name: 'checkbox-widget',
-
-    components: {
-      WrapperWidget,
-    },
 
     mixins: [widgetMixin],
 
