@@ -9,38 +9,38 @@ export default {
 
   methods: {
     getSteps (steps) {
-      return Object.keys(steps).map(step => {
+      return steps.map(step => {
         return {
-          label: steps[step].title,
-          slot: step,
+          label: step.title,
+          slot: step.key,
         }
       })
     },
     getProps (props, propsNames) {
-      return propsNames.map(propName => {
-        const removedProps = props.splice(findIndex(props, {name: propName}), 1)
-        if (removedProps && removedProps.length > 0) {
-          return removedProps[0]
-        }
+      return props.filter(prop => {
+        return propsNames.includes(prop.name)
       })
     },
     extractPagesProps (steps) {
-      return Object.keys(steps).map(stepName => {
-        const step = steps[stepName]
-        if (stepName.includes('ui:others')) {
+      return steps.map(step => {
+        if (step.key.includes('ui:others')) {
           return this.props
-        } else if (stepName.includes('ui')) {
+        } else if (step.key.includes('ui')) {
           return this.getProps(this.props, step.props)
         } else {
-          return this.props.splice(findIndex(this.props, {name: stepName}), 1)
+          return [this.props[findIndex(this.props, {name: step.key})]]
         }
       })
     },
     chooseStepsStrategy () {
       if (this.uiOptions && this.uiOptions['ui:steps']) {
-        const steps = this.getSteps(this.uiOptions['ui:steps'])
-        const pages = this.extractPagesProps(this.uiOptions['ui:steps'])
-        return {steps, pages}
+        if (Array.isArray(this.uiOptions['ui:steps'])) {
+          const steps = this.getSteps(this.uiOptions['ui:steps'])
+          const pages = this.extractPagesProps(this.uiOptions['ui:steps'])
+          return {steps, pages}
+        } else {
+          console.warn('[ffv warn]: ui:steps should be an array.')
+        }
       } else {
         const steps = this.props.map(prop => {
           return {
