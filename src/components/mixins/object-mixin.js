@@ -1,5 +1,6 @@
 import { getObjectPropsIdSchema, getWidget } from '../../utils'
 import SchemaProp from '../props/schema-prop.js'
+import findIndex from 'lodash-es/findIndex'
 
 export default {
   props: {
@@ -44,7 +45,9 @@ export default {
     },
     hasGroups (stepNumber) {
       if (stepNumber) {
-        return this.uiOptions && this.uiOptions['ui:groups'] && this.uiOptions['ui:groups'][`step:${stepNumber}`]
+        return this.uiOptions &&
+          this.uiOptions['ui:groups'] &&
+          findIndex(this.uiOptions['ui:groups'], {step: stepNumber})
       } else {
         return this.uiOptions && this.uiOptions['ui:groups']
       }
@@ -52,18 +55,18 @@ export default {
     getGroupsProp (stepNumber) {
       const steps = this.uiOptions['ui:groups']
       if (stepNumber) {
-        return steps[`step:${stepNumber}`]
+        return steps[findIndex(steps, {step: stepNumber})].groups
       } else {
         return steps
       }
     },
     getGroups (props, stepNumber) {
       const groups = this.getGroupsProp(stepNumber)
-      return Object.keys(groups).map(group => {
+      return groups.map(group => {
         if (group.includes('ui:others')) {
-          return {...groups[group], props}
+          return {...group, props}
         } else {
-          return {...groups[group], props: this.getProps(props, groups[group].props)}
+          return {...group, props: this.getProps(props, group.props)}
         }
       })
     },
