@@ -23,9 +23,7 @@ export default {
     },
     extractPagesProps (steps) {
       return steps.map(step => {
-        if (step.key.includes('ui:others')) {
-          return this.props
-        } else if (step.key.includes('ui')) {
+        if (step.key.includes('ui')) {
           return this.getProps(this.props, step.props)
         } else {
           return [this.props[findIndex(this.props, {name: step.key})]]

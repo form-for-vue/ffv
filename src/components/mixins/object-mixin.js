@@ -47,7 +47,7 @@ export default {
       if (stepNumber) {
         return this.uiOptions &&
           this.uiOptions['ui:groups'] &&
-          findIndex(this.uiOptions['ui:groups'], {step: stepNumber})
+          findIndex(this.uiOptions['ui:groups'], {step: stepNumber}) !== -1
       } else {
         return this.uiOptions && this.uiOptions['ui:groups']
       }
@@ -63,11 +63,7 @@ export default {
     getGroups (props, stepNumber) {
       const groups = this.getGroupsProp(stepNumber)
       return groups.map(group => {
-        if (group.includes('ui:others')) {
-          return {...group, props}
-        } else {
-          return {...group, props: this.getProps(props, group.props)}
-        }
+        return {...group, props: this.getProps(props, group.props)}
       })
     },
     renderProps (h, props) {
@@ -97,19 +93,19 @@ export default {
         })
       })
     },
-    renderGroups (h, page, stepNumber) {
+    renderGroups (h, props, stepNumber) {
       if (this.hasGroups(stepNumber)) {
-        return this.getGroups(page, stepNumber).map(group => {
+        return this.getGroups(props, stepNumber).map(group => {
           return h(getWidget(this.schema,
             group.widget || 'wrapper',
             this.registry.widgets), {
-              props: {
-                ...group['ui:options'],
-              },
-            }, this.renderProps.bind(this)(h, group.props))
+            props: {
+              ...group['ui:options'],
+            },
+          }, this.renderProps.bind(this)(h, group.props))
         })
       } else {
-        return this.renderProps.bind(this)(h, page)
+        return this.renderProps.bind(this)(h, props)
       }
     }
   },
