@@ -105,10 +105,9 @@
   "license": "MIT",
   "dependencies": {
     "@ffvjs/ajv-i18n": "^2.1.0",
-    "ajv": "^5.2.2"
+    "ajv": "^5.4.0"
   },
   "optionalDependencies": {
-    "vue-good-wizard": "^1.1.2",
     "vuedraggable": "^2.14.1"
   }
 }
