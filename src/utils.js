@@ -253,17 +253,19 @@ export function retrieveSchema (schema, definitions = {}) {
 }
 
 /**
- * traverse json schema and call cb (callback for each prop
+ * traverse json schema and call cb (callback for each prop)
  * @param schema
  * @param cb
  */
 function traverseAndCall (schema, cb) {
   if (schema.type === 'object') {
-    schema.properties = Object.keys(schema.properties).reduce((properties, prop) => {
-      properties[prop] = traverseAndCall(cb(schema.properties[prop], cb), cb)
-      return properties
-    }, {})
-    return schema
+    return {
+      ...schema,
+      properties: Object.keys(schema.properties).reduce((properties, prop) => {
+        properties[prop] = traverseAndCall(cb(schema.properties[prop], cb), cb)
+        return properties
+      }, {})
+    }
   } else if (schema.type === 'array') {
     return {...schema, items: cb(schema.items)}
   } else {
@@ -277,7 +279,9 @@ export function reduceSchema (formSchema, definitions) {
   }
 
   if (definitions) {
-    return traverseAndCall(Object.assign({}, formSchema), retrieve)
+    const a = traverseAndCall(JSON.parse(JSON.stringify(formSchema)), retrieve)
+    // console.log(a)
+    return a
   } else {
     return formSchema
   }
