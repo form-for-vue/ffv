@@ -105,8 +105,7 @@
   "license": "MIT",
   "dependencies": {
     "@ffvjs/ajv-i18n": "^2.1.0",
-    "ajv": "^5.2.2",
-    "lodash-es": "^4.17.4"
+    "ajv": "^5.2.2"
   },
   "optionalDependencies": {
     "vue-good-wizard": "^1.1.2",

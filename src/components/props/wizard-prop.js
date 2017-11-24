@@ -1,4 +1,3 @@
-import findIndex from 'lodash-es/findIndex'
 import { getWidget } from '../../utils'
 import objectMixin from '../mixins/object-mixin'
 
@@ -28,7 +27,7 @@ export default {
           return this.props.filter(prop => step.props.includes(prop.name))
         } else {
           accProps.push(step.key)
-          return [this.props[findIndex(this.props, {name: step.key})]]
+          return [this.props[this.props.findIndex(prop => prop.name === step.key)]]
         }
       })
 
