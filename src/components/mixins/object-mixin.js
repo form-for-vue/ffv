@@ -62,9 +62,25 @@ export default {
     },
     getGroups (props, stepNumber) {
       const groups = this.getGroupsProp(stepNumber)
-      return groups.map(group => {
-        return {...group, props: this.getProps(props, group.props)}
+      let accProps = []
+      const restIndex = groups.findIndex(group => group.props === '*')
+
+      const groupedProps = groups.map(group => {
+        accProps.push(...group.props)
+        return {...group, props: props.filter(prop => group.props.includes(prop.name))}
       })
+
+      if (restIndex !== -1) {
+        groupedProps.splice(
+          restIndex,
+          0, {
+            ...groups[restIndex],
+            props: props.filter(prop => !accProps.includes(prop.name))
+          }
+        )
+      }
+
+      return groupedProps
     },
     renderProps (h, props) {
       return props.map(prop => {
@@ -99,10 +115,10 @@ export default {
           return h(getWidget(this.schema,
             group.widget || 'wrapper',
             this.registry.widgets), {
-            props: {
-              ...group['ui:options'],
-            },
-          }, this.renderProps.bind(this)(h, group.props))
+              props: {
+                ...group['ui:options'],
+              },
+            }, this.renderProps.bind(this)(h, group.props))
         })
       } else {
         return this.renderProps.bind(this)(h, props)

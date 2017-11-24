@@ -16,19 +16,27 @@ export default {
         }
       })
     },
-    getProps (props, propsNames) {
-      return props.filter(prop => {
-        return propsNames.includes(prop.name)
-      })
-    },
     extractPagesProps (steps) {
-      return steps.map(step => {
+      let accProps = []
+      const restIndex = steps.findIndex(step => step.props === '*')
+
+      const wizardPages = steps.filter(step => {
+        return step.props !== '*'
+      }).map(step => {
         if (step.key.includes('ui')) {
-          return this.getProps(this.props, step.props)
+          accProps.push(...step.props)
+          return this.props.filter(prop => step.props.includes(prop.name))
         } else {
+          accProps.push(step.key)
           return [this.props[findIndex(this.props, {name: step.key})]]
         }
       })
+
+      if (restIndex !== -1) {
+        wizardPages.splice(restIndex, 0, this.props.filter(prop => !accProps.includes(prop.name)))
+      }
+
+      return wizardPages
     },
     chooseStepsStrategy () {
       if (this.uiOptions && this.uiOptions['ui:steps']) {
