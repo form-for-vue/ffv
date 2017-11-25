@@ -19,6 +19,8 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
+
     function showContents () {
       if ((context.slots().default || []).length > 0) {
         return h('div', {
@@ -28,19 +30,19 @@ export default {
     }
 
     function showLabel () {
-      if (context.props.displayLabel && (context.slots().label || []).length > 0) {
+      if (props.displayLabel && (context.slots().label || []).length > 0) {
         return h('div', context.slots().label)
       }
     }
 
     function showDescription () {
-      if (context.props.displayLabel && (context.slots().description || []).length > 0) {
+      if (props.displayLabel && (context.slots().description || []).length > 0) {
         return h('div', context.slots().description)
       }
     }
 
     function showFeedbacks () {
-      if (context.props.displayErrors && (context.slots().feedback || []).length > 0) {
+      if (props.displayErrors && (context.slots().feedback || []).length > 0) {
         return h('template', context.slots().feedback)
       }
     }
@@ -49,11 +51,11 @@ export default {
       'div', {
         staticClass: 'form-group mb-0',
         'class': {
-          [`col-md-${context.props.size}`]: context.props.size,
-          [context.props.classNames]: context.props.classNames,
+          [`col-md-${props.size}`]: props.size,
+          [props.classNames]: props.classNames,
         },
         attrs: {
-          id: context.props.id,
+          id: props.id,
         },
       }, [
         showLabel(),

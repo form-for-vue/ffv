@@ -15,6 +15,8 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
+
     function wrapEventHandlers (listeners) {
       return Object.keys(listeners).reduce((events, event) => {
         events[event] = value => {
@@ -22,23 +24,23 @@ export default {
           if (value === '') {
             value = undefined
           }
-          context.listeners[event].call(null, value)
+          listeners[event].call(null, value)
         }
         return events
       }, {})
     }
 
-    const enumOptions = isSelect(context.props.schema) && optionsList(context.props.schema)
+    const enumOptions = isSelect(props.schema) && optionsList(props.schema)
     const defaultWidget = enumOptions ? 'select' : 'text'
 
-    return h(getWidget(context.props.schema,
-      context.props.uiOptions.widget || defaultWidget,
-      context.props.registry.widgets), {
+    return h(getWidget(props.schema,
+      props.uiOptions.widget || defaultWidget,
+      props.registry.widgets), {
         props: {
-          id: context.props.idSchema.$id,
-          errors: context.props.errors,
-          value: context.props.value ? context.props.value : context.props.uiOptions.defaultValue,
-          ...context.props.uiOptions,
+          id: props.idSchema.$id,
+          errors: props.errors,
+          value: props.value ? props.value : props.uiOptions.defaultValue,
+          ...props.uiOptions,
           enumOptions,
         },
         on: wrapEventHandlers(context.listeners),

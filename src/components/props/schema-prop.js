@@ -26,20 +26,22 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
     let errors
-    if (context.props.errorSchema &&
-      context.props.errorSchema._errors !== undefined &&
-      context.props.errorSchema._errors.length > 0) {
-      errors = context.props.errorSchema._errors
+
+    if (props.errorSchema &&
+      props.errorSchema._errors !== undefined &&
+      props.errorSchema._errors.length > 0) {
+      errors = props.errorSchema._errors
     }
 
     const uiOptions = getUiOptions(
-      context.props.schema,
-      context.props.uiSchema, {
-        name: context.props.name,
-        required: context.props.required,
+      props.schema,
+      props.uiSchema, {
+        name: props.name,
+        required: props.required,
         invalid: errors && errors.length > 0,
-        handlers: context.props.handlers,
+        handlers: props.handlers,
       }
     )
 
@@ -48,12 +50,12 @@ export default {
       if (typeof prop === 'function') {
         return prop
       }
-      if (typeof prop === 'string' && prop in context.props.registry.props) {
-        return context.props.registry.props[prop]
+      if (typeof prop === 'string' && prop in props.registry.props) {
+        return props.registry.props[prop]
       }
-      const componentName = COMPONENT_TYPES[context.props.schema.type]
-      return componentName in context.props.registry.props
-        ? context.props.registry.props[componentName].name : UnsupportedProp.name
+      const componentName = COMPONENT_TYPES[props.schema.type]
+      return componentName in props.registry.props
+        ? props.registry.props[componentName].name : UnsupportedProp.name
     }
 
     if (uiOptions && uiOptions.hidden === true) {
@@ -62,17 +64,17 @@ export default {
 
     return h(getPropComponent(), {
       props: {
-        name: context.props.name,
-        schema: context.props.schema,
-        uiSchema: context.props.uiSchema,
-        errorSchema: context.props.errorSchema,
+        name: props.name,
+        schema: props.schema,
+        uiSchema: props.uiSchema,
+        errorSchema: props.errorSchema,
         idSchema: getIdSchema({
-          idSchema: context.props.idSchema,
+          idSchema: props.idSchema,
           id: uiOptions.$id
         }),
         errors: uiOptions.displayErrors ? errors : undefined,
-        value: context.props.value,
-        registry: context.props.registry,
+        value: props.value,
+        registry: props.registry,
         uiOptions,
       },
       on: context.listeners,

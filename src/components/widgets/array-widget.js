@@ -19,12 +19,14 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
+
     function showAddAction () {
-      if (context.props.canAdd) {
+      if (props.canAdd) {
         return h('div', {
           'class': 'btn btn-primary fa fa-plus',
           on: {
-            click: context.props.onClick,
+            click: props.onClick,
           },
         })
       }
@@ -32,23 +34,23 @@ export default {
 
     return h(WrapperWidget, {
       props: {
-        id: context.props.idSchema.$id,
-        classNames: context.props.classNames,
+        id: props.idSchema.$id,
+        classNames: props.classNames,
       }
     }, [
       // label and description
       h('div', {
         attrs: {
-          id: getPropChildId(context.props.idSchema, 'label')
+          id: getPropChildId(props.idSchema, 'label')
         },
         slot: 'label'
-      }, context.props.displayLabel ? context.props.label : undefined),
+      }, props.displayLabel ? props.label : undefined),
       h('div', {
         attrs: {
-          id: getPropChildId(context.props.idSchema, 'description')
+          id: getPropChildId(props.idSchema, 'description')
         },
         slot: 'description'
-      }, context.props.displayLabel ? context.props.description : undefined),
+      }, props.displayLabel ? props.description : undefined),
       // items
       context.slots().default,
       // actions

@@ -21,27 +21,29 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
+
     function showMoveUpDown () {
-      if (context.props.canMoveUp || context.props.canMoveDown) {
+      if (props.canMoveUp || props.canMoveDown) {
         return [
           h('button', {
             attrs: {
               type: 'button',
-              disabled: !context.props.canMoveUp,
+              disabled: !props.canMoveUp,
             },
             'class': 'btn btn-primary fa fa-arrow-up',
             on: {
-              click: context.props.onReorderClick.bind(null, context.props.index, context.props.index - 1),
+              click: props.onReorderClick.bind(null, props.index, props.index - 1),
             },
           }),
           h('button', {
             attrs: {
               type: 'button',
-              disabled: !context.props.canMoveDown,
+              disabled: !props.canMoveDown,
             },
             'class': 'btn btn-primary fa fa-arrow-down',
             on: {
-              click: context.props.onReorderClick.bind(null, context.props.index, context.props.index + 1),
+              click: props.onReorderClick.bind(null, props.index, props.index + 1),
             },
           })
         ]
@@ -51,21 +53,21 @@ export default {
     }
 
     function showRemove () {
-      if (context.props.canRemove) {
+      if (props.canRemove) {
         return h('button', {
           attrs: {
             type: 'button',
           },
           'class': 'btn btn-primary fa fa-times',
           on: {
-            click: context.props.onDropIndexClick.bind(null, context.props.index),
+            click: props.onDropIndexClick.bind(null, props.index),
           },
         })
       }
     }
 
     function showActions () {
-      if (context.props.hasToolbar) {
+      if (props.hasToolbar) {
         return h('div', {
           'class': 'col-3 row justify-content-around align-items-center btn-group pb-3'
         }, [
@@ -80,7 +82,7 @@ export default {
     }, [
       // item content
       h('div', {
-        'class': context.props.hasToolbar ? 'col-9' : 'col-12'
+        'class': props.hasToolbar ? 'col-9' : 'col-12'
       }, context.slots().default),
       // item actions
       showActions(),

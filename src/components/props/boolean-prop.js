@@ -29,15 +29,17 @@ export default {
   },
 
   render (h, context) {
-    const value = context.props.value === true || context.props.value === false ? context.props.value : context.props.uiOptions.defaultValue
-    return h(getWidget(context.props.schema,
-      context.props.uiOptions.widget || 'checkbox',
-      context.props.registry.widgets), {
+    const {props} = context
+
+    const value = props.value === true || props.value === false ? props.value : props.uiOptions.defaultValue
+    return h(getWidget(props.schema,
+      props.uiOptions.widget || 'checkbox',
+      props.registry.widgets), {
         props: {
-          id: context.props.idSchema.$id,
-          errors: context.props.errors,
+          id: props.idSchema.$id,
+          errors: props.errors,
           value,
-          ...context.props.uiOptions,
+          ...props.uiOptions,
         },
         on: context.listeners,
       })

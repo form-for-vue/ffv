@@ -12,8 +12,10 @@ export default {
   },
 
   render (h, context) {
+    const {props} = context
+
     function getWrapper () {
-      if (context.props.remove) {
+      if (props.remove) {
         return [
           h('div', {
             'class': 'd-flex flex-column border border-muted p-2',
@@ -21,7 +23,7 @@ export default {
             h('div', {
               'class': 'fa fa-times align-self-end text-danger',
               on: {
-                click: context.props.remove,
+                click: props.remove,
               },
             }),
             showContents(),
@@ -42,7 +44,7 @@ export default {
 
     function showContents () {
       if ((context.slots().default || []).length > 0) {
-        if (context.props.horizontal) {
+        if (props.horizontal) {
           return h('div', {
             'class': 'container',
           }, [h('div', {
@@ -80,13 +82,13 @@ export default {
 
     return h(
       'b-form-group', {
-        'class': context.props.classNames,
+        'class': props.classNames,
         attrs: {
-          id: context.props.id,
+          id: props.id,
         },
         props: {
-          label: context.props.label,
-          description: context.props.description,
+          label: props.label,
+          description: props.description,
         },
       }, [
         h('div', {
@@ -98,7 +100,7 @@ export default {
             h('div', {
               'class': 'font-weight-bold rounded-circle text-center',
               style: 'font-size: 24px; color: #218838; width: 30px;'
-            }, context.props.index + 1)
+            }, props.index + 1)
           ]),
           h('div', {
             'class': 'col'
