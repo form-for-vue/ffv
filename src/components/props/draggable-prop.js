@@ -91,8 +91,8 @@ export default {
         })
       ),
       this.canAddItem(this.value) ? h('div', {
+        staticClass: 'btn btn-primary mt-2',
         'class': {
-          'btn btn-primary mt-2': true,
           [this.uiOptions.classNames]: this.uiOptions.classNames,
         },
         'style': 'cursor: pointer;',

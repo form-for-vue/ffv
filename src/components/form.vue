@@ -40,9 +40,7 @@
       liveValidate: {
         type: String,
         default: 'lazy',
-        validator (value) {
-          return ['eager', 'lazy', 'no'].includes(value)
-        }
+        validator: value => ['eager', 'lazy', 'no'].includes(value)
       },
       noValidate: {
         type: Boolean,

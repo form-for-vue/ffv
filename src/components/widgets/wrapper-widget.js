@@ -47,7 +47,11 @@ export default {
 
     return h(
       'div', {
-        'class': `form-group mb-0 ${`col-md-${context.props.size}` || ''} ${context.props.classNames || ''}`,
+        staticClass: 'form-group mb-0',
+        'class': {
+          [`col-md-${context.props.size}`]: context.props.size,
+          [context.props.classNames]: context.props.classNames,
+        },
         attrs: {
           id: context.props.id,
         },
