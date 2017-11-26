@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="form-group mb-0" :class="{classNames: classNames, [`col-md-${size}`]: size}">
+  <div :id="id" class="form-group mb-0" :class="{[classNames]: classNames, [`col-md-${size}`]: size}">
     <div class="row align-items-center h-100">
       <b-form-checkbox
         :checked="value"
