@@ -1,6 +1,6 @@
 {
   "name": "ffv",
-  "version": "0.3.22",
+  "version": "0.3.23",
   "description": "Form For Vue",
   "author": "Siavash Kavousi",
   "main": "dist/ffv.common.js",
