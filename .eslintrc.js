@@ -31,6 +31,7 @@ module.exports = {
     'space-before-blocks': 2,
     'no-multi-spaces': 2,
     "object-curly-spacing": [2, "always"],
+    "keyword-spacing": ["error"],
     // vue eslint
     'vue/order-in-components': ['error', {
       'order': [

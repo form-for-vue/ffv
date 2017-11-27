@@ -48,11 +48,11 @@ export default {
               on: {
                 input: itemVal => {
                   this.value.splice(item.index, 1, itemVal)
-                  this.$emit('input', this.value)
+                  this.$emit('input', { value: this.value })
                 },
                 blur: itemVal => {
                   this.value.splice(item.index, 1, itemVal)
-                  this.$emit('blur', this.value)
+                  this.$emit('blur', { value: this.value })
                 }
               },
             })
@@ -78,11 +78,11 @@ export default {
                   on: {
                     input: itemVal => {
                       this.value.splice(item.index, 1, itemVal)
-                      this.$emit('input', this.value)
+                      this.$emit('input', { value: this.value })
                     },
                     blur: itemVal => {
                       this.value.splice(item.index, 1, itemVal)
-                      this.$emit('blur', this.value)
+                      this.$emit('blur', { value: this.value })
                     }
                   },
                 })

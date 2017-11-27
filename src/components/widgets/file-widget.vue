@@ -67,7 +67,7 @@
     watch: {
       media (val) {
         this.previewFile(val)
-        if(this.handlers && this.handlers.onUpload) {
+        if (this.handlers && this.handlers.onUpload) {
           this.handlers.onUpload(val, this.onProgress).then(responseData => {
             if (responseData !== false) {
               this.$emit('input', responseData)

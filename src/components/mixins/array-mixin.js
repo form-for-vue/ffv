@@ -66,7 +66,7 @@ export default {
       if (isFixedItems(this.schema) && this.allowAdditionalItems(this.schema)) {
         itemSchema = this.schema.additionalItems
       }
-      this.$emit('input', [...(this.value || []), getDefaultFormState(itemSchema, undefined)])
+      this.$emit('input', { value: [...(this.value || []), getDefaultFormState(itemSchema, undefined)] })
     },
     isItemRequired (itemSchema) {
       if (Array.isArray(itemSchema.type)) {
@@ -91,14 +91,14 @@ export default {
           return item
         }
       })
-      this.$emit('input', value)
+      this.$emit('input', { value })
     },
     onDropIndexClick (index, event) {
       if (event) {
         event.preventDefault()
         event.stopPropagation()
       }
-      this.$emit('input', this.value.filter((_, i) => i !== index))
+      this.$emit('input', { value: this.value.filter((_, i) => i !== index) })
     },
   }
 }

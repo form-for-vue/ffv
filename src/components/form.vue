@@ -80,14 +80,14 @@
         const { errorSchema } = validateFormData(this.schema, this.value, options)
         this.errorSchema = errorSchema
       },
-      handleInput (value) {
-        if (!this.noValidate && this.liveValidate === 'eager') {
+      handleInput ({ value, options={ validate: false } }) {
+        if (!this.noValidate && options.validate && this.liveValidate === 'eager') {
           this.validate(value)
         }
         this.$emit('input', value)
       },
-      handleBlur (value) {
-        if (!this.noValidate && this.liveValidate === 'lazy') {
+      handleBlur ({ value, options={ validate: false } }) {
+        if (!this.noValidate && options.validate && this.liveValidate === 'lazy') {
           this.validate(value)
         }
         this.$emit('input', value)

@@ -71,14 +71,14 @@ export default {
           ...this.uiOptions,
         },
         on: {
-          input: val => {
-            this.$emit('input', val)
+          input: value => {
+            this.$emit('input', { value })
           },
-          blur: val => {
-            this.$emit('blur', val)
+          blur: value => {
+            this.$emit('blur', { value })
           },
-          'parent-value': val => {
-            this.$emit('input', val)
+          'parent-value': value => {
+            this.$emit('input', { value })
           },
         },
       }, pages.map((page, index) => {

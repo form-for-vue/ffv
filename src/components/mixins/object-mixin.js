@@ -136,13 +136,17 @@ export default {
           },
           on: {
             input: propVal => {
-              this.$emit('input', Object.assign({}, this.value, { [prop.name]: propVal }))
+              this.$emit('input', {
+                value: Object.assign({}, this.value, { [prop.name]: propVal })
+              })
             },
             blur: propVal => {
-              this.$emit('blur', Object.assign({}, this.value, { [prop.name]: propVal }))
+              this.$emit('blur', {
+                value: Object.assign({}, this.value, { [prop.name]: propVal })
+              })
             },
-            'parent-value': val => {
-              this.$emit('input', val)
+            'parent-value': value => {
+              this.$emit('input', { value })
             },
           }
         })
