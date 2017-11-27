@@ -19,7 +19,7 @@ export default {
   },
 
   render (h, context) {
-    const {props} = context
+    const { props } = context
 
     function showAddAction () {
       if (props.canAdd) {

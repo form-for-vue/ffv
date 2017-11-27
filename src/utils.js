@@ -40,7 +40,7 @@ const widgetMap = {
  * @returns widget
  */
 export function getWidget (schema, widget, registeredWidgets = {}) {
-  const {type} = schema
+  const { type } = schema
 
   if (registeredWidgets.hasOwnProperty(widget)) {
     return registeredWidgets[widget]
@@ -108,7 +108,7 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
       const value = uiSchema[key]
 
       if (key === 'ui:options' && isObject(value)) {
-        return {...options, ...value}
+        return { ...options, ...value }
       }
     }, {}) : {}
 
@@ -119,25 +119,25 @@ export function getUiOptions (schema, uiSchema, optionalArgs = {}) {
   } : {}
 
   if (schema.type === 'object') {
-    return {...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions, displayErrors: false}
+    return { ...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions, displayErrors: false }
   } else {
-    return {...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions}
+    return { ...defaults, ...optionalArgs, ...schemaOptions, ...uiSchemaOptions }
   }
 }
 
 const ID_DELIMITER = '__'
 
-export function getIdSchema ({idSchema, id}) {
+export function getIdSchema ({ idSchema, id }) {
   if (id) {
-    return {$id: id}
+    return { $id: id }
   } else {
-    return idSchema || {$id: 'ffv-root'}
+    return idSchema || { $id: 'ffv-root' }
   }
 }
 
 export function getObjectPropsIdSchema (schema, idSchema) {
   return Object.keys(schema.properties).reduce((props, propName) => {
-    props[propName] = {$id: idSchema.$id + ID_DELIMITER + propName}
+    props[propName] = { $id: idSchema.$id + ID_DELIMITER + propName }
     return props
   }, {})
 }
@@ -249,7 +249,7 @@ export function retrieveSchema (schema, definitions = {}) {
   // Drop the $ref property of the source schema.
   const {$ref, ...localSchema} = schema // eslint-disable-line
   // Update referenced schema definition with local schema properties.
-  return {...$refSchema, ...localSchema}
+  return { ...$refSchema, ...localSchema }
 }
 
 /**
@@ -267,7 +267,7 @@ function traverseAndCall (schema, cb) {
       }, {})
     }
   } else if (schema.type === 'array') {
-    return {...schema, items: cb(schema.items)}
+    return { ...schema, items: cb(schema.items) }
   } else {
     return cb(schema)
   }
@@ -323,14 +323,14 @@ export function optionsList (schema) {
   if (schema.enum) {
     return schema.enum.map((value, i) => {
       const label = (schema.enumNames && schema.enumNames[i]) || String(value)
-      return {label, value}
+      return { label, value }
     })
   } else {
     const altSchemas = schema.oneOf || schema.anyOf
     return altSchemas.map(schema => {
       const value = toConstant(schema)
       const label = schema.title || String(value)
-      return {label, value}
+      return { label, value }
     })
   }
 }

@@ -34,7 +34,7 @@ export default {
               index: index,
               remove: this.onDropIndexClick.bind(null, index),
             }
-            item.uiSchema = {...item.uiSchema, 'ui:options': uiOptions}
+            item.uiSchema = { ...item.uiSchema, 'ui:options': uiOptions }
             return h(SchemaProp, {
               props: {
                 schema: item.schema,

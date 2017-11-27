@@ -74,10 +74,10 @@
 
     methods: {
       validateAll () {
-        this.validate({allErrors: true})
+        this.validate({ allErrors: true })
       },
       validate (options) {
-        const {errorSchema} = validateFormData(this.schema, this.value, options)
+        const { errorSchema } = validateFormData(this.schema, this.value, options)
         this.errorSchema = errorSchema
       },
       handleInput (value) {
@@ -97,10 +97,10 @@
         }
       },
       getRegistry () {
-        const {props, widgets} = getDefaultRegistry()
+        const { props, widgets } = getDefaultRegistry()
         return {
-          props: {...props, ...this.props},
-          widgets: {...widgets, ...this.widgets},
+          props: { ...props, ...this.props },
+          widgets: { ...widgets, ...this.widgets },
         }
       },
     }

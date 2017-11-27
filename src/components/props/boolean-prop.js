@@ -22,14 +22,14 @@ export default {
       if (schema.enum && schema.enumNames) {
         return schema.enum.map((value, i) => {
           const label = (schema.enumNames && schema.enumNames[i]) || String(value)
-          return {label, value}
+          return { label, value }
         })
       }
     }
   },
 
   render (h, context) {
-    const {props} = context
+    const { props } = context
 
     const value = props.value === true || props.value === false ? props.value : props.uiOptions.defaultValue
     return h(getWidget(props.schema,

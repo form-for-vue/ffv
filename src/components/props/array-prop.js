@@ -7,7 +7,7 @@ export default {
   mixins: [arrayMixin],
 
   render (h) {
-    const {orderable, removable} = {
+    const { orderable, removable } = {
       orderable: true,
       removable: true,
       ...this.uiOptions,

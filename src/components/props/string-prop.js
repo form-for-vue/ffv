@@ -15,7 +15,7 @@ export default {
   },
 
   render (h, context) {
-    const {props} = context
+    const { props } = context
 
     function wrapEventHandlers (listeners) {
       return Object.keys(listeners).reduce((events, event) => {

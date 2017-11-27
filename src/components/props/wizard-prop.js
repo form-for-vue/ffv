@@ -42,7 +42,7 @@ export default {
         if (Array.isArray(this.uiOptions['ui:steps'])) {
           const steps = this.getSteps(this.uiOptions['ui:steps'])
           const pages = this.extractPagesProps(this.uiOptions['ui:steps'])
-          return {steps, pages}
+          return { steps, pages }
         } else {
           console.warn('[ffv warn]: ui:steps should be an array.')
         }
@@ -54,13 +54,13 @@ export default {
           }
         })
         const pages = this.props
-        return {steps, pages}
+        return { steps, pages }
       }
     },
   },
 
   render (h) {
-    const {steps, pages} = this.chooseStepsStrategy()
+    const { steps, pages } = this.chooseStepsStrategy()
 
     return h(getWidget(this.schema,
       this.uiOptions.widget || 'wizard',

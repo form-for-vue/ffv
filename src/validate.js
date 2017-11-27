@@ -51,7 +51,7 @@ function transformErrors (errors) {
     return {}
   }
   return errors.reduce((errorSchema, error) => {
-    const {dataPath, message} = error
+    const { dataPath, message } = error
     const path = parse(dataPath)
     let parent = errorSchema
     path.forEach(segment => {
@@ -91,7 +91,7 @@ function showExistingValueErrors (errorSchema, value) {
 }
 
 export function validateFormData (schema, value, options) {
-  const ajv = new Ajv({allErrors: true, jsonPointers: true, removeAdditional: 'all'})
+  const ajv = new Ajv({ allErrors: true, jsonPointers: true, removeAdditional: 'all' })
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
@@ -100,7 +100,7 @@ export function validateFormData (schema, value, options) {
     if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
     }
-    return {errorSchema}
+    return { errorSchema }
   } else {
     return true
   }

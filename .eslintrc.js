@@ -30,6 +30,8 @@ module.exports = {
     'space-before-function-paren': ['error', 'always'],
     'space-before-blocks': 2,
     'no-multi-spaces': 2,
+    "object-curly-spacing": [2, "always"],
+    // vue eslint
     'vue/order-in-components': ['error', {
       'order': [
         ['name', 'delimiters', 'functional', 'model'],

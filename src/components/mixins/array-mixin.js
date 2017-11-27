@@ -24,7 +24,7 @@ export default {
         const itemSchema = this.schema.items
         const itemUiSchema = this.uiSchema ? this.uiSchema.items : {}
         const itemErrorSchema = this.errorSchema ? this.errorSchema[index] : {}
-        const itemIdSchema = {$id: getPropChildId(this.idSchema, index)}
+        const itemIdSchema = { $id: getPropChildId(this.idSchema, index) }
         return {
           index: index,
           value: itemValue,
@@ -39,7 +39,7 @@ export default {
 
   methods: {
     canAddItem (items) {
-      let {addable} = this.uiSchema
+      let { addable } = this.uiSchema
       if (addable !== false) {
         // if ui:options.addable was not explicitly set to false, we can add
         // another item if we have not exceeded maxItems yet

@@ -106,7 +106,7 @@ export default {
 
       const groupedProps = groups.map(group => {
         accProps.push(...group.props)
-        return {...group, props: props.filter(prop => group.props.includes(prop.name))}
+        return { ...group, props: props.filter(prop => group.props.includes(prop.name)) }
       })
 
       if (restIndex !== -1) {
@@ -136,10 +136,10 @@ export default {
           },
           on: {
             input: propVal => {
-              this.$emit('input', Object.assign({}, this.value, {[prop.name]: propVal}))
+              this.$emit('input', Object.assign({}, this.value, { [prop.name]: propVal }))
             },
             blur: propVal => {
-              this.$emit('blur', Object.assign({}, this.value, {[prop.name]: propVal}))
+              this.$emit('blur', Object.assign({}, this.value, { [prop.name]: propVal }))
             },
             'parent-value': val => {
               this.$emit('input', val)

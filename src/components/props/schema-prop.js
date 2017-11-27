@@ -26,7 +26,7 @@ export default {
   },
 
   render (h, context) {
-    const {props} = context
+    const { props } = context
     let errors
 
     if (props.errorSchema &&
