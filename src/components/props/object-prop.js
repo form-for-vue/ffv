@@ -13,14 +13,17 @@ export default {
           ...this.uiOptions,
         },
         on: {
-          input: value => {
+          input: ({ value }) => {
             this.$emit('input', { value })
           },
-          blur: value => {
+          blur: ({ value }) => {
             this.$emit('blur', { value })
           },
           'parent-value': value => {
             this.$emit('input', { value })
+          },
+          errors: ({ errors: propErrors }) => {
+            this.$emit('errors', { errors: [...this.errors, ...propErrors] })
           },
         },
       }, [this.renderGroups.bind(this)(h, this.props)].concat([

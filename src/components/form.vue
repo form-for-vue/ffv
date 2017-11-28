@@ -11,6 +11,7 @@
         :handlers="handlers"
         @input="handleInput"
         @blur="handleBlur"
+        @errors="handleErrors"
       ></schema-prop>
 
       <div slot="actions">
@@ -28,6 +29,19 @@
   export default {
     components: {
       FormWidget,
+    },
+
+    provide () {
+      const errorProvider = {}
+      Object.defineProperty(errorProvider, 'errors', {
+        enumerable: true,
+        get: () => this.errors,
+      })
+      Object.defineProperty(errorProvider, 'errorSchema', {
+        enumerable: true,
+        get: () => this.errorSchema
+      })
+      return { errorProvider }
     },
 
     props: {
@@ -61,6 +75,7 @@
       return {
         registry: this.getRegistry(),
         errorSchema: null,
+        errors: null,
       }
     },
 
@@ -77,16 +92,17 @@
         this.validate({ allErrors: true })
       },
       validate (options) {
-        const { errorSchema } = validateFormData(this.schema, this.value, options)
+        const { errors, errorSchema } = validateFormData(this.schema, this.value, options)
+        this.errors = errors
         this.errorSchema = errorSchema
       },
-      handleInput ({ value, options={ validate: false } }) {
+      handleInput ({ value, options={ validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'eager') {
           this.validate(value)
         }
         this.$emit('input', value)
       },
-      handleBlur ({ value, options={ validate: false } }) {
+      handleBlur ({ value, options={ validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'lazy') {
           this.validate(value)
         }
@@ -94,6 +110,13 @@
 
         if (this.onBlur) {
           this.onBlur()
+        }
+      },
+      handleErrors ({ errors }) {
+        if (this.errors) {
+          this.errors = Array.from(new Set([...this.errors, ...errors]))
+        } else {
+          this.errors = errors
         }
       },
       getRegistry () {

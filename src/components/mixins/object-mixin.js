@@ -8,6 +8,10 @@ export default {
     uiSchema: Object,
     errorSchema: [Object, Boolean],
     idSchema: Object,
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     value: Object,
     registry: Object,
     uiOptions: Object,
@@ -135,18 +139,21 @@ export default {
             registry: this.registry,
           },
           on: {
-            input: propVal => {
+            input: ({ value: propVal }) => {
               this.$emit('input', {
                 value: Object.assign({}, this.value, { [prop.name]: propVal })
               })
             },
-            blur: propVal => {
+            blur: ({ value: propVal }) => {
               this.$emit('blur', {
                 value: Object.assign({}, this.value, { [prop.name]: propVal })
               })
             },
             'parent-value': value => {
               this.$emit('input', { value })
+            },
+            errors: ({ errors: propErrors }) => {
+              this.$emit('errors', { errors: [...this.errors, ...propErrors] })
             },
           }
         })

@@ -23,10 +23,10 @@ export default {
 
   methods: {
     handleInput (value) {
-      this.$emit('input', value)
+      this.$emit('input', { value })
     },
     handleBlur (value) {
-      this.$emit('blur', value)
+      this.$emit('blur', { value })
     },
   },
 }

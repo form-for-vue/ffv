@@ -70,8 +70,8 @@
         if (this.handlers && this.handlers.onUpload) {
           this.handlers.onUpload(val, this.onProgress).then(responseData => {
             if (responseData !== false) {
-              this.$emit('input', responseData)
-              this.$emit('blur', responseData)
+              this.$emit('input', { value: responseData })
+              this.$emit('blur', { value: responseData })
             }
           }).catch(errors => {
             this.status = 'danger'

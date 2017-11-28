@@ -100,7 +100,7 @@ export function validateFormData (schema, value, options) {
     if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
     }
-    return { errorSchema }
+    return { errors: ajv.errors, errorSchema }
   } else {
     return true
   }
