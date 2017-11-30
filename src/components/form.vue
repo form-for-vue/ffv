@@ -33,10 +33,6 @@
 
     provide () {
       const errorProvider = {}
-      Object.defineProperty(errorProvider, 'errors', {
-        enumerable: true,
-        get: () => this.errors,
-      })
       Object.defineProperty(errorProvider, 'errorSchema', {
         enumerable: true,
         get: () => this.errorSchema
@@ -92,8 +88,7 @@
         this.validate({ allErrors: true })
       },
       validate (options) {
-        const { errors, errorSchema } = validateFormData(this.schema, this.value, options)
-        this.errors = errors
+        const { errorSchema } = validateFormData(this.reducedSchema, this.value, options)
         this.errorSchema = errorSchema
       },
       handleInput ({ value, options={ validate: true } }) {

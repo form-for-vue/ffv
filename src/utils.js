@@ -279,9 +279,7 @@ export function reduceSchema (formSchema, definitions) {
   }
 
   if (definitions) {
-    const a = traverseAndCall(JSON.parse(JSON.stringify(formSchema)), retrieve)
-    // console.log(a)
-    return a
+    return traverseAndCall(Object.assign({}, formSchema), retrieve)
   } else {
     return formSchema
   }

@@ -1,5 +1,4 @@
 import Ajv from 'ajv'
-import get from 'lodash-es/get'
 import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
@@ -91,15 +90,22 @@ function showExistingValueErrors (errorSchema, value) {
   }, {})
 }
 
-function concatPropTitle (schema, errors) {
-  return errors.map(error => {
-    const path = parse(error.schemaPath.substring(1))
-    path.pop()
+function traverseAndConcat (schema, errorSchema, cb) {
+  return Object.keys(errorSchema).filter(key => key !== '_errors').reduce((acc, key) => {
+    const prop = cb(schema.properties[key], errorSchema[key])
+    acc[key] = { ...prop, ...traverseAndConcat(schema.properties[key], errorSchema[key], cb) }
+    return acc
+  }, {})
+}
+
+function concatPropTitle (schema, errorSchema) {
+  function concat (schema, errorSchema) {
     return {
-      ...get(schema, path.join('.')),
-      message: error.message,
+      ...errorSchema,
+      _title: schema.title || ''
     }
-  })
+  }
+  return traverseAndConcat(schema, errorSchema, concat)
 }
 
 export function validateFormData (schema, value, options) {
@@ -108,12 +114,13 @@ export function validateFormData (schema, value, options) {
 
   if (!valid) {
     localize_fa(ajv.errors)
-    const errors = concatPropTitle(schema, ajv.errors)
     let errorSchema = transformErrors(ajv.errors)
     if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
     }
-    return { errors, errorSchema }
+    // concat schema prop title to each prop in errorSchema
+    errorSchema = concatPropTitle(schema, errorSchema)
+    return { errorSchema }
   } else {
     return true
   }
