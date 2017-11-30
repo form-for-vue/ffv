@@ -1,4 +1,5 @@
 import Ajv from 'ajv'
+import get from 'lodash-es/get'
 import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
@@ -90,17 +91,29 @@ function showExistingValueErrors (errorSchema, value) {
   }, {})
 }
 
+function concatPropTitle (schema, errors) {
+  return errors.map(error => {
+    const path = parse(error.schemaPath.substring(1))
+    path.pop()
+    return {
+      ...get(schema, path.join('.')),
+      message: error.message,
+    }
+  })
+}
+
 export function validateFormData (schema, value, options) {
   const ajv = new Ajv({ allErrors: true, jsonPointers: true, removeAdditional: 'all' })
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
     localize_fa(ajv.errors)
+    const errors = concatPropTitle(schema, ajv.errors)
     let errorSchema = transformErrors(ajv.errors)
     if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
     }
-    return { errors: ajv.errors, errorSchema }
+    return { errors, errorSchema }
   } else {
     return true
   }
