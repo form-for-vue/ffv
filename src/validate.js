@@ -1,4 +1,5 @@
 import Ajv from 'ajv'
+import {isEmpty} from "./utils"
 import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
@@ -82,30 +83,48 @@ function transformErrors (errors) {
  * @returns reducedErrorSchema
  */
 function showExistingValueErrors (errorSchema, value) {
-  return Object.keys(errorSchema).filter(prop => {
-    return value.hasOwnProperty(prop) && !(value[prop] === undefined || value[prop] === null)
-  }).reduce((reducedErrorSchema, prop) => {
-    reducedErrorSchema[prop] = errorSchema[prop]
-    return reducedErrorSchema
-  }, {})
-}
+  function recurse (errorSchema, value) {
+    return Object.keys(errorSchema).filter(prop => {
+      return value.hasOwnProperty(prop) && !(value[prop] === undefined || value[prop] === null)
+    }).reduce((reducedErrorSchema, prop) => {
+      if (typeof errorSchema[prop] === 'object' && !errorSchema[prop]._errors) {
+        errorSchema[prop] = recurse(errorSchema[prop], value[prop])
+      }
+      if (!isEmpty(errorSchema[prop])) {
+        reducedErrorSchema[prop] = errorSchema[prop]
+      }
+      return reducedErrorSchema
+    }, {})
+  }
 
-function traverseAndConcat (schema, errorSchema, cb) {
-  return Object.keys(errorSchema).filter(key => key !== '_errors').reduce((acc, key) => {
-    const prop = cb(schema.properties[key], errorSchema[key])
-    acc[key] = { ...prop, ...traverseAndConcat(schema.properties[key], errorSchema[key], cb) }
-    return acc
-  }, {})
+  const refinedErrorSchema = recurse(errorSchema, value)
+  if (!isEmpty(refinedErrorSchema)) {
+    return refinedErrorSchema
+  } else {
+    return null
+  }
 }
 
 function concatPropTitle (schema, errorSchema) {
+  function recurse (schema, errorSchema, cb) {
+    return Object.keys(errorSchema).filter(key => key !== '_errors').reduce((acc, key) => {
+      const prop = cb(schema.properties[key], errorSchema[key])
+      acc[key] = { ...prop, ...recurse(schema.properties[key], errorSchema[key], cb) }
+      return acc
+    }, {})
+  }
   function concat (schema, errorSchema) {
     return {
       ...errorSchema,
-      _title: schema.title || ''
+      _title: schema.title || '',
     }
   }
-  return traverseAndConcat(schema, errorSchema, concat)
+
+  if (!isEmpty(errorSchema)) {
+    return recurse(schema, errorSchema, concat)
+  } else {
+    return null
+  }
 }
 
 export function validateFormData (schema, value, options) {

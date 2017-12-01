@@ -67,8 +67,10 @@ export default {
       this.registry.widgets), {
         props: {
           id: this.idSchema.$id,
-          steps,
+          name: this.name,
+          value: this.value,
           ...this.uiOptions,
+          steps,
         },
         on: {
           input: ({ value }) => {

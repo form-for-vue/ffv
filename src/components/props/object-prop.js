@@ -10,6 +10,8 @@ export default {
       this.registry.widgets), {
         props: {
           id: this.idSchema.$id,
+          name: this.name,
+          value: this.value,
           ...this.uiOptions,
         },
         on: {

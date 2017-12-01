@@ -16,7 +16,7 @@ const widgetMap = {
     textarea: 'TextareaWidget',
     file: 'FileWidget',
     select: 'SelectWidget',
-    radio: 'RadioWidget'
+    radio: 'RadioWidget',
   },
   number: {
     text: 'InputWidget',
@@ -166,7 +166,7 @@ export function computeDefaults (schema, parentDefaults) {
     defaults = schema.default
   } else if (isFixedItems(schema)) {
     defaults = schema.items.map(itemSchema =>
-      computeDefaults(itemSchema, undefined)
+      computeDefaults(itemSchema, undefined),
     )
   }
 
@@ -247,7 +247,7 @@ export function retrieveSchema (schema, definitions = {}) {
   // Retrieve the referenced schema definition.
   const $refSchema = findSchemaDefinition(schema.$ref, definitions)
   // Drop the $ref property of the source schema.
-  const {$ref, ...localSchema} = schema // eslint-disable-line
+  const { $ref, ...localSchema } = schema // eslint-disable-line
   // Update referenced schema definition with local schema properties.
   return { ...$refSchema, ...localSchema }
 }
@@ -264,7 +264,7 @@ function traverseAndCall (schema, cb) {
       properties: Object.keys(schema.properties).reduce((properties, prop) => {
         properties[prop] = traverseAndCall(cb(schema.properties[prop], cb), cb)
         return properties
-      }, {})
+      }, {}),
     }
   } else if (schema.type === 'array') {
     return { ...schema, items: cb(schema.items) }
@@ -331,4 +331,38 @@ export function optionsList (schema) {
       return { label, value }
     })
   }
+}
+
+export function isEmpty (obj) {
+  // null and undefined are "empty"
+  if (obj == null) {
+    return true
+  }
+
+  // Assume if it has a length property with a non-zero value
+  // that that property is correct.
+  if (obj.length > 0) {
+    return false
+  }
+  if (obj.length === 0) {
+    return true
+  }
+
+  // If it isn't an object at this point
+  // it is empty, but it can't be anything *but* empty
+  // Is it empty?  Depends on your application.
+  if (typeof obj !== "object") {
+    return true
+  }
+
+  // Otherwise, does it have any properties of its own?
+  // Note that this doesn't handle
+  // toString and valueOf enumeration bugs in IE < 9
+  for (const key in obj) {
+    if (hasOwnProperty.call(obj, key)) {
+      return false
+    }
+  }
+
+  return true
 }
