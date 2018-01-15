@@ -37,7 +37,7 @@ export default {
           handlers: propHandlers,
         }
       })
-    }
+    },
   },
 
   methods: {
@@ -65,7 +65,7 @@ export default {
       const extraneous = order.filter(prop => prop !== '*' && !propertyHash[prop])
       if (extraneous.length) {
         throw new Error(
-          `uiSchema order list contains extraneous ${errorPropList(extraneous)}`
+          `uiSchema order list contains extraneous ${errorPropList(extraneous)}`,
         )
       }
       const rest = properties.filter(prop => !orderHash[prop])
@@ -73,7 +73,7 @@ export default {
       if (restIndex === -1) {
         if (rest.length) {
           throw new Error(
-            `uiSchema order list does not contain ${errorPropList(rest)}`
+            `uiSchema order list does not contain ${errorPropList(rest)}`,
           )
         }
         return order
@@ -118,8 +118,8 @@ export default {
           restIndex,
           0, {
             ...groups[restIndex],
-            props: props.filter(prop => !accProps.includes(prop.name))
-          }
+            props: props.filter(prop => !accProps.includes(prop.name)),
+          },
         )
       }
 
@@ -141,21 +141,21 @@ export default {
           on: {
             input: ({ value: propVal }) => {
               this.$emit('input', {
-                value: Object.assign({}, this.value, { [prop.name]: propVal })
+                value: Object.assign({}, this.value, { [prop.name]: propVal }),
               })
             },
             blur: ({ value: propVal }) => {
               this.$emit('blur', {
-                value: Object.assign({}, this.value, { [prop.name]: propVal })
+                value: Object.assign({}, this.value, { [prop.name]: propVal }),
               })
             },
             'parent-value': value => {
               this.$emit('input', { value })
             },
-            errors: ({ errors: propErrors }) => {
-              this.$emit('errors', { errors: [...this.errors, ...propErrors] })
+            errors: ({ errorSchema: propError }) => {
+              this.$emit('errors', { errorSchema: propError })
             },
-          }
+          },
         })
       })
     },
@@ -173,6 +173,6 @@ export default {
       } else {
         return this.renderProps.bind(this)(h, props)
       }
-    }
+    },
   },
 }

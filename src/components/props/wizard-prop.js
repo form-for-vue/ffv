@@ -82,15 +82,15 @@ export default {
           'parent-value': value => {
             this.$emit('input', { value })
           },
-          errors: ({ errors: propErrors }) => {
-            this.$emit('errors', { errors: [...this.errors, ...propErrors] })
+          errors: ({ errorSchema: propError }) => {
+            this.$emit('errors', { errorSchema: propError })
           },
         },
       }, pages.map((page, index) => {
         return h('div', {
           slot: steps[index].slot,
         }, this.renderGroups.bind(this)(h, page, index + 1))
-      })
+      }),
     )
-  }
+  },
 }

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import { getDefaultRegistry, reduceSchema } from '../utils'
+  import { getDefaultRegistry, reduceSchema, isEmpty } from '../utils'
   import FormWidget from './widgets/form-widget.vue'
   import { validateFormData } from '../validate'
 
@@ -35,7 +35,11 @@
       const errorProvider = {}
       Object.defineProperty(errorProvider, 'errorSchema', {
         enumerable: true,
-        get: () => this.errorSchema
+        get: () => this.errorSchema,
+      })
+      Object.defineProperty(errorProvider, 'childrenErrors', {
+        enumerable: true,
+        get: () => this.childrenErrors,
       })
       return { errorProvider }
     },
@@ -43,14 +47,14 @@
     props: {
       schema: {
         type: Object,
-        required: true
+        required: true,
       },
       uiSchema: Object,
       value: Object,
       liveValidate: {
         type: String,
         default: 'lazy',
-        validator: value => ['eager', 'lazy', 'no'].includes(value)
+        validator: value => ['eager', 'lazy', 'no'].includes(value),
       },
       noValidate: {
         type: Boolean,
@@ -72,6 +76,7 @@
         registry: this.getRegistry(),
         errorSchema: null,
         errors: null,
+        childrenErrors: null,
       }
     },
 
@@ -80,7 +85,7 @@
         if (this.schema) {
           return reduceSchema(this.schema, this.schema.definitions)
         }
-      }
+      },
     },
 
     methods: {
@@ -89,15 +94,15 @@
       },
       validate (options) {
         const { errorSchema } = validateFormData(this.reducedSchema, this.value, options)
-        this.errorSchema = errorSchema
+        this.errorSchema = !isEmpty(errorSchema) ? errorSchema : null
       },
-      handleInput ({ value, options={ validate: true } }) {
+      handleInput ({ value, options = { validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'eager') {
           this.validate(value)
         }
         this.$emit('input', value)
       },
-      handleBlur ({ value, options={ validate: true } }) {
+      handleBlur ({ value, options = { validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'lazy') {
           this.validate(value)
         }
@@ -107,11 +112,11 @@
           this.onBlur()
         }
       },
-      handleErrors ({ errors }) {
-        if (this.errors) {
-          this.errors = Array.from(new Set([...this.errors, ...errors]))
+      handleErrors ({ errorSchema }) {
+        if (this.childrenErrors) {
+          this.childrenErrors = Array.from(new Set([...this.childrenErrors, ...errorSchema]))
         } else {
-          this.errors = errors
+          this.childrenErrors = errorSchema
         }
       },
       getRegistry () {
@@ -121,6 +126,6 @@
           widgets: { ...widgets, ...this.widgets },
         }
       },
-    }
+    },
   }
 </script>

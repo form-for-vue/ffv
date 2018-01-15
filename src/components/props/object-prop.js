@@ -24,8 +24,8 @@ export default {
           'parent-value': value => {
             this.$emit('input', { value })
           },
-          errors: ({ errors: propErrors }) => {
-            this.$emit('errors', { errors: [...this.errors, ...propErrors] })
+          errors: ({ errorSchema: propError }) => {
+            this.$emit('errors', { errorSchema: propError })
           },
         },
       }, [this.renderGroups.bind(this)(h, this.props)].concat([
@@ -33,15 +33,15 @@ export default {
           attrs: {
             id: getPropChildId(this.idSchema, 'label'),
           },
-          slot: 'label'
+          slot: 'label',
         }, this.uiOptions.label),
         h('div', {
           attrs: {
             id: getPropChildId(this.idSchema, 'description'),
           },
-          slot: 'description'
-        }, this.uiOptions.description)
-      ])
+          slot: 'description',
+        }, this.uiOptions.description),
+      ]),
     )
   },
 }
