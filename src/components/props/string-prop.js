@@ -45,5 +45,5 @@ export default {
         },
         on: wrapEventHandlers(context.listeners),
       })
-  }
+  },
 }

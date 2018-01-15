@@ -7,7 +7,7 @@ const COMPONENT_TYPES = {
   integer: 'NumberProp',
   number: 'NumberProp',
   object: 'ObjectProp',
-  string: 'StringProp'
+  string: 'StringProp',
 }
 
 export default {
@@ -42,7 +42,7 @@ export default {
         required: props.required,
         invalid: errors && errors.length > 0,
         handlers: props.handlers,
-      }
+      },
     )
 
     function getPropComponent () {
@@ -70,7 +70,7 @@ export default {
         errorSchema: props.errorSchema,
         idSchema: getIdSchema({
           idSchema: props.idSchema,
-          id: uiOptions.$id
+          id: uiOptions.$id,
         }),
         errors: uiOptions.displayErrors ? errors : undefined,
         value: props.value,

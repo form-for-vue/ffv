@@ -9,14 +9,14 @@ export default {
 
   render: function (h) {
     return h('div', {
-      'class': 'row col'
+      'class': 'row col',
     }, [
       h('div', {
         attrs: {
           id: getPropChildId(this.idSchema, 'label'),
         },
         'class': 'col-12 mb-1 text-bold',
-        slot: 'label'
+        slot: 'label',
       }, this.uiOptions.label),
       h(getWidget(this.schema,
         this.uiOptions.widget || 'draggable',
@@ -53,7 +53,7 @@ export default {
                 blur: itemVal => {
                   this.value.splice(item.index, 1, itemVal)
                   this.$emit('blur', { value: this.value })
-                }
+                },
               },
             })
           } else {
@@ -63,7 +63,7 @@ export default {
                 props: {
                   index: index,
                   remove: this.onDropIndexClick.bind(null, index),
-                }
+                },
               }, [
                 h(SchemaProp, {
                   props: {
@@ -83,12 +83,12 @@ export default {
                     blur: itemVal => {
                       this.value.splice(item.index, 1, itemVal)
                       this.$emit('blur', { value: this.value })
-                    }
+                    },
                   },
-                })
+                }),
               ])
           }
-        })
+        }),
       ),
       this.canAddItem(this.value) ? h('div', {
         staticClass: 'btn btn-primary mt-2',
@@ -101,15 +101,15 @@ export default {
         },
         domProps: {
           innerHTML: (this.uiOptions.addBtnText || '') + ' <i class="fa fa-plus"></i>',
-        }
+        },
       }) : undefined,
       h('div', {
         'class': 'col-12',
         attrs: {
           id: getPropChildId(this.idSchema, 'description'),
         },
-        slot: 'description'
-      }, this.uiOptions.description)
+        slot: 'description',
+      }, this.uiOptions.description),
     ])
-  }
+  },
 }

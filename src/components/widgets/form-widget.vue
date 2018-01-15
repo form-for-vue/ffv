@@ -18,7 +18,7 @@
         if (this.onCustomSubmit) {
           this.onCustomSubmit()
         }
-      }
-    }
+      },
+    },
   }
 </script>

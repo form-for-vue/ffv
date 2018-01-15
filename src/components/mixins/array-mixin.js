@@ -100,5 +100,5 @@ export default {
       }
       this.$emit('input', { value: this.value.filter((_, i) => i !== index) })
     },
-  }
+  },
 }

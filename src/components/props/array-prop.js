@@ -31,7 +31,7 @@ export default {
             canMoveDown: orderable && index < this.items.length - 1,
             onReorderClick: this.onReorderClick,
             onDropIndexClick: this.onDropIndexClick,
-          }
+          },
         }, [
           h(SchemaProp, {
             props: {
@@ -51,12 +51,12 @@ export default {
               blur: itemVal => {
                 this.value.splice(item.index, 1, itemVal)
                 this.$emit('blur', { value: this.value })
-              }
+              },
             },
-          }, item)
-        ]
+          }, item),
+        ],
         )
-      })
+      }),
     )
   },
 }

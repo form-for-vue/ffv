@@ -44,6 +44,6 @@
     props: {
       value: [String, Number],
       placeholder: String,
-    }
+    },
   }
 </script>

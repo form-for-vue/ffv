@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import {isEmpty} from "./utils"
+import { isEmpty } from "./utils"
 import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
@@ -113,6 +113,7 @@ function concatPropTitle (schema, errorSchema) {
       return acc
     }, {})
   }
+
   function concat (schema, errorSchema) {
     return {
       ...errorSchema,

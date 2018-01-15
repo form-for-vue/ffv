@@ -25,7 +25,7 @@ export default {
           return { label, value }
         })
       }
-    }
+    },
   },
 
   render (h, context) {
@@ -43,5 +43,5 @@ export default {
         },
         on: context.listeners,
       })
-  }
+  },
 }

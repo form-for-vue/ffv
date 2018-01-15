@@ -49,7 +49,7 @@
     props: {
       value: {
         type: [String, Number],
-        default: null
+        default: null,
       },
       placeholder: String,
       enumOptions: Array,

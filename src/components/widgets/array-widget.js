@@ -36,20 +36,20 @@ export default {
       props: {
         id: props.idSchema.$id,
         classNames: props.classNames,
-      }
+      },
     }, [
       // label and description
       h('div', {
         attrs: {
-          id: getPropChildId(props.idSchema, 'label')
+          id: getPropChildId(props.idSchema, 'label'),
         },
-        slot: 'label'
+        slot: 'label',
       }, props.displayLabel ? props.label : undefined),
       h('div', {
         attrs: {
-          id: getPropChildId(props.idSchema, 'description')
+          id: getPropChildId(props.idSchema, 'description'),
         },
-        slot: 'description'
+        slot: 'description',
       }, props.displayLabel ? props.description : undefined),
       // items
       context.slots().default,

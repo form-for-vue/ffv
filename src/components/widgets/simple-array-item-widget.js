@@ -45,7 +45,7 @@ export default {
             on: {
               click: props.onReorderClick.bind(null, props.index, props.index + 1),
             },
-          })
+          }),
         ]
       } else {
         return []
@@ -69,7 +69,7 @@ export default {
     function showActions () {
       if (props.hasToolbar) {
         return h('div', {
-          'class': 'col-3 row justify-content-around align-items-center btn-group pb-3'
+          'class': 'col-3 row justify-content-around align-items-center btn-group pb-3',
         }, [
           ...showMoveUpDown(),
           showRemove(),
@@ -78,11 +78,11 @@ export default {
     }
 
     return h('div', {
-      'class': 'row'
+      'class': 'row',
     }, [
       // item content
       h('div', {
-        'class': props.hasToolbar ? 'col-9' : 'col-12'
+        'class': props.hasToolbar ? 'col-9' : 'col-12',
       }, context.slots().default),
       // item actions
       showActions(),

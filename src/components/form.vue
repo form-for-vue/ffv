@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import { getDefaultRegistry, reduceSchema, isEmpty } from '../utils'
+  import { getDefaultRegistry, isEmpty, reduceSchema } from '../utils'
   import FormWidget from './widgets/form-widget.vue'
   import { validateFormData } from '../validate'
 

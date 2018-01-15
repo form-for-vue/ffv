@@ -106,6 +106,6 @@
           reader.readAsDataURL(media)
         }
       },
-    }
+    },
   }
 </script>

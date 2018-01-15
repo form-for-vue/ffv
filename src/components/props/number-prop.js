@@ -5,7 +5,7 @@ export default {
   functional: true,
 
   components: {
-    StringProp
+    StringProp,
   },
 
   props: {

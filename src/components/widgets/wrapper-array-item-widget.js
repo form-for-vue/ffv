@@ -30,7 +30,7 @@ export default {
             showLabel(),
             showDescription(),
             showFeedbacks(),
-          ])
+          ]),
         ]
       } else {
         return [
@@ -59,7 +59,7 @@ export default {
     function showLabel () {
       if ((context.slots().label || []).length > 0) {
         return h('template', {
-          slot: 'label'
+          slot: 'label',
         }, context.slots().label)
       }
     }
@@ -67,7 +67,7 @@ export default {
     function showDescription () {
       if ((context.slots().description || []).length > 0) {
         return h('template', {
-          slot: 'description'
+          slot: 'description',
         }, context.slots().description)
       }
     }
@@ -75,7 +75,7 @@ export default {
     function showFeedbacks () {
       if ((context.slots().feedback || []).length > 0) {
         return h('template', {
-          slot: 'feedback'
+          slot: 'feedback',
         }, context.slots().feedback)
       }
     }
@@ -92,23 +92,23 @@ export default {
         },
       }, [
         h('div', {
-          'class': 'row col-12'
+          'class': 'row col-12',
         }, [
           h('div', {
             'class': 'row justify-content-center align-items-center col-auto',
           }, [
             h('div', {
               'class': 'font-weight-bold rounded-circle text-center',
-              style: 'font-size: 24px; color: #218838; width: 30px;'
-            }, props.index + 1)
+              style: 'font-size: 24px; color: #218838; width: 30px;',
+            }, props.index + 1),
           ]),
           h('div', {
-            'class': 'col'
+            'class': 'col',
           }, [
             getWrapper(),
           ]),
-        ])
-      ]
+        ]),
+      ],
     )
   },
 }
