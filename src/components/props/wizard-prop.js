@@ -82,8 +82,8 @@ export default {
           'parent-value': value => {
             this.$emit('input', { value })
           },
-          errors: ({ errorSchema: propError }) => {
-            this.$emit('errors', { errorSchema: propError })
+          errors: ({ id, errorSchema: propError }) => {
+            this.$emit('errors', { id, errorSchema: propError })
           },
         },
       }, pages.map((page, index) => {

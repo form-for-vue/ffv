@@ -39,7 +39,7 @@
       })
       Object.defineProperty(errorProvider, 'childrenErrors', {
         enumerable: true,
-        get: () => this.childrenErrors,
+        get: () => !isEmpty(this.childrenErrors) ? this.childrenErrors : null,
       })
       return { errorProvider }
     },
@@ -76,7 +76,7 @@
         registry: this.getRegistry(),
         errorSchema: null,
         errors: null,
-        childrenErrors: null,
+        childrenErrors: {},
       }
     },
 
@@ -92,19 +92,19 @@
       validateAll () {
         this.validate({ allErrors: true })
       },
-      validate (options) {
+      validate (options = { allErrors: false }) {
         const { errorSchema } = validateFormData(this.reducedSchema, this.value, options)
         this.errorSchema = !isEmpty(errorSchema) ? errorSchema : null
       },
       handleInput ({ value, options = { validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'eager') {
-          this.validate(value)
+          this.validate()
         }
         this.$emit('input', value)
       },
       handleBlur ({ value, options = { validate: true } }) {
         if (!this.noValidate && options.validate && this.liveValidate === 'lazy') {
-          this.validate(value)
+          this.validate()
         }
         this.$emit('input', value)
 
@@ -112,11 +112,11 @@
           this.onBlur()
         }
       },
-      handleErrors ({ errorSchema }) {
-        if (this.childrenErrors) {
-          this.childrenErrors = Array.from(new Set([...this.childrenErrors, ...errorSchema]))
+      handleErrors ({ id, errorSchema }) {
+        if (errorSchema) {
+          this.$set(this.childrenErrors, id, errorSchema)
         } else {
-          this.childrenErrors = errorSchema
+          this.$delete(this.childrenErrors, id)
         }
       },
       getRegistry () {
