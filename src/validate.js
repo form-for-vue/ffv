@@ -108,9 +108,12 @@ function showExistingValueErrors (errorSchema, value) {
 function concatPropTitle (schema, errorSchema) {
   function recurse (schema, errorSchema, cb) {
     return Object.keys(errorSchema).filter(key => key !== '_errors').reduce((acc, key) => {
-      const prop = cb(schema.properties[key], errorSchema[key])
-      acc[key] = { ...prop, ...recurse(schema.properties[key], errorSchema[key], cb) }
-      return acc
+      // TODO cannot read property '0' of undefined but why?!!
+      if (schema && schema.properties && schema.properties[key]) {
+        const prop = cb(schema.properties[key], errorSchema[key])
+        acc[key] = { ...prop, ...recurse(schema.properties[key], errorSchema[key], cb) }
+        return acc
+      }
     }, {})
   }
 
@@ -129,7 +132,7 @@ function concatPropTitle (schema, errorSchema) {
 }
 
 export function validateFormData (schema, value, options) {
-  const ajv = new Ajv({ allErrors: true, jsonPointers: true, removeAdditional: 'all' })
+  const ajv = new Ajv({ allErrors: true, jsonPointers: true })
   const valid = ajv.validate(schema, value)
 
   if (!valid) {
