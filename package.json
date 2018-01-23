@@ -1,6 +1,6 @@
 {
   "name": "ffv",
-  "version": "0.3.27",
+  "version": "0.3.29",
   "description": "Form For Vue",
   "author": "Siavash Kavousi",
   "main": "dist/ffv.common.js",
@@ -104,7 +104,7 @@
   "homepage": "https://github.com/form-for-vue/ffv#readme",
   "license": "MIT",
   "dependencies": {
-    "@ffvjs/ajv-i18n": "^2.1.0",
+    "@ffvjs/ajv-i18n": "^2.1.1",
     "ajv": "^5.4.0",
     "lodash-es": "^4.17.4"
   },
