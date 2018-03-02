@@ -14,14 +14,10 @@ module.exports = {
   },
 
   modules: [
-    ['@nuxtjs/bootstrap-vue', {css: false}],
+    ['@nuxtjs/bootstrap-vue'],
   ],
 
   plugins: [
     '~/plugins/ffv',
-  ],
-
-  css: [
-    '~/assets/app.scss',
   ],
 }
