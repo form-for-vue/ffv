@@ -7,7 +7,7 @@
       </template>
       <div class="row col-12 justify-content-center">
         <button type="button"
-                class="btn btn-primary"
+                class="btn btn-primary m-1"
                 @click="fields.push({
                   id: `Field-${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
                   type: 'text',
@@ -16,7 +16,7 @@
           Add Field
         </button>
         <button type="button"
-                class="btn btn-primary"
+                class="btn btn-primary m-1"
                 @click="fields = [...fields, []]">
           Add Group
         </button>
