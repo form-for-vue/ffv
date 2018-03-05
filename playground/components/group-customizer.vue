@@ -11,7 +11,12 @@
     </div>
     <div class="p-2">
       <transition-group name="flip-list">
-        <field-customizer v-for="(item, index) in value" v-model="value[index]" @move="handleFieldMove" :key="item.id"></field-customizer>
+        <field-customizer
+          v-for="(item, index) in value"
+          v-model="value[index]"
+          @move="handleFieldMove"
+          @remove="handleRemove"
+          :key="item.id"/>
       </transition-group>
       <div class="row col-12 justify-content-center">
         <button type="button"
@@ -48,7 +53,11 @@
           return
         }
         this.move(this.value, from, to)
-      }
+      },
+      handleRemove({ id }){
+        const from = this.value.findIndex(item => item.id === id)
+        this.value.splice(from, 1)
+      },
     },
     props: {
       value: Array,
