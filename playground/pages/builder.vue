@@ -8,12 +8,14 @@
             :key="item.id"
             v-model="fields[index]['value']"
             :id="item.id"
-            @move="handleGroupPop"/>
+            @move="handleGroupPop"
+            @remove="handleRemove"/>
           <field-customizer
             v-else
             v-model="fields[index]"
             :key="item.id"
-            @move="handleFieldMove"/>
+            @move="handleFieldMove"
+            @remove="handleRemove"/>
         </template>
       </transition-group>
       <div class="row col-12 justify-content-center">
@@ -84,6 +86,10 @@
         if (array.length === 1) return array
         array.splice(to, 0, array.splice(from, 1)[0])
         return array
+      },
+      handleRemove({ id }){
+        const from = this.fields.findIndex(item => item.id === id)
+        this.fields.splice(from, 1)
       },
       handleFieldMove ({ id, dir }) {
         const from = this.fields.findIndex(item => item.type !== 'group' && item.id === id)

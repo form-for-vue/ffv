@@ -1,6 +1,14 @@
 <template>
   <div class="card bg-light m-1">
-    <div class="card-header bg-secondary text-white">Group Of Fields</div>
+    <div class="card-header bg-secondary text-white">
+      <div class="row align-items-center">
+        <div class="col">Group Of Fields</div>
+        <button
+          type="button"
+          class="btn btn-danger m-1"
+          @click.stop="$emit('remove', {id})">🗙</button>
+      </div>
+    </div>
     <div class="p-2">
       <transition-group name="flip-list">
         <field-customizer v-for="(item, index) in value" v-model="value[index]" @move="handleFieldMove" :key="item.id"></field-customizer>

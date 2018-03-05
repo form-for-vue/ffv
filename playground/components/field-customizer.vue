@@ -11,6 +11,10 @@
           type="button"
           class="btn btn-info m-1"
           @click.stop="$emit('move', {id: value.id, dir: 1})">⮟</button>
+        <button
+          type="button"
+          class="btn btn-danger m-1"
+          @click.stop="$emit('remove', {id: value.id})">🗙</button>
       </div>
     </div>
     <transition name="slide">
