@@ -1,6 +1,18 @@
 <template>
   <div class="card m-1">
-    <div class="card-header" @click="$store.commit('changeEditingField', value.id)">{{ key }}</div>
+    <div class="card-header" @click="$store.commit('changeEditingField', value.id)">
+      <div class="row align-items-center">
+        <div class="col">{{ key }}</div>
+        <button
+          type="button"
+          class="btn btn-info m-1"
+          @click.stop="$emit('move', {id: value.id, dir: -1})">⮝</button>
+        <button
+          type="button"
+          class="btn btn-info m-1"
+          @click.stop="$emit('move', {id: value.id, dir: 1})">⮟</button>
+      </div>
+    </div>
     <transition name="slide">
       <div v-show="$store.getters.shouldShow(value.id)" class="p-1">
         <div class="form-group row justify-content-around">

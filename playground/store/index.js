@@ -7,7 +7,6 @@ export default {
 
   getters: {
     shouldShow: state => key => {
-      console.log(state.editingFieldKey === key)
       return state.editingFieldKey === key
     },
   },
