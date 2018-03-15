@@ -67,21 +67,99 @@
     schema: {},
     uiSchema: {}
   }
+  const propMap = {
+    text: 'string',
+    password: 'string',
+    textarea: 'string',
+    file: 'string',
+    select: 'string',
+    radio: 'string',
+    number: 'number',
+    integer: 'integer',
+    boolean: 'boolean'
+  }
+  const widgetMap = {
+    text: 'text',
+    password: 'password',
+    textarea: 'textarea',
+    file: 'file',
+    select: 'select',
+    radio: 'radio',
+    number: 'text',
+    integer: 'text',
+    boolean: 'checkbox'
+  }
 
   export default {
     components: {
       FieldCustomizer,
       GroupCustomizer,
     },
+    computed: {
+      generatedSchema() {
+        let schema = {
+          "type": "object",
+          "properties": {}
+        }
+        let requiredFields = []
+        this.fields.forEach(item => {
+          if (item.type !== 'group') {
+            this.jsonMapper(item, schema, requiredFields)
+          } else {
+            item.value.forEach(field => this.jsonMapper(field, schema, requiredFields))
+          }
+        })
+        schema.required = requiredFields
+        return schema
+      },
+      generatedUiSchema() {
+        let schema = {
+          "ui:options": {
+            "ui:groups": [ { "props": "*" } ]
+          }
+        }
+        this.fields.forEach(item => {
+          const keys = []
+          if (item.type === 'group') {
+            item.value.forEach(field => this.uiMapper(field, schema, keys))
+          } else {
+            this.uiMapper(item, schema, keys)
+          }
+          if (keys.length > 0) {
+            schema['ui:options']['ui:groups'].push({"ui:options": {"classNames": "d-flex flex-column"}, "props": keys })
+          }
+        })
+        return schema
+      }
+    },
     data () {
       return {
-        generatedSchema: defaultSchema,
-        generatedUiSchema: defaultUiSchema,
         defaultWidget: defaultWidget,
+        // generatedUiSchema: defaultUiSchema,
         fields: [],
       }
     },
     methods: {
+      jsonMapper (item, schema, requiredFields) {
+        schema.properties[(item.key || item.id)] = {
+          type: propMap[item.type],
+          title: item.label,
+          description: item.description,
+          enum: item.enum,
+        }
+        if (item.required) {
+          requiredFields.push((item.key || item.id))
+        }
+      },
+      uiMapper (item, schema, keys=[]) {
+        schema[(item.key || item.id)] = {
+          "ui:options": {
+            widget: widgetMap[item.type],
+            size: parseInt(item.size),
+          }
+        }
+        keys.push(item.key || item.id)
+      },
       move (array, from, to) {
         if (array.length === 1) return array
         array.splice(to, 0, array.splice(from, 1)[0])

@@ -13,7 +13,7 @@ export default {
 
   mutations: {
     changeEditingField(state, key) {
-      state.editingFieldKey = key
+      state.editingFieldKey === key ? state.editingFieldKey = null : state.editingFieldKey = key
     },
   },
 }
