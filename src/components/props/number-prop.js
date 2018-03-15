@@ -27,7 +27,7 @@ export default {
         events[event] = data => {
           const { value } = data
           if (value) {
-            data = {...data, value: asNumber(value)}
+            data = { ...data, value: asNumber(value) }
           }
           listeners[event].call(null, data)
         }

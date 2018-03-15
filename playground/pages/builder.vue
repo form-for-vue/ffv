@@ -44,7 +44,8 @@
     <v-form
       ref="preview"
       :schema="generatedSchema"
-      :ui-schema="generatedUiSchema">
+      :ui-schema="generatedUiSchema"
+      v-model="formValue">
     </v-form>
     </div>
   </div>
@@ -86,7 +87,6 @@
     select: 'select',
     radio: 'radio',
     number: 'text',
-    integer: 'text',
     boolean: 'checkbox'
   }
 
@@ -94,6 +94,14 @@
     components: {
       FieldCustomizer,
       GroupCustomizer,
+    },
+    data () {
+      return {
+        defaultWidget: defaultWidget,
+        fields: [],
+        fileUploadEndpoint: '',
+        formValue: {},
+      }
     },
     computed: {
       generatedSchema() {
@@ -130,14 +138,25 @@
           }
         })
         return schema
-      }
-    },
-    data () {
-      return {
-        defaultWidget: defaultWidget,
-        // generatedUiSchema: defaultUiSchema,
-        fields: [],
-      }
+      },
+      handlers () {
+        return {
+          async onUpload (val, progress) {
+            const formData = new FormData()
+            formData.append('media', val)
+            try {
+              const responseData = await this.$axios.$post(this.fileUploadEndpoint, formData, {
+                onUploadProgress (progressEvent) {
+                  if (progress) {
+                    progress(progressEvent)
+                  }
+                }
+              })
+            } catch (e) {
+            }
+          }
+        }
+      },
     },
     methods: {
       jsonMapper (item, schema, requiredFields) {
@@ -156,6 +175,8 @@
           "ui:options": {
             widget: widgetMap[item.type],
             size: parseInt(item.size),
+            placeholder: item.placeholder,
+            inputType: item.type,
           }
         }
         keys.push(item.key || item.id)

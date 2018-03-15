@@ -44,6 +44,18 @@
           </div>
         </div>
         <div class="form-group row justify-content-around">
+          <label for="field-placeholder" class="col-2 col-form-label">Placeholder</label>
+          <div class="col">
+            <input
+              class="form-control"
+              type="text"
+              v-model="value.placeholder"
+              @input="emitChange($event, 'placeholder')"
+              :placeholder="`Enter a placeholder for ${key}`"
+              id="field-placeholder">
+          </div>
+        </div>
+        <div class="form-group row justify-content-around">
           <label for="field-description" class="col-2 col-form-label">Description</label>
           <div class="col">
             <input
@@ -67,7 +79,6 @@
               <option value="radio">Radio</option>
               <option value="boolean">Boolean</option>
               <option value="number">Number</option>
-              <option value="integer">Integer</option>
             </select>
           </div>
         </div>
