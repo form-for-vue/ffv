@@ -24,11 +24,12 @@ export default {
 
     function wrapEventHandlers (listeners) {
       return Object.keys(listeners).reduce((events, event) => {
-        events[event] = value => {
+        events[event] = data => {
+          const { value } = data
           if (value) {
-            value = asNumber(value)
+            data = {...data, value: asNumber(value)}
           }
-          listeners[event].call(null, value)
+          listeners[event].call(null, data)
         }
         return events
       }, {})

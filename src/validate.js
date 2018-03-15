@@ -1,6 +1,5 @@
 import Ajv from 'ajv'
 import { isEmpty } from "./utils"
-import localize_fa from '@ffvjs/ajv-i18n/localize/fa'
 
 /**
  * Converts a json pointer into an array of reference tokens
@@ -134,9 +133,7 @@ function concatPropTitle (schema, errorSchema) {
 export function validateFormData (schema, value, options) {
   const ajv = new Ajv({ allErrors: true, jsonPointers: true })
   const valid = ajv.validate(schema, value)
-
   if (!valid) {
-    localize_fa(ajv.errors)
     let errorSchema = transformErrors(ajv.errors)
     if (!options.allErrors && value) {
       errorSchema = showExistingValueErrors(errorSchema, value)
