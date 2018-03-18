@@ -43,7 +43,7 @@ export default {
 
     function showFeedbacks () {
       if (props.displayErrors && (context.slots().feedback || []).length > 0) {
-        return h('template', context.slots().feedback)
+        return h('div', context.slots().feedback)
       }
     }
 

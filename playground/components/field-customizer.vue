@@ -185,7 +185,4 @@
     transition: max-height 0.3s ease-in-out;
   }
 
-  .form-control:focus {
-    box-shadow: 0 0 0;
-  }
 </style>

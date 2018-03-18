@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-light m-1">
-    <div class="card-header bg-secondary text-white">
+    <div class="card-header bg-secondary text-light">
       <div class="row align-items-center">
         <div class="col">Group Of Fields</div>
         <button

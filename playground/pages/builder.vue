@@ -1,6 +1,34 @@
 <template>
   <div class="d-flex">
     <div class="col-6">
+      <div class="card m-1">
+        <div class="card-header bg-dark text-light">Form General Properties</div>
+        <div class="column">
+          <div class="form-group row justify-content-around">
+            <label class="col-3 col-form-label">Validation Mode</label>
+            <div class="col">
+              <label for="online-validation" class="col-form-label mx-1">Online Mode</label>
+              <input
+                v-model="validationMode"
+                value="eager"
+                type="radio"
+                id="online-validation">
+              <label for="lazy-validation" class="col-form-label mx-1">Lazy Mode</label>
+              <input
+                v-model="validationMode"
+                value="lazy"
+                type="radio"
+                id="lazy-validation">
+              <label for="no-validation" class="col-form-label mx-1">Disable</label>
+              <input
+                v-model="validationMode"
+                value="no"
+                type="radio"
+                id="no-validation">
+            </div>
+          </div>
+        </div>
+      </div>
       <transition-group name="flip-list">
         <template v-for="(item, index) in fields">
           <group-customizer
@@ -45,7 +73,15 @@
       ref="preview"
       :schema="generatedSchema"
       :ui-schema="generatedUiSchema"
+      :live-validate="validationMode"
       v-model="formValue">
+      <div class="row mx-1 justify-content-end">
+        <button type="button"
+                class="btn btn-primary m-1"
+                @click="submit">
+          Submit
+        </button>
+      </div>
     </v-form>
     </div>
   </div>
@@ -101,6 +137,7 @@
         fields: [],
         fileUploadEndpoint: '',
         formValue: {},
+        validationMode: 'lazy'
       }
     },
     computed: {
@@ -159,6 +196,9 @@
       },
     },
     methods: {
+      submit () {
+        this.$refs.preview.validateAll()
+      },
       jsonMapper (item, schema, requiredFields) {
         schema.properties[(item.key || item.id)] = {
           type: propMap[item.type],
@@ -177,6 +217,8 @@
             size: parseInt(item.size),
             placeholder: item.placeholder,
             inputType: item.type,
+            displayErrors: true,
+            classNames: "mx-1",
           }
         }
         keys.push(item.key || item.id)
@@ -217,5 +259,9 @@
 <style>
   .flip-list-move {
     transition: transform 0.5s;
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0;
   }
 </style>
