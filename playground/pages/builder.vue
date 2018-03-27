@@ -1,6 +1,13 @@
 <template>
   <div class="d-flex">
     <div class="col-6">
+      <div class="row justify-content-center">
+        <button type="button"
+                class="btn btn-primary m-1"
+                @click="buildBundle">
+          Build Form Bundle
+        </button>
+      </div>
       <div class="card m-1">
         <div class="card-header bg-dark text-light">Form General Properties</div>
         <div class="column">
@@ -25,6 +32,17 @@
                 value="no"
                 type="radio"
                 id="no-validation">
+            </div>
+          </div>
+          <div class="form-group row justify-content-around">
+            <label for="field-submission-url" class="col-3 col-form-label">Submission Url</label>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                v-model="submissionUrl"
+                :placeholder="`Enter submission url for form`"
+                id="field-submission-url">
             </div>
           </div>
         </div>
@@ -67,6 +85,8 @@
           Add Group
         </button>
       </div>
+      <div>{{generatedSchema}}</div><br/>
+      <div>{{generatedUiSchema}}</div>
     </div>
     <div class="col-6">
     <v-form
@@ -137,7 +157,8 @@
         fields: [],
         fileUploadEndpoint: '',
         formValue: {},
-        validationMode: 'lazy'
+        validationMode: 'lazy',
+        submissionUrl: '',
       }
     },
     computed: {
@@ -196,8 +217,20 @@
       },
     },
     methods: {
-      submit () {
+      async buildBundle () {
+        const data = await this.$axios.$post('/api/build', {
+          schema: this.generatedSchema,
+          uiSchema: this.generatedUiSchema
+        })
+        const blob = new Blob([data], { type: 'application/javascript' } )
+        const link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'bundle.js'
+        link.click()
+      },
+      async submit () {
         this.$refs.preview.validateAll()
+        await this.$axios.$post(this.submissionUrl, this.formValue)
       },
       jsonMapper (item, schema, requiredFields) {
         schema.properties[(item.key || item.id)] = {
@@ -205,6 +238,9 @@
           title: item.label,
           description: item.description,
           enum: item.enum,
+          minLength: item.minLength ? parseInt(item.minLength) : undefined,
+          maxLength: item.maxLength ? parseInt(item.maxLength) : undefined,
+          pattern: item.pattern,
         }
         if (item.required) {
           requiredFields.push((item.key || item.id))

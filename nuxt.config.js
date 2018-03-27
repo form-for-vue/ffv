@@ -15,7 +15,13 @@ module.exports = {
 
   modules: [
     ['@nuxtjs/bootstrap-vue'],
+    ['@nuxtjs/axios'],
+    ['@nuxtjs/proxy'],
   ],
+
+  proxy: {
+    '/api': process.env.PROXY_API_URL || 'http://localhost:3000'
+  },
 
   plugins: [
     '~/plugins/ffv',

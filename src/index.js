@@ -23,7 +23,7 @@ const plugin = {
     Object.keys(components).forEach(key => {
       Vue.component(key, components[key])
     })
-  },
+  }
 }
 
 // Install by default if using the script tag

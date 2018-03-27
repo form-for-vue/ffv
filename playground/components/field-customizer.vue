@@ -100,31 +100,72 @@
             </button>
           </div>
         </div>
-        <div class="form-group row justify-content-start">
-          <label for="field-required" class="col-2 col-form-label">Required</label>
-          <div class="row col-1 align-items-center">
-            <input
-              class="form-control"
-              type="checkbox"
-              v-model="value.required"
-              @change="emitChange($event, 'required')"
-              id="field-required">
+        <template v-if="moreOptions">
+          <div class="form-group row justify-content-start">
+            <label for="field-required" class="col-2 col-form-label">Required</label>
+            <div class="row col-1 align-items-center">
+              <input
+                class="form-control"
+                type="checkbox"
+                v-model="value.required"
+                @change="emitChange($event, 'required')"
+                id="field-required">
+            </div>
           </div>
-        </div>
-        <div class="form-group row justify-content-around">
-          <label for="field-size" class="col-2 col-form-label">Size</label>
-          <div class="col">
-            <input
-              class="form-control"
-              type="number"
-              min="1"
-              max="12"
-              v-model="value.size"
-              @input="emitChange($event, 'size')"
-              :placeholder="`Enter number of bootstrap columns for ${key}`"
-              id="field-size">
+          <template v-if="['text', 'textarea'].includes(value.type)">
+            <div class="form-group row justify-content-around">
+              <label for="field-min-length" class="col-2 col-form-label">Minimum Length</label>
+              <div class="col">
+                <input
+                  class="form-control"
+                  type="number"
+                  min="0"
+                  v-model="value.minLength"
+                  @input="emitChange($event, 'minLength')"
+                  :placeholder="`Enter minimum number of characters for ${key}`"
+                  id="field-min-length">
+              </div>
+            </div>
+            <div class="form-group row justify-content-around">
+              <label for="field-max-length" class="col-2 col-form-label">Maximum Length</label>
+              <div class="col">
+                <input
+                  class="form-control"
+                  type="number"
+                  min="0"
+                  v-model="value.maxLength"
+                  @input="emitChange($event, 'maxLength')"
+                  :placeholder="`Enter maximum number of characters for ${key}`"
+                  id="field-max-length">
+              </div>
+            </div>
+            <div class="form-group row justify-content-around">
+              <label for="field-pattern" class="col-2 col-form-label">Pattern</label>
+              <div class="col">
+                <select class="form-control" id="field-pattern" v-model="value.pattern" @input="emitChange($event, 'pattern')">
+                  <option v-for="pattern in patterns" :value="pattern.value">{{ pattern.name }}</option>
+                </select>
+              </div>
+            </div>
+          </template>
+          <div class="form-group row justify-content-around">
+            <label for="field-size" class="col-2 col-form-label">Size</label>
+            <div class="col">
+              <input
+                class="form-control"
+                type="number"
+                min="1"
+                max="12"
+                v-model="value.size"
+                @input="emitChange($event, 'size')"
+                :placeholder="`Enter number of bootstrap columns for ${key}`"
+                id="field-size">
+            </div>
           </div>
-        </div>
+        </template>
+        <button type="button" class="btn btn-link" @click="moreOptions = !moreOptions">
+            {{ moreOptions ? '- less' : '+ more' }} options
+        </button>
       </div>
     </transition>
   </div>
@@ -140,7 +181,11 @@
     data () {
       return {
         key: (this.value.key || this.value.id).slice(),
-        show: true
+        patterns: [
+          { 'name': 'email', 'value': '^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$' },
+        ],
+        show: true,
+        moreOptions: false,
       }
     },
     methods: {

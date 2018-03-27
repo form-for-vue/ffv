@@ -105,6 +105,8 @@
   "license": "MIT",
   "dependencies": {
     "@ffvjs/ajv-i18n": "^2.1.0",
+    "@nuxtjs/axios": "^5.1.1",
+    "@nuxtjs/proxy": "^1.1.4",
     "ajv": "^5.4.0",
     "lodash-es": "^4.17.4"
   },
