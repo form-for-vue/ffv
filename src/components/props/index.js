@@ -5,6 +5,7 @@ import NumberProp from './number-prop'
 import ObjectProp from './object-prop'
 import SchemaProp from './schema-prop'
 import StringProp from './string-prop'
+import TableProp from './table-prop.vue'
 import UnsupportedProp from './unsupported-prop.vue'
 import WizardProp from './wizard-prop'
 
@@ -16,6 +17,7 @@ export {
   ObjectProp,
   SchemaProp,
   StringProp,
+  TableProp,
   UnsupportedProp,
   WizardProp,
 }

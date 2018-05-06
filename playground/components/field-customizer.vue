@@ -73,10 +73,12 @@
             <select class="form-control" id="field-type" v-model="value.type" @input="emitChange($event, 'type')">
               <option value="text">Text</option>
               <option value="password">Password</option>
-              <option value="textarea">Text Area</option>
+              <!--<option value="textarea">Text Area</option>-->
               <option value="file">File</option>
               <option value="select">Select</option>
+              <option value="searchSelect">Searchable Select</option>
               <option value="radio">Radio</option>
+              <option value="checkbox">Checkbox</option>
               <option value="boolean">Boolean</option>
               <option value="number">Number</option>
             </select>
@@ -139,14 +141,14 @@
                   id="field-max-length">
               </div>
             </div>
-            <div class="form-group row justify-content-around">
-              <label for="field-pattern" class="col-2 col-form-label">Pattern</label>
-              <div class="col">
-                <select class="form-control" id="field-pattern" v-model="value.pattern" @input="emitChange($event, 'pattern')">
-                  <option v-for="pattern in patterns" :value="pattern.value">{{ pattern.name }}</option>
-                </select>
-              </div>
-            </div>
+            <!--<div class="form-group row justify-content-around">-->
+              <!--<label for="field-pattern" class="col-2 col-form-label">Pattern</label>-->
+              <!--<div class="col">-->
+                <!--<select class="form-control" id="field-pattern" v-model="value.pattern" @input="emitChange($event, 'pattern')">-->
+                  <!--<option v-for="pattern in patterns" :value="pattern.value">{{ pattern.name }}</option>-->
+                <!--</select>-->
+              <!--</div>-->
+            <!--</div>-->
           </template>
           <div class="form-group row justify-content-around">
             <label for="field-size" class="col-2 col-form-label">Size</label>
@@ -194,7 +196,7 @@
           this.key = (this.value.key || this.value.id).slice()
         } else if (field === 'type') {
           const type = e.target.value
-          if (type === 'select' || type === 'radio') {
+          if (type === 'select' || type === 'radio' || type === 'checkbox' || type === 'searchSelect') {
             this.value['enum'] = []
             this.$emit('input', this.value)
           } else {

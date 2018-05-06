@@ -11,12 +11,14 @@ const widgetMap = {
     checkbox: 'CheckboxWidget',
   },
   string: {
-    text: 'InputWidget',
+    text: 'TextWidget',
     password: 'InputWidget',
     textarea: 'TextareaWidget',
     file: 'FileWidget',
     select: 'SelectWidget',
+    searchselect: 'SearchSelectWidget',
     radio: 'RadioWidget',
+    checkboxgroup: 'CheckboxGroupWidget',
   },
   number: {
     text: 'InputWidget',

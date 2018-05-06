@@ -5,6 +5,7 @@ import {
   ObjectProp,
   SchemaProp,
   StringProp,
+  TableProp,
 } from './components/props'
 import Form from './components/form.vue'
 
@@ -15,6 +16,7 @@ const components = {
   'schema-prop': SchemaProp,
   'string-prop': StringProp,
   'array-prop': ArrayProp,
+  'table-prop': TableProp,
   'v-form': Form,
 }
 
