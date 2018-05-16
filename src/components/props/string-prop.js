@@ -19,12 +19,13 @@ export default {
 
     function wrapEventHandlers (listeners) {
       return Object.keys(listeners).reduce((events, event) => {
-        events[event] = value => {
+        events[event] = data => {
           // To make required property error do it's job
-          if (value === '') {
-            value = undefined
+          const { value } = data
+          if (!value) {
+            data = { ...data, value: undefined }
           }
-          listeners[event].call(null, value)
+          listeners[event].call(null, data)
         }
         return events
       }, {})

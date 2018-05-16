@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@ffvjs/ajv-i18n@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@ffvjs/ajv-i18n/-/ajv-i18n-2.1.0.tgz#4786a5a12db358d4d1a40ca8a1f8222bfe073df3"
+"@ffvjs/ajv-i18n@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@ffvjs/ajv-i18n/-/ajv-i18n-2.1.1.tgz#e55fb7deb9d7cbf16518541ca037f76257727342"
 
 "@nuxtjs/bootstrap-vue@^2.0.2":
   version "2.0.2"

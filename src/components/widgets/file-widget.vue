@@ -1,6 +1,8 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
+    <div
+      class="row justify-content-center pb-1"
+      v-if="(mediaSrc && mediaSrc.startsWith('data:image')) || previewMedia">
       <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
     </div>
     <b-form-file
