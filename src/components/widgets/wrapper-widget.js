@@ -24,7 +24,7 @@ export default {
     function showContents () {
       if ((context.slots().default || []).length > 0) {
         return h('div', {
-          'class': 'row px-1',
+          'class': 'row',
         }, context.slots().default)
       }
     }

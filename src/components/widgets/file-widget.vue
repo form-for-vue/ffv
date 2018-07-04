@@ -1,21 +1,23 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <div class="row justify-content-center pb-1" v-if="mediaSrc || previewMedia">
-      <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
-    </div>
-    <b-form-file
-      :placeholder="placeholder"
-      :chooseLabel="displayLabel ? label : ''"
-      :required="required"
-      :disabled="disabled"
-      :type="type"
-      :state="invalid ? 'invalid' : 'null'"
-      :multiple="multiple"
-      v-model="media"
-    >
-    </b-form-file>
-    <div>
-      <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
+    <div class="col-md-12 mt-2">
+      <div class="row justify-content-center pb-1" v-if="(mediaSrc && mediaSrc.startsWith('data:image')) || previewMedia">
+        <b-card :imgSrc="media !== null ? mediaSrc : previewMedia" style="max-width: 40rem;" noBody></b-card>
+      </div>
+      <b-form-file
+        :placeholder="placeholder"
+        :chooseLabel="displayLabel ? label : ''"
+        :required="required"
+        :disabled="disabled"
+        :type="type"
+        :state="invalid ? 'invalid' : 'null'"
+        :multiple="multiple"
+        v-model="media"
+      >
+      </b-form-file>
+      <div>
+        <b-progress :value="progressValue" :variant="status" class="mt-1"></b-progress>
+      </div>
     </div>
 
     <p

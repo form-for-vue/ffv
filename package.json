@@ -24,16 +24,11 @@
     "lint:css:fix": "stylelint src/**/*.{scss,css}",
     "lint:staged": "lint-staged",
     "pretest": "yon run lint",
-    "prepublish": "yon run build",
-    "precommit": "lint:js:fix"
+    "prepublish": "yon run build"
   },
   "lint-staged": {
     "*.{vue,jsx,js}": [
       "eslint --fix"
-    ],
-    "*.{vue,css}": [
-      "stylefmt",
-      "stylelint"
     ]
   },
   "pre-commit": "lint:staged",
@@ -87,12 +82,9 @@
     "uglify-es": "^3.1.3",
     "uglify-js": "^3.1.3",
     "uppercamelcase": "^3.0.0",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
+    "vue-loader": "13.0.5",
+    "vue-template-compiler": "2.4.4",
     "yarn-or-npm": "^2.0.4"
-  },
-  "peerDependencies": {
-    "vue": "^2.4.4"
   },
   "repository": {
     "type": "git",
@@ -108,9 +100,12 @@
     "@nuxtjs/axios": "^5.1.1",
     "@nuxtjs/proxy": "^1.1.4",
     "ajv": "^5.4.0",
-    "lodash-es": "^4.17.4"
+    "lodash-es": "^4.17.8",
+    "remove": "^0.1.5",
+    "vue": "2.4.4",
+    "vue-multiselect": "^2.1.0"
   },
   "optionalDependencies": {
-    "vuedraggable": "^2.14.1"
+    "vuedraggable": "^2.16.0"
   }
 }

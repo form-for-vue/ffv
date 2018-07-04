@@ -1,15 +1,16 @@
 <template>
-  <div :class="`col-md-${size}`">
+  <div :class="`col-md-${size} mt-2 border`">
     <div class="row justify-content-center">
       <schema-prop
         :schema="schema.items"
         :uiSchema="uiSchema.items"
-        :errorSchema="errorSchema"
+        :errorSchema="internalErrorSchema"
         :value="itemValue"
         :registry="registry"
         @input="handleInput"
         @blur="handleBlur"
       />
+
     </div>
 
     <div class="row justify-content-center mt-4 mb-5">
@@ -18,65 +19,47 @@
         @click="add"
         variant="success"
         :disabled="isInternalValueEmpty()">
-        <span>+</span>
-        {{ uiOptions.addBtnText || 'Add' }}
+        {{ uiOptions.addBtnText || buttonText }}
       </b-btn>
     </div>
-
-    <b-table
-      id="table-prop__table"
-      v-show="flattenValue && flattenValue.length > 0"
-      :fields="fields"
-      :items="flattenValue"
-      bordered
-      fixed
-      striped
-      hover
-    >
-      <!--<template slot="HEAD_index"/>-->
-      <!--<template slot="HEAD_reorder"/>-->
-
-      <template
-        v-for="field in fields"
-        v-if="!['reorder', 'remove'].includes(field.key)"
-        :slot="field.key"
-        scope="data"
-      >
-        <span
-          :key="`${field.key}-${data.index}`"
-          :title="data.value"
-          v-b-tooltip.hover.right
-        >
-          {{ data.value }}
-        </span>
-      </template>
-      <template slot="index" scope="data">
-        <div class="d-flex flex-column justify-content-center align-items-center">
-          {{ data.index }}
-        </div>
-      </template>
-      <template slot="reorder" scope="data">
-        <div class="d-flex flex-column justify-content-center align-items-center">
-          <fa-icon
-            icon="chevron-up"
-            @click="reorderUp(data.index)"
-            style="cursor: pointer;"
-            size="lg"/>
-          <fa-icon
-            icon="chevron-down"
-            @click="reorderDown(data.index)"
-            style="cursor: pointer;"
-            size="lg"/>
-        </div>
-      </template>
-    </b-table>
+    <div class="text-danger" v-for="error in errors" :key="error">{{ error }}</div>
+    <table class="table table-prop__table" v-show="this.internalValue && this.internalValue.length">
+      <thead>
+        <tr>
+          <th v-for="field in fields" :key="field.label">{{ field.label }}</th>
+          <th><!--empty column header for removal action--></th>
+        </tr>
+      </thead>
+      <draggable v-model="flattenValue" :element="'tbody'">
+        <tr v-for="(item, index) in flattenValue" :key="item">
+          <td v-for="field in fields" :key="field.key">{{ item[field.key] }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-info m-1"
+              @click.stop="select(index)">✎</button>
+            <button
+              type="button"
+              class="btn btn-danger m-1"
+              @click.stop="remove(index)">🗙</button>
+          </td>
+        </tr>
+      </draggable>
+    </table>
   </div>
 </template>
 
 <script>
   import { arrayMixin, objectMixin } from '../mixins'
+  import draggable from 'vuedraggable'
+  import { isEmpty } from '../../utils'
+  import { validateFormData } from '../../validate'
 
   export default {
+    components: {
+      draggable
+    },
+
     mixins: [arrayMixin, objectMixin],
 
     props: {
@@ -94,66 +77,72 @@
       return {
         itemValue: null,
         internalValue: this.value || [],
+        internalErrorSchema: null,
         index: Array.isArray(this.value) ? this.value.length : 0,
-        itemsProps: this.schema && this.schema.items ? this.schema.items.properties : [],
-        itemsUiOptions: this.uiSchema.items && this.uiSchema.items['ui:options'] ? this.uiSchema.items['ui:options'] : {},
         size: 12,
+        buttonText: '+Add'
       }
     },
 
     computed: {
+      itemsProps () {
+        return this.schema && this.schema.items ? this.schema.items.properties : []
+      },
+      itemsUiOptions () {
+        return this.uiSchema.items && this.uiSchema.items['ui:options'] ? this.uiSchema.items['ui:options'] : {}
+      },
       fields () {
-        const fields = this.orderProperties(Object.keys(this.itemsProps), this.itemsUiOptions.order).filter(propName => {
-          return propName !== '_id'
-        }).map(propName => {
+        return this.orderProperties(Object.keys(this.itemsProps), this.itemsUiOptions.order).map(propName => {
           return {
             key: propName,
             label: this.itemsProps[propName].title || propName,
-            thClass: 'table-prop__table__header',
-            tdClass: 'table-prop__table__col',
-            sortable: true,
           }
         })
-
-        return [
-          {
-            key: 'index',
-            thClass: 'table-prop__table__action-head',
-            tdClass: 'table-prop__table__action-col',
-          },
-          ...fields,
-          {
-            key: 'reorder',
-            thClass: 'table-prop__table__action-head',
-            tdClass: 'table-prop__table__action-col',
-          },
-        ]
       },
-      flattenValue () {
-        return (this.value || []).map(item => {
-          if (typeof item === 'object') {
-            return Object.keys(item).reduce((flattenedItem, propName) => {
-              flattenedItem[propName] = this.flattenProp(propName, item[propName])
-              return flattenedItem
-            }, {})
-          }
-        })
+      flattenValue: {
+        get () {
+          return (this.value || []).map(item => {
+            if (typeof item === 'object') {
+              return Object.keys(item).reduce((flattenedItem, propName) => {
+                flattenedItem[propName] = this.flattenProp(propName, item[propName])
+                return flattenedItem
+              }, {})
+            }
+          })
+        },
+        set (value) {
+          this.internalValue = value
+          this.$emit('input', { value })
+        }
       },
     },
 
     methods: {
       add () {
-        if (!this.isInternalValueEmpty()) {
+        this.validate({ allErrors: true })
+        if (!this.isInternalValueEmpty() && !this.internalErrorSchema) {
           this.onAddClick()
           this.internalValue.splice(this.index, 1, this.itemValue)
           this.$emit('input', { value: this.internalValue })
           this.index = this.internalValue.length
           // TODO set itemValue to null is not working
           this.itemValue = null
+          this.buttonText = '+Add'
         }
+      },
+      validate (options = { allErrors: false }) {
+        const { errorSchema } = validateFormData(this.schema.items, this.itemValue, options)
+        this.internalErrorSchema = !isEmpty(errorSchema) ? errorSchema : null
+      },
+      select (index) {
+        this.index = index
+        this.itemValue = this.internalValue[index]
+        this.buttonText = 'Update'
       },
       remove (index) {
         this.onDropIndexClick(index)
+        this.internalValue = this.internalValue.filter((_, i) => i !== index)
+        this.$emit('input', { value: this.internalValue })
         this.index = this.internalValue.length
       },
       reorderUp (index) {
@@ -208,8 +197,6 @@
 </script>
 
 <style lang="scss">
-  /*@import '~assets/sass/variables';*/
-  /*@import "~bootstrap/scss/mixins/_breakpoints";*/
 
   .table-prop__add-btn-text {
     color: white;
@@ -217,17 +204,9 @@
     border-radius: 0;
   }
 
-  .table-prop__table__header {
-    /*color: $primary;*/
-  }
-
   .table-prop__table__action-head {
     width: 6%;
     visibility: hidden;
-
-    /*@include media-breakpoint-down(lg) {
-      width: 10%;
-    }*/
   }
 
   .table-prop__table__col {
@@ -236,18 +215,22 @@
     text-overflow: ellipsis;
   }
 
-  .table-prop__table__action-col {
-    /*color: $secondary;*/
-  }
-
   #table-prop__table.table {
-    th, td {
-      vertical-align: middle;
-    }
-
     td {
       border-top: none;
       border-bottom: none;
+    }
+  }
+
+  .table-prop__table.table {
+    th,
+    td {
+      vertical-align: middle;
+    }
+
+    tr td:last-child {
+      width: 1%;
+      white-space: nowrap;
     }
   }
 
@@ -255,13 +238,11 @@
     tbody tr {
       &:hover {
         color: black;
-        /*background-color: lighten($primary, 40%);*/
         transition: 0.2s;
         transition-timing-function: linear;
 
         .table-prop__table__action-col {
           color: white;
-          /*background-color: $primary-light;*/
         }
       }
     }

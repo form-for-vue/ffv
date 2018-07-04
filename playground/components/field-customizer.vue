@@ -18,7 +18,7 @@
       </div>
     </div>
     <transition name="slide">
-      <div v-show="$store.getters.shouldShow(value.id)" class="p-1">
+      <div v-show="$store.getters.shouldShow(value.id)" class="p-2">
         <div class="form-group row justify-content-around">
           <label for="field-key" class="col-2 col-form-label">key</label>
           <div class="col">
@@ -53,18 +53,6 @@
               @input="emitChange($event, 'placeholder')"
               :placeholder="`Enter a placeholder for ${key}`"
               id="field-placeholder">
-          </div>
-        </div>
-        <div class="form-group row justify-content-around">
-          <label for="field-description" class="col-2 col-form-label">Description</label>
-          <div class="col">
-            <input
-              class="form-control"
-              type="text"
-              v-model="value.description"
-              @input="emitChange($event, 'description')"
-              :placeholder="`Enter a description for ${key}`"
-              id="field-description">
           </div>
         </div>
         <div class="form-group row justify-content-around">
@@ -112,6 +100,30 @@
                 v-model="value.required"
                 @change="emitChange($event, 'required')"
                 id="field-required">
+            </div>
+          </div>
+          <div class="form-group row justify-content-around">
+            <label for="field-description" class="col-2 col-form-label">Description</label>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                v-model="value.description"
+                @input="emitChange($event, 'description')"
+                :placeholder="`Enter a description for ${key}`"
+                id="field-description">
+            </div>
+          </div>
+          <div class="form-group row justify-content-around">
+            <label for="field-placeholder" class="col-2 col-form-label">Class Names</label>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                v-model="value.classNames"
+                @input="emitChange($event, 'classNames')"
+                :placeholder="`Enter class names for ${key}`"
+                id="field-classnames">
             </div>
           </div>
           <template v-if="['text', 'textarea'].includes(value.type)">

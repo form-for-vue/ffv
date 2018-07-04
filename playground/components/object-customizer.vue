@@ -2,11 +2,20 @@
   <div class="card bg-light m-1">
     <div class="card-header bg-secondary text-light">
       <div class="row align-items-center">
-        <div class="col">Group Of Fields</div>
+        <div class="col">Object</div>
+        <div class="form-check mt-3 mr-4">
+          <input
+            id="test"
+            type="checkbox"
+            @change="changeType"
+            class="form-check-input">
+          <label for="test">Is Array</label>
+        </div>
         <button
           type="button"
           class="btn btn-danger m-1"
-          @click.stop="$emit('remove', {id})">🗙</button>
+          @click.stop="$emit('remove', {id})">🗙
+        </button>
       </div>
     </div>
     <div class="p-2">
@@ -35,9 +44,10 @@
 
 <script>
   import FieldCustomizer from '../components/field-customizer'
+
   export default {
     components: {
-      FieldCustomizer
+      FieldCustomizer,
     },
     methods: {
       move (array, from, to) {
@@ -45,18 +55,21 @@
         array.splice(to, 0, array.splice(from, 1)[0])
         return array
       },
-      handleFieldMove ({ id, dir }) {
+      handleFieldMove ({id, dir}) {
         const from = this.value.findIndex(item => item.id === id)
         const to = from + dir
         if (to < 0 || to > this.value.length - 1) {
-          this.$emit('move', { id: this.id, from, dir })
+          this.$emit('move', {id: this.id, from, dir})
           return
         }
         this.move(this.value, from, to)
       },
-      handleRemove({ id }){
+      handleRemove ({id}) {
         const from = this.value.findIndex(item => item.id === id)
         this.value.splice(from, 1)
+      },
+      changeType (e) {
+        this.$emit('array', {id: this.id, checked: e.target.checked})
       },
     },
     props: {

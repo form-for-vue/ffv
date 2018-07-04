@@ -1,21 +1,23 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <b-form-select
-      :value="value"
-      :required="required"
-      :disable="disabled"
-      :options="[]"
-      :state="invalid ? 'invalid' : 'null'"
-      @input="handleInput"
-      @change="handleBlur"
-    >
-      <option v-if="displayLabel" :value="null" v-html="placeholder"></option>
-      <option
-        v-for="option in enumOptions"
-        :key="option.value"
-        :value="option.value"
-        v-html="option.label"></option>
-    </b-form-select>
+    <div class="col-md-12">
+      <b-form-select
+        :value="value"
+        :required="required"
+        :disable="disabled"
+        :options="[]"
+        :state="invalid ? 'invalid' : 'null'"
+        @input="handleInput"
+        @change="handleBlur"
+      >
+        <option v-if="displayLabel" :value="null" v-html="placeholder"></option>
+        <option
+          v-for="option in enumOptions"
+          :key="option.value"
+          :value="option.value"
+          v-html="option.label"></option>
+      </b-form-select>
+    </div>
 
     <div v-if="displayLabel" slot="label" v-html="label"></div>
 

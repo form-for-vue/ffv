@@ -1,19 +1,22 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <b-form-radio-group
-      :value="value"
-      :required="required"
-      :disable="disabled"
-      :state="invalid ? 'invalid' : 'null'"
-      @input="handleInput"
-      @change="handleBlur"
-    >
-      <b-form-radio
-        v-for="option in enumOptions"
-        :key="option.value"
-        :value="option.value">{{ option.label }}
-      </b-form-radio>
-    </b-form-radio-group>
+    <div class="col-md-12">
+      <b-form-radio-group
+        :value="value"
+        :required="required"
+        :disable="disabled"
+        :state="invalid ? 'invalid' : 'null'"
+        @input="handleInput"
+        @change="handleBlur"
+      >
+        <b-form-radio
+          style="overflow-wrap: break-word;"
+          v-for="option in enumOptions"
+          :key="option.value"
+          :value="option.value">{{ option.label }}
+        </b-form-radio>
+      </b-form-radio-group>
+    </div>
 
     <div v-if="displayLabel" slot="label" v-html="label"></div>
 

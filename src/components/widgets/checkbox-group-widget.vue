@@ -1,18 +1,21 @@
 <template>
   <wrapper-widget :id="id" :classNames="classNames" :size="size">
-    <b-form-checkbox-group
-      :value="parsedValue"
-      :required="required"
-      :disable="disabled"
-      :state="invalid ? 'invalid' : 'null'"
-      @input="customHandleInput"
-    >
-      <b-form-checkbox
-        v-for="option in enumOptions"
-        :key="option.value"
-        :value="option.value">{{ option.label }}
-      </b-form-checkbox>
-    </b-form-checkbox-group>
+    <div class="col-md-12">
+      <b-form-checkbox-group
+        :value="parsedValue"
+        :required="required"
+        :disable="disabled"
+        :state="invalid ? 'invalid' : 'null'"
+        @input="customHandleInput"
+      >
+        <b-form-checkbox
+          style="overflow-wrap: break-word;"
+          v-for="option in enumOptions"
+          :key="option.value"
+          :value="option.value">{{ option.label }}
+        </b-form-checkbox>
+      </b-form-checkbox-group>
+    </div>
 
     <div v-if="displayLabel" slot="label" v-html="label"></div>
 

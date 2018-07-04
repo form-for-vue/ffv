@@ -28,6 +28,9 @@
         </div>
       </div>
     </div>
+    <div v-if="displayErrors">
+      <div v-for="error in errors" :key="error">{{ error }}</div>
+    </div>
   </div>
 </template>
 

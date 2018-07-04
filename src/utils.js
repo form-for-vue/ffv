@@ -12,7 +12,7 @@ const widgetMap = {
   },
   string: {
     text: 'TextWidget',
-    password: 'InputWidget',
+    password: 'TextWidget',
     textarea: 'TextareaWidget',
     file: 'FileWidget',
     select: 'SelectWidget',
@@ -21,10 +21,10 @@ const widgetMap = {
     checkboxgroup: 'CheckboxGroupWidget',
   },
   number: {
-    text: 'InputWidget',
+    text: 'TextWidget',
   },
   integer: {
-    text: 'InputWidget',
+    text: 'TextWidget',
   },
   array: {
     wrapper: 'WrapperWidget',
